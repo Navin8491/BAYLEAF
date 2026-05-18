@@ -1,73 +1,126 @@
-import React, { useState } from 'react';
-import PageHeader from '../components/PageHeader';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { FiArrowLeft, FiMinus, FiPlus } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 
 const ProductSingle = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const containerRef = useRef(null);
 
+  // Hardcoded product for demonstration (matching the Shop page items)
   const product = {
-    id: 's-1',
-    name: 'Creamy Mocha',
-    price: '$4.90',
-    img: '/images/menu-2.jpg'
+    id: 'b-1',
+    name: 'Ethiopia Yirgacheffe',
+    type: 'Single Origin',
+    price: '$22.00',
+    desc: 'A vibrant and floral profile, featuring delicate notes of jasmine, bergamot, and a sweet peach finish. Sustainably sourced from high-altitude farms in the Gedeo Zone, this light roast is perfect for pour-over methods.',
+    img: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=1200&auto=format&fit=crop',
+    details: [
+      { label: 'Origin', value: 'Yirgacheffe, Ethiopia' },
+      { label: 'Process', value: 'Washed' },
+      { label: 'Variety', value: 'Heirloom' },
+      { label: 'Roast', value: 'Light' }
+    ]
   };
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.from('.product-img', {
+        scale: 1.05,
+        opacity: 0,
+        duration: 1.5,
+        ease: 'power3.out',
+      });
+      
+      gsap.from('.product-info', {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.1,
+        ease: 'power3.out',
+        delay: 0.3
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      <PageHeader title="Product Detail" bgImage="/images/bg_3.jpg" />
-      <section className="py-20 lg:py-32">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-12 bg-white p-8 lg:p-12 rounded-3xl shadow-2xl shadow-slate-200/50">
+    <div ref={containerRef} className="bg-[var(--color-ivory)] min-h-screen text-[var(--color-forest)] font-body">
+      
+      <div className="pt-32 pb-12 px-6 lg:px-12 max-w-7xl mx-auto">
+        <Link to="/shop" className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-forest)]/60 hover:text-[var(--color-terracotta)] transition-colors mb-12">
+          <FiArrowLeft /> Back to Shop
+        </Link>
+
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          
+          {/* IMAGE HALF */}
+          <div className="lg:w-1/2">
+            <div className="product-img aspect-[4/5] rounded-[3rem] overflow-hidden shadow-luxury relative bg-[var(--color-linen)]">
+              <div className="absolute inset-0 bg-[var(--color-forest)]/5 mix-blend-overlay z-10"></div>
+              <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          {/* DETAILS HALF */}
+          <div className="lg:w-1/2 flex flex-col justify-center">
+            <div className="mb-10 border-b border-[var(--color-olive)]/20 pb-10">
+              <span className="product-info block text-xs font-bold tracking-[0.3em] uppercase text-[var(--color-sage)] mb-4">{product.type}</span>
+              <h1 className="product-info text-5xl lg:text-6xl font-heading font-medium text-[var(--color-forest)] mb-6 leading-tight">{product.name}</h1>
+              <p className="product-info text-2xl font-heading font-medium text-[var(--color-sage)]">{product.price}</p>
+            </div>
             
-            {/* Image */}
-            <div className="lg:w-1/2">
-              <a href="#" className="block h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-lg shadow-slate-200/50">
-                <img src={product.img} alt={product.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
-              </a>
+            <p className="product-info text-lg font-light text-[var(--color-forest)]/70 leading-relaxed mb-10">
+              {product.desc}
+            </p>
+            
+            <div className="product-info grid grid-cols-2 gap-y-6 gap-x-12 mb-12">
+              {product.details.map((detail, idx) => (
+                <div key={idx}>
+                  <span className="block text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-forest)]/50 mb-1">{detail.label}</span>
+                  <span className="block font-medium text-[var(--color-forest)]">{detail.value}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Details */}
-            <div className="lg:w-1/2 flex flex-col justify-center">
-              <h2 className="text-4xl font-heading text-slate-900 mb-4 font-bold">{product.name}</h2>
-              <p className="text-2xl text-[var(--color-primary)] font-bold mb-6">{product.price}</p>
-              <p className="text-slate-600 leading-relaxed mb-8 text-lg">
-                A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
-              </p>
-              
-              <div className="mb-8">
-                <label className="text-slate-900 mb-4 block font-bold">Size</label>
-                <div className="flex flex-wrap gap-4">
-                  {['Small', 'Medium', 'Large', 'Extra Large'].map((size, idx) => (
-                    <button key={idx} className="bg-slate-50 border border-slate-200 text-slate-600 px-6 py-3 rounded-xl font-medium hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:bg-white hover:shadow-md transition-all">
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
-                <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl h-14 px-2 shadow-sm">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 text-slate-600 hover:text-[var(--color-primary)] text-xl font-bold">-</button>
-                  <input type="text" value={quantity} readOnly className="w-12 bg-transparent text-center text-slate-900 font-bold outline-none" />
-                  <button onClick={() => setQuantity(quantity + 1)} className="px-4 text-slate-600 hover:text-[var(--color-primary)] text-xl font-bold">+</button>
-                </div>
+            <div className="product-info flex flex-col sm:flex-row items-center gap-6 mt-auto">
+              {/* Quantity Selector */}
+              <div className="flex items-center justify-between bg-transparent border border-[var(--color-olive)]/30 rounded-full h-14 w-full sm:w-40 px-4">
                 <button 
-                  onClick={handleAddToCart}
-                  className="bg-[var(--color-primary)] text-white px-8 h-14 rounded-xl uppercase tracking-[2px] font-bold shadow-lg shadow-[var(--color-primary)]/30 hover:shadow-none hover:bg-slate-900 transition-all duration-300 w-full sm:w-auto"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))} 
+                  className="text-[var(--color-forest)]/60 hover:text-[var(--color-terracotta)] transition-colors p-2"
                 >
-                  Add to Cart
+                  <FiMinus />
+                </button>
+                <span className="font-heading font-medium text-lg w-12 text-center select-none">{quantity}</span>
+                <button 
+                  onClick={() => setQuantity(quantity + 1)} 
+                  className="text-[var(--color-forest)]/60 hover:text-[var(--color-sage)] transition-colors p-2"
+                >
+                  <FiPlus />
                 </button>
               </div>
+              
+              {/* Add to Cart */}
+              <button 
+                onClick={handleAddToCart}
+                className="w-full sm:flex-1 bg-[var(--color-forest)] text-[var(--color-ivory)] h-14 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[var(--color-sage)] transition-colors duration-500"
+              >
+                Add to Cart
+              </button>
             </div>
-
           </div>
+
         </div>
-      </section>
+      </div>
+      
     </div>
   );
 };
