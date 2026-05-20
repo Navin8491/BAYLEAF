@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { FiTrash2, FiArrowRight, FiMinus, FiPlus } from 'react-icons/fi';
+import { FiTrash2, FiMinus, FiPlus } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 
@@ -16,30 +16,45 @@ const Cart = () => {
   useEffect(() => {
     let ctx = gsap.context(() => {
       gsap.from('.cart-header', {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.1
+        y: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.1
       });
     }, containerRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={containerRef} className="bg-[var(--color-ivory)] min-h-screen text-[var(--color-forest)] font-body">
+    <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body relative overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
       
-      <div className="pt-40 pb-24 px-6 lg:px-12 max-w-7xl mx-auto">
-        <div className="cart-header border-b border-[var(--color-olive)]/20 pb-8 mb-12 flex justify-between items-end">
-          <h1 className="text-5xl md:text-6xl font-heading font-medium tracking-tight">Your Order</h1>
-          <span className="text-sm font-bold tracking-[0.2em] uppercase text-[var(--color-sage)] hidden md:block">{cartItems.length} Items</span>
+      {/* GLOBAL AMBIENT BACKGROUND LAYER */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <motion.div 
+          className="absolute top-[20%] left-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[140px] mix-blend-multiply"
+          animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.div 
+          className="absolute bottom-[10%] right-[5%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[var(--color-sage-mist)]/40 rounded-full blur-[120px] mix-blend-multiply"
+          animate={{ x: [0, -40, 20, 0], y: [0, 20, -30, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+
+      <div className="pt-48 pb-32 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
+        <div className="cart-header border-b border-[var(--color-silver-fog)]/50 pb-10 mb-16 flex justify-between items-end">
+          <h1 className="text-6xl md:text-8xl font-heading font-medium tracking-tight text-[var(--color-rich-graphite)]">
+            Your <span className="italic font-light text-[var(--color-deep-slate)]">Order.</span>
+          </h1>
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] hidden md:block bg-[var(--color-silver-fog)]/30 px-4 py-2 rounded-full border border-[var(--color-muted-teal)]/20">
+            {cartItems.length} Items
+          </span>
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center py-20 bg-[var(--color-linen)] rounded-[3rem] border border-[var(--color-olive)]/10">
-            <p className="text-xl font-light text-[var(--color-forest)]/70 mb-8">Your cart is currently empty.</p>
-            <Link to="/menu" className="inline-flex items-center gap-3 bg-[var(--color-forest)] text-[var(--color-ivory)] px-10 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[var(--color-sage)] transition-colors duration-500">
-              Return to Menu
+          <div className="text-center py-32 bg-[var(--color-soft-ivory)]/60 backdrop-blur-2xl rounded-[4rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)]">
+            <p className="text-2xl font-light text-[var(--color-gray-blue)] mb-10">Your cart is currently empty.</p>
+            <Link to="/menu" className="inline-flex items-center justify-center gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-10 py-4 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group">
+               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>
+               <span className="relative z-10">RETURN TO MENU</span>
             </Link>
           </div>
         ) : (
@@ -47,7 +62,7 @@ const Cart = () => {
             
             {/* CART ITEMS */}
             <div className="lg:w-2/3">
-              <div className="hidden md:grid grid-cols-12 gap-4 border-b border-[var(--color-olive)]/20 pb-4 mb-6 text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-forest)]/60">
+              <div className="hidden md:grid grid-cols-12 gap-4 border-b border-[var(--color-silver-fog)]/50 pb-6 mb-8 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/70">
                 <div className="col-span-6">Product</div>
                 <div className="col-span-3 text-center">Quantity</div>
                 <div className="col-span-3 text-right">Total</div>
@@ -57,56 +72,59 @@ const Cart = () => {
                 {cartItems.map(item => (
                   <motion.div 
                     key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, height: 0, borderBottomWidth: 0, marginBottom: 0 }}
-                    className="flex flex-col md:flex-row md:items-center py-6 border-b border-[var(--color-olive)]/20 group gap-6 md:gap-4 overflow-hidden"
+                    className="flex flex-col md:flex-row md:items-center py-8 border-b border-[var(--color-silver-fog)]/40 group gap-8 md:gap-4 overflow-hidden"
                   >
                     {/* Image & Title */}
-                    <div className="md:w-1/2 flex items-center gap-6">
-                      <Link to={`/product/${item.id}`} className="w-24 h-24 shrink-0 rounded-2xl overflow-hidden bg-[var(--color-linen)]">
-                        <img src={item.img} alt={item.name} className="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-110 transition-transform duration-700" />
+                    <div className="md:w-1/2 flex items-center gap-8">
+                      <Link to={`/product/${item.id}`} className="w-28 h-28 shrink-0 rounded-3xl overflow-hidden bg-white shadow-sm border border-[var(--color-silver-fog)]/50 relative p-1.5">
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[var(--color-soft-ivory)]">
+                           <div className="absolute inset-0 bg-[var(--color-deep-slate)]/5 z-10 mix-blend-overlay"></div>
+                           <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                        </div>
                       </Link>
                       <div>
-                        <h3 className="text-xl font-heading font-medium text-[var(--color-forest)] mb-1">
-                          <Link to={`/product/${item.id}`} className="hover:text-[var(--color-terracotta)] transition-colors">{item.name}</Link>
+                        <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-2">
+                          <Link to={`/product/${item.id}`} className="hover:text-[var(--color-muted-teal)] transition-colors duration-300">{item.name}</Link>
                         </h3>
-                        <p className="text-[var(--color-sage)] font-medium text-sm">{item.price}</p>
+                        <p className="text-[var(--color-muted-teal)] font-medium text-sm">{item.price}</p>
                       </div>
                     </div>
                     
                     {/* Quantity */}
                     <div className="md:w-1/4 flex justify-start md:justify-center items-center gap-6">
-                      <div className="flex items-center justify-between border border-[var(--color-olive)]/30 rounded-full h-10 w-32 px-2">
-                        <button onClick={() => updateQuantity(item.id, -1)} className="text-[var(--color-forest)]/60 hover:text-[var(--color-terracotta)] p-2">
-                          <FiMinus size={14} />
+                      <div className="flex items-center justify-between border border-[var(--color-silver-fog)]/80 rounded-full h-12 w-36 px-2 bg-white/50 backdrop-blur-sm">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2">
+                          <FiMinus size={16} />
                         </button>
-                        <span className="font-heading font-medium text-sm">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, 1)} className="text-[var(--color-forest)]/60 hover:text-[var(--color-sage)] p-2">
-                          <FiPlus size={14} />
+                        <span className="font-heading font-medium text-lg text-[var(--color-rich-graphite)]">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2">
+                          <FiPlus size={16} />
                         </button>
                       </div>
                       
                       <button 
                         onClick={() => removeFromCart(item.id)}
-                        className="text-[var(--color-forest)]/40 hover:text-[var(--color-terracotta)] transition-colors md:hidden"
+                        className="text-[var(--color-deep-slate)]/40 hover:text-[var(--color-muted-teal)] transition-colors md:hidden"
                       >
-                        <FiTrash2 size={18} />
+                        <FiTrash2 size={20} />
                       </button>
                     </div>
                     
                     {/* Total & Remove */}
-                    <div className="md:w-1/4 flex justify-between md:justify-end items-center gap-6">
-                      <span className="md:hidden text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-forest)]/60">Total</span>
-                      <p className="text-xl font-heading font-medium text-[var(--color-forest)]">
+                    <div className="md:w-1/4 flex justify-between md:justify-end items-center gap-8">
+                      <span className="md:hidden text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60">Total</span>
+                      <p className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)]">
                         ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
                       </p>
                       <button 
                         onClick={() => removeFromCart(item.id)}
-                        className="text-[var(--color-forest)]/40 hover:text-[var(--color-terracotta)] transition-colors hidden md:block"
+                        className="text-[var(--color-deep-slate)]/30 hover:text-[var(--color-muted-teal)] transition-colors hidden md:block"
                         title="Remove item"
                       >
-                        <FiTrash2 size={18} />
+                        <FiTrash2 size={20} />
                       </button>
                     </div>
                   </motion.div>
@@ -116,30 +134,31 @@ const Cart = () => {
 
             {/* ORDER SUMMARY */}
             <div className="lg:w-1/3">
-              <div className="bg-[var(--color-linen)] p-10 rounded-[3rem] sticky top-32">
-                <h3 className="text-2xl font-heading font-medium text-[var(--color-forest)] mb-8">Summary</h3>
+              <div className="bg-[var(--color-soft-ivory)]/80 backdrop-blur-3xl p-12 rounded-[3.5rem] sticky top-40 shadow-[0_30px_60px_rgba(56,68,80,0.08)] border border-[var(--color-silver-fog)]/60">
+                <h3 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-10">Summary</h3>
                 
-                <div className="space-y-4 mb-8 text-sm font-light">
-                  <div className="flex justify-between text-[var(--color-forest)]/80">
+                <div className="space-y-6 mb-10 text-base font-light">
+                  <div className="flex justify-between text-[var(--color-gray-blue)]">
                     <span>Subtotal</span>
-                    <span className="font-medium text-[var(--color-forest)]">${subtotal.toFixed(2)}</span>
+                    <span className="font-medium text-[var(--color-rich-graphite)]">${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-[var(--color-forest)]/80">
+                  <div className="flex justify-between text-[var(--color-gray-blue)]">
                     <span>Delivery</span>
-                    <span className="font-medium text-[var(--color-forest)]">${delivery.toFixed(2)}</span>
+                    <span className="font-medium text-[var(--color-rich-graphite)]">${delivery.toFixed(2)}</span>
                   </div>
                 </div>
                 
-                <div className="flex justify-between text-[var(--color-forest)] font-medium text-2xl mb-10 border-t border-[var(--color-olive)]/20 pt-6">
-                  <span className="font-heading">Total</span>
-                  <span className="text-[var(--color-sage)] font-heading">${total.toFixed(2)}</span>
+                <div className="flex justify-between items-end text-[var(--color-rich-graphite)] font-medium mb-12 border-t border-[var(--color-silver-fog)]/50 pt-8">
+                  <span className="font-heading text-xl">Total</span>
+                  <span className="text-[var(--color-muted-teal)] font-heading text-4xl">${total.toFixed(2)}</span>
                 </div>
                 
                 <Link 
                   to="/checkout"
-                  className="flex items-center justify-center gap-3 w-full bg-[var(--color-forest)] text-[var(--color-ivory)] py-5 rounded-full uppercase tracking-[0.2em] font-bold text-xs hover:bg-[var(--color-terracotta)] transition-colors duration-500 group"
+                  className="flex items-center justify-center gap-4 w-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white py-6 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group"
                 >
-                  Checkout <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>
+                  <span className="relative z-10">PROCEED TO CHECKOUT</span>
                 </Link>
               </div>
             </div>

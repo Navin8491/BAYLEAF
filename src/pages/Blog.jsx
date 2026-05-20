@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import ArticleModal from '../components/ArticleModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,6 +63,7 @@ const Blog = () => {
   const containerRef = useRef(null);
   const [visiblePosts, setVisiblePosts] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   const loadMore = () => {
     setIsLoading(true);
@@ -74,20 +77,11 @@ const Blog = () => {
   useEffect(() => {
     let ctx = gsap.context(() => {
       gsap.from('.journal-hero-text', {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.1,
-        ease: 'power3.out',
-        delay: 0.2
+        y: 40, opacity: 0, duration: 1.2, stagger: 0.1, ease: 'power3.out', delay: 0.2
       });
 
       gsap.from('.journal-post', {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: 'power3.out',
+        y: 60, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
         scrollTrigger: {
           trigger: '.journal-grid',
           start: 'top 85%',
@@ -96,62 +90,81 @@ const Blog = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [visiblePosts]);
 
   return (
-    <div ref={containerRef} className="bg-[var(--color-ivory)] min-h-screen text-[var(--color-forest)] font-body overflow-hidden">
-      
+    <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
+
+      {/* GLOBAL AMBIENT BACKGROUND LAYER */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <motion.div
+          className="absolute top-[30%] left-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[140px] mix-blend-multiply"
+          animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+
       {/* HERO */}
-      <section className="pt-40 pb-20 px-6 lg:px-12 relative border-b border-[var(--color-olive)]/20 bg-[var(--color-linen)]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-8 relative z-10">
+      <section className="pt-48 pb-24 px-6 lg:px-12 relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10 relative z-10">
           <div>
-            <div className="overflow-hidden mb-4">
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-[var(--color-sage)] block journal-hero-text">Stories & Insights</span>
+            <div className="overflow-hidden mb-6">
+              <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block journal-hero-text">Stories & Insights</span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-heading font-medium text-[var(--color-forest)] tracking-tight journal-hero-text">
-              The Journal
+            <h1 className="text-6xl md:text-8xl font-heading font-medium text-[var(--color-rich-graphite)] tracking-tight journal-hero-text leading-[1]">
+              The <span className="italic font-light text-[var(--color-deep-slate)]">Journal.</span>
             </h1>
           </div>
-          <p className="text-lg text-[var(--color-forest)]/70 font-light max-w-md leading-relaxed journal-hero-text mb-2">
-            Thoughts on brewing, origin trips, design, and the culture surrounding specialty coffee.
+          <p className="text-lg text-[var(--color-gray-blue)] font-light max-w-md leading-relaxed journal-hero-text mb-3">
+            Thoughts on brewing, origin trips, cinematic design, and the culture surrounding premium specialty coffee.
           </p>
         </div>
       </section>
 
       {/* GRID */}
-      <section className="py-24 px-6 lg:px-12 journal-grid">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+      <section className="py-32 px-6 lg:px-12 journal-grid relative z-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-28">
           {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
-            <article key={post.id} className={`journal-post group cursor-pointer ${idx % 2 !== 0 ? 'md:mt-24' : ''} fade-in-post`}>
-              <Link to={`/blog/${post.id}`}>
-                <div className="aspect-[4/3] rounded-[2rem] overflow-hidden bg-[var(--color-linen)] mb-8 relative shadow-sm group-hover:shadow-luxury transition-shadow duration-500">
-                  <div className="absolute inset-0 bg-[var(--color-forest)]/5 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-                  <img 
-                    src={post.img} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out mix-blend-multiply opacity-90"
-                  />
+            <article key={post.id} className={`journal-post group ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
+              <div onClick={() => setSelectedArticle(post)} className="block relative cursor-pointer">
+                <div className="aspect-[4/3] rounded-[3rem] overflow-hidden bg-white mb-10 relative shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                  <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
+                    <img
+                      src={post.img}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                    />
+                  </div>
                 </div>
-              </Link>
-              
-              <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--color-sage)]">{post.category}</span>
-                  <span className="w-1 h-1 rounded-full bg-[var(--color-olive)]"></span>
-                  <span className="text-xs font-light text-[var(--color-forest)]/60 uppercase tracking-wider">{post.date}</span>
+              </div>
+
+              <div className="px-4 flex flex-col h-full">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{post.category}</span>
+                  <span className="text-xs font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{post.date}</span>
                 </div>
-                
-                <h2 className="text-3xl font-heading font-medium text-[var(--color-forest)] mb-4 group-hover:text-[var(--color-terracotta)] transition-colors">
-                  <Link to={`/blog/${post.id}`}>{post.title}</Link>
+
+                <h2 className="text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight cursor-pointer" onClick={() => setSelectedArticle(post)}>
+                  {post.title}
                 </h2>
-                
-                <p className="text-[var(--color-forest)]/70 font-light leading-relaxed mb-6">
+
+                <p className="text-[var(--color-gray-blue)] text-lg font-light leading-relaxed mb-8 flex-grow">
                   {post.excerpt}
                 </p>
-                
-                <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.1em] border-b-2 border-[var(--color-forest)] text-[var(--color-forest)] pb-1 group-hover:border-[var(--color-terracotta)] group-hover:text-[var(--color-terracotta)] transition-colors">
-                  Read Article <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </Link>
+
+                <button
+                  onClick={() => setSelectedArticle(post)}
+                  className="inline-flex items-center justify-between gap-6 px-7 py-3 mt-auto rounded-full bg-white/60 backdrop-blur-md border border-[var(--color-silver-fog)] text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-deep-slate)] shadow-[0_10px_20px_rgba(57,70,82,0.05)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.2)] hover:-translate-y-1 hover:border-[var(--color-muted-teal)]/30 transition-all duration-500 relative overflow-hidden group/btn w-max"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-muted-teal)]/10 via-[var(--color-deep-sage-teal)]/10 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
+                  <span className="relative z-10 group-hover/btn:text-[var(--color-muted-teal)] transition-colors duration-300">DISCOVER STORY</span>
+                  <span className="relative z-10 w-8 h-8 rounded-full bg-[var(--color-silver-fog)]/60 flex items-center justify-center group-hover/btn:bg-[var(--color-muted-teal)] group-hover/btn:text-white transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
+                    <FiArrowRight />
+                  </span>
+                </button>
               </div>
             </article>
           ))}
@@ -160,16 +173,24 @@ const Blog = () => {
 
       {/* PAGINATION / LOAD MORE */}
       {visiblePosts < allBlogPosts.length && (
-        <section className="pb-32 px-6 lg:px-12 text-center">
-          <button 
+        <section className="pb-40 px-6 lg:px-12 text-center relative z-20">
+          <button
             onClick={loadMore}
             disabled={isLoading}
-            className={`bg-[var(--color-forest)] text-[var(--color-ivory)] px-12 py-5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:bg-[var(--color-sage)] transition-colors duration-300 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`flex items-center justify-center mx-auto gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-12 py-5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group ${isLoading ? 'opacity-70 cursor-not-allowed transform-none hover:shadow-[0_15px_30px_rgba(95,124,123,0.3)]' : ''}`}
           >
-            {isLoading ? 'Loading...' : 'Load More Articles'}
+            {!isLoading && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>}
+            <span className="relative z-10">{isLoading ? 'LOADING...' : 'LOAD MORE ARTICLES'}</span>
           </button>
         </section>
       )}
+
+      {/* Article Modal */}
+      <ArticleModal
+        isOpen={!!selectedArticle}
+        onClose={() => setSelectedArticle(null)}
+        article={selectedArticle}
+      />
 
     </div>
   );

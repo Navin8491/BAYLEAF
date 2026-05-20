@@ -4,21 +4,37 @@ import { Link } from 'react-router-dom';
 
 const PageHeader = ({ title, bgImage }) => {
   return (
-    <section className="relative h-[400px] lg:h-[500px] w-full flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>
-      <div className="absolute inset-0 bg-slate-900/60" />
-      <div className="relative z-10 text-center px-4 mt-20">
+    <section className="relative h-[450px] lg:h-[550px] w-full flex items-center justify-center overflow-hidden bg-[var(--color-soft-ivory)]">
+      
+      {/* Soft Image Blend Background */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity grayscale-[20%]" 
+          style={{ backgroundImage: `url(${bgImage})` }} 
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-soft-ivory)]/40 via-[var(--color-powder-blue)]/20 to-[var(--color-soft-ivory)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-soft-ivory)] via-transparent to-transparent"></div>
+      </div>
+
+      <div className="relative z-10 text-center px-6 mt-20 max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="flex flex-col items-center"
         >
-          <h1 className="text-5xl lg:text-7xl font-heading text-white uppercase font-bold tracking-wide drop-shadow-lg">
-            {title}
+          <div className="mb-8 px-6 py-2 rounded-full border border-[var(--color-muted-teal)]/30 bg-[var(--color-silver-fog)]/30 backdrop-blur-md shadow-sm inline-block">
+            <span className="text-[9px] tracking-[0.3em] uppercase font-bold text-[var(--color-muted-teal)]">Bayleaf Experience</span>
+          </div>
+
+          <h1 className="text-6xl lg:text-8xl font-heading text-[var(--color-rich-graphite)] font-medium tracking-tight mb-6">
+            {title}<span className="text-[var(--color-muted-teal)] italic font-light">.</span>
           </h1>
-          <div className="flex justify-center items-center gap-2 mt-4 text-sm font-medium uppercase tracking-wider">
-            <Link to="/" className="text-white hover:text-[var(--color-primary)] cursor-pointer transition-colors drop-shadow">Home</Link>
-            <span className="text-slate-300 drop-shadow">&gt;</span>
-            <span className="text-[var(--color-primary)] drop-shadow">{title}</span>
+          
+          <div className="flex justify-center items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-gray-blue)]">
+            <Link to="/" className="hover:text-[var(--color-muted-teal)] transition-colors duration-300">Home</Link>
+            <span className="text-[var(--color-silver-fog)]">/</span>
+            <span className="text-[var(--color-deep-slate)]">{title}</span>
           </div>
         </motion.div>
       </div>

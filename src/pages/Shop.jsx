@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiArrowRight, FiShoppingCart } from 'react-icons/fi';
+import { FiArrowRight } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,21 +25,12 @@ const Shop = () => {
     let ctx = gsap.context(() => {
       // Hero
       gsap.from('.shop-hero-text', {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.1,
-        ease: 'power3.out',
-        delay: 0.2
+        y: 40, opacity: 0, duration: 1.2, stagger: 0.1, ease: 'power3.out', delay: 0.2
       });
 
       // Products Stagger
       gsap.from('.product-card', {
-        y: 60,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: 'power3.out',
+        y: 60, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
         scrollTrigger: {
           trigger: '.shop-grid',
           start: 'top 85%',
@@ -50,58 +42,77 @@ const Shop = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="bg-[var(--color-ivory)] min-h-screen text-[var(--color-forest)] font-body overflow-hidden">
+    <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
       
+      {/* GLOBAL AMBIENT BACKGROUND LAYER */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <motion.div 
+          className="absolute top-[20%] left-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[140px] mix-blend-multiply"
+          animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.div 
+          className="absolute bottom-[10%] right-[5%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[var(--color-sage-mist)]/40 rounded-full blur-[120px] mix-blend-multiply"
+          animate={{ x: [0, -40, 20, 0], y: [0, 20, -30, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+
       {/* SHOP HERO */}
-      <section className="pt-40 pb-20 px-6 lg:px-12 text-center relative border-b border-[var(--color-olive)]/20 bg-gradient-to-b from-[var(--color-linen)] to-[var(--color-ivory)]">
-        <div className="max-w-3xl mx-auto relative z-10">
-          <div className="overflow-hidden mb-6">
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-[var(--color-sage)] block shop-hero-text">Retail Collection</span>
+      <section className="pt-48 pb-20 px-6 lg:px-12 text-center relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="overflow-hidden mb-8">
+            <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block shop-hero-text">Retail Collection</span>
           </div>
-          <h1 className="text-6xl md:text-7xl font-heading font-medium text-[var(--color-forest)] leading-[0.9] mb-8 tracking-tight shop-hero-text">
-            The Shop
+          <h1 className="text-6xl md:text-8xl font-heading font-medium text-[var(--color-rich-graphite)] leading-[0.9] mb-8 tracking-tight shop-hero-text">
+            The <span className="italic font-light text-[var(--color-deep-slate)]">Shop.</span>
           </h1>
-          <p className="text-lg text-[var(--color-forest)]/70 font-light shop-hero-text max-w-xl mx-auto">
-            Take the Bayleaf experience home. Carefully sourced beans and minimalist brewing equipment.
+          <p className="text-lg text-[var(--color-gray-blue)] font-light shop-hero-text max-w-xl mx-auto leading-relaxed">
+            Take the Bayleaf experience home. Carefully sourced premium beans and minimalist brewing equipment.
           </p>
         </div>
       </section>
 
       {/* PRODUCTS GRID */}
-      <section className="py-24 px-6 lg:px-12 shop-grid">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+      <section className="py-32 px-6 lg:px-12 shop-grid relative z-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
           {shopItems.map((item) => (
             <div key={item.id} className="product-card group flex flex-col">
-              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-[var(--color-linen)] mb-6 shadow-sm group-hover:shadow-luxury transition-shadow duration-500">
-                <div className="absolute inset-0 bg-[var(--color-forest)]/5 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-                <img 
-                  src={item.img} 
-                  alt={item.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out mix-blend-multiply opacity-90"
-                />
+              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl mb-8 shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
                 
-                {/* Quick Add Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20 flex justify-center">
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addToCart(item);
-                    }}
-                    className="flex items-center gap-2 bg-[var(--color-ivory)] text-[var(--color-forest)] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.1em] shadow-lg hover:bg-[var(--color-sage)] hover:text-[var(--color-ivory)] transition-colors"
-                  >
-                    <FiShoppingCart /> Add to Cart
-                  </button>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-inner bg-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
+                  <img 
+                    src={item.img} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out"
+                  />
+                  
+                  {/* Quick Add Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20 flex justify-center">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addToCart(item);
+                      }}
+                      className="flex items-center justify-center gap-3 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] transition-all duration-300 w-[90%]"
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
                 </div>
               </Link>
               
-              <div className="flex justify-between items-start">
+              <div className="flex justify-between items-start px-2">
                 <div>
-                  <h3 className="text-xl font-heading font-medium text-[var(--color-forest)] mb-1 group-hover:text-[var(--color-terracotta)] transition-colors">
+                  <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-2 group-hover:text-[var(--color-muted-teal)] transition-colors duration-300">
                     <Link to={`/product/${item.id}`}>{item.name}</Link>
                   </h3>
-                  <span className="text-[var(--color-forest)]/60 text-sm font-light uppercase tracking-wider">{item.type}</span>
+                  <span className="text-[var(--color-deep-slate)]/60 text-[10px] font-bold uppercase tracking-[0.2em]">{item.type}</span>
                 </div>
-                <span className="text-lg font-heading font-medium text-[var(--color-sage)]">{item.price}</span>
+                <span className="text-xl font-heading font-medium text-[var(--color-muted-teal)]">{item.price}</span>
               </div>
             </div>
           ))}
@@ -109,15 +120,17 @@ const Shop = () => {
       </section>
 
       {/* SUBSCRIPTION CTA */}
-      <section className="py-24 px-6 lg:px-12 bg-[var(--color-forest)] text-[var(--color-ivory)] text-center my-12 mx-4 lg:mx-8 rounded-[3rem]">
-        <div className="max-w-2xl mx-auto">
-          <span className="text-xs font-bold tracking-[0.3em] uppercase text-[var(--color-sage)] block mb-6">Never Run Out</span>
-          <h2 className="text-4xl lg:text-5xl font-heading font-medium mb-8">Coffee Subscription</h2>
-          <p className="text-lg text-[var(--color-ivory)]/70 font-light mb-10 leading-relaxed">
+      <section className="py-32 px-6 lg:px-12 relative z-20 my-24 mx-4 lg:mx-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-powder-blue)]/30 to-[var(--color-sage-mist)]/20 backdrop-blur-3xl rounded-[4rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-8">Never Run Out</span>
+          <h2 className="text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-10 leading-tight">Coffee <span className="italic font-light text-[var(--color-deep-slate)]">Subscription.</span></h2>
+          <p className="text-lg text-[var(--color-gray-blue)] font-light mb-14 leading-relaxed max-w-xl mx-auto">
             Freshly roasted beans delivered to your door on your schedule. Cancel or pause anytime.
           </p>
-          <button className="bg-[var(--color-ivory)] text-[var(--color-forest)] px-10 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[var(--color-terracotta)] hover:text-[var(--color-ivory)] transition-colors duration-500">
-            Subscribe Now
+          <button className="flex items-center justify-center mx-auto gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-12 py-5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>
+            <span className="relative z-10">SUBSCRIBE NOW</span>
           </button>
         </div>
       </section>

@@ -2,9 +2,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7A8B7A; /* Sage Green */
-  --color-dark: #556052; /* Deep Forest Accent */
-  
+  --color-primary: #7A8B7A;
+  /* Sage Green */
+  --color-dark: #556052;
+  /* Deep Forest Accent */
+
   /* New Luxury Palette */
   --color-ivory: #F7F3EE;
   --color-linen: #EFE7DC;
@@ -12,7 +14,21 @@
   --color-olive: #A8B2A1;
   --color-forest: #556052;
   --color-terracotta: #C97C5D;
-  
+
+  /* Soft Luxury (Teal Buttons) Palette */
+  --color-soft-ivory: #F4F1EC;
+  --color-powder-blue: #D8E4EE;
+  --color-mist-sage: #C6D0C4;
+  --color-warm-sand: #E2D4C5;
+  --color-silver-fog: #D5DEE5;
+  --color-deep-slate: #384450;
+  --color-rich-graphite: #2E333A;
+  --color-gray-blue: #667786;
+  --color-sand-accent: #B59C7A;
+  --color-muted-teal: #5F7C7B;
+  --color-deep-sage-teal: #4F6867;
+  --color-soft-graphite: #39444D;
+
   --font-body: "Satoshi", sans-serif;
   --font-heading: "Clash Display", sans-serif;
 }
@@ -22,8 +38,13 @@
     @apply font-body text-[var(--color-forest)] m-0 p-0 overflow-x-hidden;
     background-color: var(--color-ivory);
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading text-[var(--color-forest)] font-medium;
   }
 }
@@ -32,6 +53,7 @@
   .shadow-luxury {
     box-shadow: 0 20px 40px -10px rgba(85, 96, 82, 0.08), 0 10px 20px -5px rgba(85, 96, 82, 0.04);
   }
+
   .shadow-luxury-hover {
     box-shadow: 0 30px 60px -15px rgba(85, 96, 82, 0.12), 0 15px 25px -8px rgba(85, 96, 82, 0.08);
   }
@@ -46,13 +68,16 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: var(--color-ivory); 
+  background: var(--color-ivory);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-olive); 
+  background: var(--color-olive);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-sage); 
+  background: var(--color-sage);
 }
