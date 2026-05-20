@@ -125,46 +125,42 @@ const Blog = () => {
       <section className="py-32 px-6 lg:px-12 journal-grid relative z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-28">
           {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
-            <article key={post.id} className={`journal-post group ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
-              <div onClick={() => setSelectedArticle(post)} className="block relative cursor-pointer">
-                <div className="aspect-[4/3] rounded-[3rem] overflow-hidden bg-white mb-10 relative shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                  <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
-                    <img
-                      src={post.img}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-                    />
-                  </div>
-                </div>
+            <article key={post.id} className={`journal-post group flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[3rem] p-4 shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 hover:bg-white ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
+              <div className="w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-8 flex-shrink-0 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply z-10"></div>
+                <img
+                  src={post.img}
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out relative z-0"
+                />
               </div>
 
-              <div className="px-4 flex flex-col h-full">
-                <div className="flex items-center gap-4 mb-6">
+              <div className="px-4 pb-4 flex flex-col flex-grow relative z-20">
+                <div className="flex items-center gap-4 mb-6 flex-shrink-0">
                   <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{post.category}</span>
                   <span className="text-xs font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{post.date}</span>
                 </div>
 
-                <h2 className="text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight cursor-pointer" onClick={() => setSelectedArticle(post)}>
+                <h2 className="text-3xl md:text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight flex-shrink-0">
                   {post.title}
                 </h2>
 
-                <p className="text-[var(--color-gray-blue)] text-lg font-light leading-relaxed mb-8 flex-grow">
+                <p className="text-[var(--color-gray-blue)] text-base md:text-lg font-light leading-relaxed mb-10 flex-grow">
                   {post.excerpt}
                 </p>
 
-                <button
-                  onClick={() => setSelectedArticle(post)}
-                  className="inline-flex items-center justify-between gap-6 px-7 py-3 mt-auto rounded-full bg-white/60 backdrop-blur-md border border-[var(--color-silver-fog)] text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-deep-slate)] shadow-[0_10px_20px_rgba(57,70,82,0.05)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.2)] hover:-translate-y-1 hover:border-[var(--color-muted-teal)]/30 transition-all duration-500 relative overflow-hidden group/btn w-max"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-muted-teal)]/10 via-[var(--color-deep-sage-teal)]/10 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
-                  <span className="relative z-10 group-hover/btn:text-[var(--color-muted-teal)] transition-colors duration-300">DISCOVER STORY</span>
-                  <span className="relative z-10 w-8 h-8 rounded-full bg-[var(--color-silver-fog)]/60 flex items-center justify-center group-hover/btn:bg-[var(--color-muted-teal)] group-hover/btn:text-white transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
-                    <FiArrowRight />
-                  </span>
-                </button>
+                <div className="mt-auto pt-4 flex-shrink-0 w-full">
+                  <button 
+                    onClick={() => setSelectedArticle(post)} 
+                    className="flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-gradient-to-br from-[#5F7C7B]/90 to-[#4F6867]/90 backdrop-blur-xl border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.5),0_0_20px_rgba(194,163,131,0.5)] hover:-translate-y-1 hover:from-[#4F6867]/90 hover:to-[#5F7C7B]/90 transition-all duration-500 relative overflow-hidden group/btn w-max"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C2A383]/40 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
+                    <span className="relative z-10 text-white group-hover/btn:text-[#C2A383] transition-colors duration-300">READ ARTICLE</span>
+                    <span className="relative z-10 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover/btn:bg-[#C2A383] group-hover/btn:text-[#394652] transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
+                      <FiArrowRight />
+                    </span>
+                  </button>
+                </div>
               </div>
             </article>
           ))}

@@ -35,7 +35,7 @@ const RecentBlogPreview = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {blogs.map((blog, index) => (
-            <motion.div
+            <motion.div 
               key={index}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const RecentBlogPreview = () => {
               transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
               className="group block relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
             >
-              <div onClick={() => setSelectedArticle(blog)} className="block relative w-full aspect-[4/3] m-3 mb-0 rounded-[2rem] overflow-hidden p-2 cursor-pointer">
+              <div className="block relative w-full aspect-[4/3] m-3 mb-0 rounded-[2rem] overflow-hidden p-2 flex-shrink-0 z-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/90 via-[var(--color-soft-ivory)] to-[var(--color-sage-mist)]/80 opacity-90 group-hover:opacity-100 transition-opacity duration-700 z-0 rounded-[2rem]"></div>
 
                 <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden shadow-[0_10px_20px_rgba(57,70,82,0.12)] z-10 bg-white">
@@ -53,12 +53,12 @@ const RecentBlogPreview = () => {
               </div>
 
               <div className="p-8 relative z-20 flex flex-col flex-grow">
-                <div className="flex items-center gap-4 mb-5">
+                <div className="flex items-center gap-4 mb-5 flex-shrink-0">
                   <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{blog.category}</span>
                   <span className="text-[10px] font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{blog.date}</span>
                 </div>
 
-                <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 cursor-pointer" onClick={() => setSelectedArticle(blog)}>
+                <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 flex-shrink-0">
                   {blog.title}
                 </h3>
 
@@ -66,16 +66,18 @@ const RecentBlogPreview = () => {
                   {blog.desc}
                 </p>
 
-                <button
-                  onClick={() => setSelectedArticle(blog)}
-                  className="inline-flex items-center justify-between gap-6 px-7 py-3 mt-auto rounded-full bg-white/60 backdrop-blur-md border border-[var(--color-silver-fog)] text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-deep-slate)] shadow-[0_10px_20px_rgba(57,70,82,0.05)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.2)] hover:-translate-y-1 hover:border-[var(--color-muted-teal)]/30 transition-all duration-500 relative overflow-hidden group/btn w-max"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-muted-teal)]/10 via-[var(--color-deep-sage-teal)]/10 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
-                  <span className="relative z-10 group-hover/btn:text-[var(--color-muted-teal)] transition-colors duration-300">DISCOVER STORY</span>
-                  <span className="relative z-10 w-8 h-8 rounded-full bg-[var(--color-silver-fog)]/60 flex items-center justify-center group-hover/btn:bg-[var(--color-muted-teal)] group-hover/btn:text-white transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
-                    <FiArrowRight />
-                  </span>
-                </button>
+                <div className="mt-auto pt-2 flex-shrink-0 w-full">
+                  <button 
+                    onClick={() => setSelectedArticle(blog)} 
+                    className="flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-gradient-to-br from-[#5F7C7B]/90 to-[#4F6867]/90 backdrop-blur-xl border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.5),0_0_20px_rgba(194,163,131,0.5)] hover:-translate-y-1 hover:from-[#4F6867]/90 hover:to-[#5F7C7B]/90 transition-all duration-500 relative overflow-hidden group/btn w-max"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C2A383]/40 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
+                    <span className="relative z-10 text-white group-hover/btn:text-[#C2A383] transition-colors duration-300">READ ARTICLE</span>
+                    <span className="relative z-10 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover/btn:bg-[#C2A383] group-hover/btn:text-[#394652] transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
+                      <FiArrowRight />
+                    </span>
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))}
