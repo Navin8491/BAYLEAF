@@ -40,11 +40,11 @@ const Navbar = () => {
           : 'bg-transparent py-8'
       }`}
     >
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex justify-between items-center">
+      <div className="container mx-auto px-6 lg:px-12 custom-mobile-container">
+        <div className="flex justify-between items-center custom-mobile-inner">
           
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold font-heading text-[var(--color-rich-graphite)] tracking-widest uppercase flex items-center gap-1.5 group">
+          <Link to="/" className="text-2xl font-bold font-heading text-[var(--color-rich-graphite)] tracking-widest uppercase flex items-center gap-1.5 group custom-mobile-logo">
             BAYLEAF<span className="w-1.5 h-1.5 rounded-full bg-[var(--color-muted-teal)] group-hover:scale-150 transition-transform duration-500 shadow-[0_0_10px_rgba(95,124,123,0.5)]"></span>
           </Link>
 
@@ -94,7 +94,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-6">
+          <div className="lg:hidden flex items-center gap-6 custom-mobile-icons">
             <Link to="/cart" className="relative text-[var(--color-deep-slate)]">
               <FiShoppingCart size={22} />
               {getCartCount() > 0 && (

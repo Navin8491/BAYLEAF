@@ -81,3 +81,25 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-sage);
 }
+
+/* Mobile Navbar Adjustments */
+@media (max-width: 768px) {
+  .custom-mobile-container {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+  .custom-mobile-inner {
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
+  }
+  .custom-mobile-logo {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .custom-mobile-icons {
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 1.25rem !important;
+  }
+}
