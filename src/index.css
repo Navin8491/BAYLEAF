@@ -87,27 +87,32 @@
   nav.fixed {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
-    background-color: rgba(244, 241, 236, 0.85) !important; /* var(--color-soft-ivory) with opacity */
+    background-color: rgba(244, 241, 236, 0.85) !important;
+    /* var(--color-soft-ivory) with opacity */
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     border-bottom: 1px solid rgba(213, 222, 229, 0.3) !important;
     box-shadow: 0 10px 30px rgba(56, 68, 80, 0.05) !important;
   }
+
   .custom-mobile-container {
     padding-left: 12px !important;
     padding-right: 12px !important;
     width: 100% !important;
     max-width: 100vw !important;
   }
+
   .custom-mobile-inner {
     justify-content: space-between !important;
     align-items: center !important;
     width: 100%;
   }
+
   .custom-mobile-logo {
     margin: 0 !important;
     padding: 0 !important;
   }
+
   .custom-mobile-icons {
     margin: 0 !important;
     padding: 0 !important;

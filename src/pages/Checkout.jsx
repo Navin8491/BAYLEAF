@@ -63,61 +63,61 @@ const Checkout = () => {
         />
       </div>
 
-      <div className="pt-48 pb-32 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
-        <div className="checkout-element border-b border-[var(--color-silver-fog)]/50 pb-10 mb-20 text-center">
+      <div className="pt-24 pb-16 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
+        <div className="checkout-element border-b border-[var(--color-silver-fog)]/50 pb-4 mb-10 text-center">
           <h1 className="text-6xl md:text-8xl font-heading font-medium tracking-tight text-[var(--color-rich-graphite)]">
             Secure <span className="italic font-light text-[var(--color-deep-slate)]">Checkout.</span>
           </h1>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           
           {/* FORM SECTION */}
           <div className="lg:w-3/5">
-            <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-12 checkout-element">Billing Details</h2>
+            <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 checkout-element">Billing Details</h2>
             
-            <form className="flex flex-col gap-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="flex flex-col gap-3 checkout-element group">
+            <form className="flex flex-col gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">First Name</label>
                   <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
-                <div className="flex flex-col gap-3 checkout-element group">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Last Name</label>
                   <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="flex flex-col gap-3 checkout-element group">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Email Address</label>
                   <input type="email" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
-                <div className="flex flex-col gap-3 checkout-element group">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Phone</label>
                   <input type="tel" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 checkout-element group">
+              <div className="flex flex-col gap-2 checkout-element group">
                 <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Address</label>
                 <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="flex flex-col gap-3 checkout-element group">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">City</label>
                   <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
-                <div className="flex flex-col gap-3 checkout-element group">
+                <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Postal Code</label>
                   <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
                 </div>
               </div>
 
-              <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mt-12 mb-6 checkout-element">Payment Method</h2>
+              <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mt-6 mb-3 checkout-element">Payment Method</h2>
               
-              <div className="checkout-element p-10 border border-[var(--color-silver-fog)]/60 rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl shadow-[0_20px_40px_rgba(56,68,80,0.05)] mb-10 relative overflow-hidden">
+              <div className="checkout-element p-6 mb-6 border border-[var(--color-silver-fog)]/60 rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl shadow-[0_20px_40px_rgba(56,68,80,0.05)] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-warm-sand)]/20 to-[var(--color-powder-blue)]/10 z-0"></div>
                 <div className="relative z-10">
                   <div className="flex items-center gap-5">
@@ -125,16 +125,16 @@ const Checkout = () => {
                     <label htmlFor="card" className="font-medium text-[var(--color-rich-graphite)] flex-1 cursor-pointer text-lg">Credit / Debit Card</label>
                     <FiLock className="text-[var(--color-deep-slate)]/60 text-xl" />
                   </div>
-                  <div className="mt-8 pt-8 border-t border-[var(--color-silver-fog)]/50 grid grid-cols-2 gap-8">
-                    <div className="col-span-2 flex flex-col gap-3 group">
+                  <div className="mt-4 pt-4 border-t border-[var(--color-silver-fog)]/50 grid grid-cols-2 gap-4">
+                    <div className="col-span-2 flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Card Number</label>
                       <input type="text" placeholder="0000 0000 0000 0000" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-2 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
                     </div>
-                    <div className="flex flex-col gap-3 group">
+                    <div className="flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Expiry</label>
                       <input type="text" placeholder="MM/YY" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-2 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
                     </div>
-                    <div className="flex flex-col gap-3 group">
+                    <div className="flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">CVC</label>
                       <input type="text" placeholder="123" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-2 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
                     </div>
@@ -146,10 +146,10 @@ const Checkout = () => {
 
           {/* ORDER SUMMARY */}
           <div className="lg:w-2/5">
-            <div className="bg-[var(--color-soft-ivory)]/80 backdrop-blur-3xl p-12 rounded-[3.5rem] sticky top-40 checkout-element shadow-[0_30px_60px_rgba(56,68,80,0.08)] border border-[var(--color-silver-fog)]/60">
-              <h3 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-10">Your Order</h3>
+            <div className="bg-[var(--color-soft-ivory)]/80 backdrop-blur-3xl p-6 rounded-[3.5rem] sticky top-24 checkout-element shadow-[0_30px_60px_rgba(56,68,80,0.08)] border border-[var(--color-silver-fog)]/60">
+              <h3 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4">Your Order</h3>
               
-              <div className="space-y-8 mb-10 max-h-[350px] overflow-y-auto pr-4 custom-scrollbar">
+              <div className="space-y-4 mb-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between items-center gap-6">
                     <div className="flex items-center gap-6">
@@ -168,7 +168,7 @@ const Checkout = () => {
                 ))}
               </div>
 
-              <div className="space-y-6 mb-10 text-base font-light border-t border-[var(--color-silver-fog)]/50 pt-10">
+              <div className="space-y-3 mb-4 text-base font-light border-t border-[var(--color-silver-fog)]/50 pt-4">
                 <div className="flex justify-between text-[var(--color-gray-blue)]">
                   <span>Subtotal</span>
                   <span className="font-medium text-[var(--color-rich-graphite)]">${subtotal.toFixed(2)}</span>
@@ -179,7 +179,7 @@ const Checkout = () => {
                 </div>
               </div>
               
-              <div className="flex justify-between items-end text-[var(--color-rich-graphite)] font-medium mb-12 border-t border-[var(--color-silver-fog)]/50 pt-8">
+              <div className="flex justify-between items-end text-[var(--color-rich-graphite)] font-medium mb-6 border-t border-[var(--color-silver-fog)]/50 pt-4">
                 <span className="font-heading text-xl">Total</span>
                 <span className="text-[var(--color-muted-teal)] font-heading text-4xl">${total.toFixed(2)}</span>
               </div>
@@ -190,7 +190,7 @@ const Checkout = () => {
                 <FiArrowRight className="relative z-10 group-hover:translate-x-2 transition-transform text-lg" />
               </button>
               
-              <p className="text-center text-[9px] text-[var(--color-deep-slate)]/50 mt-8 uppercase tracking-[0.3em] font-bold">
+              <p className="text-center text-[9px] text-[var(--color-deep-slate)]/50 mt-4 uppercase tracking-[0.3em] font-bold">
                 Secure Encrypted Checkout
               </p>
             </div>

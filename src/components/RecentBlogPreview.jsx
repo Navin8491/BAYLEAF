@@ -15,15 +15,15 @@ const RecentBlogPreview = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
 
   return (
-    <section className="py-32 lg:py-40 relative z-20 mx-4 lg:mx-8 mb-20 px-6 lg:px-12">
+    <section className="py-10 lg:py-12 relative z-20 mx-4 lg:mx-8 mb-6 px-6 lg:px-12">
       {/* Glassmorphism Background Panel */}
       <div className="absolute inset-0 bg-[var(--color-silver-fog)]/20 backdrop-blur-3xl rounded-[4rem] border border-[var(--color-silver-fog)]/40 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
 
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-3">
           <div>
-            <span className="inline-flex items-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-4">
+            <span className="inline-flex items-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-1">
               <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> Insights & Stories
             </span>
             <h2 className="text-5xl lg:text-6xl font-heading font-medium text-[var(--color-rich-graphite)] leading-tight">From the <span className="italic font-light text-[var(--color-deep-slate)]">Journal.</span></h2>
@@ -33,7 +33,7 @@ const RecentBlogPreview = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {blogs.map((blog, index) => (
             <motion.div 
               key={index}
@@ -43,7 +43,7 @@ const RecentBlogPreview = () => {
               transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
               className="group block relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
             >
-              <div className="block relative w-full aspect-[4/3] m-3 mb-0 rounded-[2rem] overflow-hidden p-2 flex-shrink-0 z-10">
+              <div className="block relative w-full aspect-[4/3] m-1.5 mb-0 rounded-[1.5rem] overflow-hidden p-1.5 flex-shrink-0 z-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/90 via-[var(--color-soft-ivory)] to-[var(--color-sage-mist)]/80 opacity-90 group-hover:opacity-100 transition-opacity duration-700 z-0 rounded-[2rem]"></div>
 
                 <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden shadow-[0_10px_20px_rgba(57,70,82,0.12)] z-10 bg-white">
@@ -52,17 +52,17 @@ const RecentBlogPreview = () => {
                 </div>
               </div>
 
-              <div className="p-8 relative z-20 flex flex-col flex-grow">
-                <div className="flex items-center gap-4 mb-5 flex-shrink-0">
+              <div className="p-4 relative z-20 flex flex-col flex-grow">
+                <div className="flex items-center gap-4 mb-3 flex-shrink-0">
                   <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{blog.category}</span>
                   <span className="text-[10px] font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{blog.date}</span>
                 </div>
 
-                <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 flex-shrink-0">
+                <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-2 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 flex-shrink-0">
                   {blog.title}
                 </h3>
 
-                <p className="text-[var(--color-gray-blue)] leading-relaxed text-sm font-light mb-6 flex-grow">
+                <p className="text-[var(--color-gray-blue)] leading-relaxed text-sm font-light mb-3 flex-grow">
                   {blog.desc}
                 </p>
 

@@ -62,12 +62,12 @@ const ProductSingle = () => {
         />
       </div>
 
-      <div className="pt-40 pb-20 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
-        <Link to="/shop" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/70 hover:text-[var(--color-muted-teal)] transition-colors mb-12 group">
+      <div className="pt-24 pb-12 px-6 lg:px-12 max-w-7xl mx-auto relative z-10">
+        <Link to="/shop" className="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/70 hover:text-[var(--color-muted-teal)] transition-colors mb-6 group">
           <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Back to Shop
         </Link>
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           
           {/* IMAGE HALF */}
           <div className="lg:w-1/2">
@@ -81,19 +81,19 @@ const ProductSingle = () => {
 
           {/* DETAILS HALF */}
           <div className="lg:w-1/2 flex flex-col justify-center">
-            <div className="mb-12 border-b border-[var(--color-silver-fog)]/60 pb-12">
-              <span className="product-info inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--color-muted-teal)] mb-6 bg-[var(--color-silver-fog)]/30 px-4 py-2 rounded-full border border-[var(--color-muted-teal)]/20">
+            <div className="mb-6 border-b border-[var(--color-silver-fog)]/60 pb-6">
+              <span className="product-info inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--color-muted-teal)] mb-3 bg-[var(--color-silver-fog)]/30 px-4 py-2 rounded-full border border-[var(--color-muted-teal)]/20">
                 {product.type}
               </span>
-              <h1 className="product-info text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-8 leading-[1.1]">{product.name}</h1>
+              <h1 className="product-info text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 leading-[1.1]">{product.name}</h1>
               <p className="product-info text-3xl font-heading font-medium text-[var(--color-muted-teal)]">{product.price}</p>
             </div>
             
-            <p className="product-info text-xl font-light text-[var(--color-gray-blue)] leading-relaxed mb-12">
+            <p className="product-info text-xl font-light text-[var(--color-gray-blue)] leading-relaxed mb-6">
               {product.desc}
             </p>
             
-            <div className="product-info grid grid-cols-2 gap-y-8 gap-x-12 mb-16">
+            <div className="product-info grid grid-cols-2 gap-y-8 gap-x-12 mb-8">
               {product.details.map((detail, idx) => (
                 <div key={idx}>
                   <span className="block text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/50 mb-2">{detail.label}</span>

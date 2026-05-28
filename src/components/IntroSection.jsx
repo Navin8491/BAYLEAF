@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const IntroSection = () => {
   return (
-    <section className="relative -mt-20 z-20 pb-20">
+    <section className="relative -mt-20 z-20 pb-10">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row shadow-2xl shadow-slate-200/50 rounded-2xl overflow-hidden">
           
@@ -16,7 +16,7 @@ const IntroSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex-1 p-8 flex gap-4 text-white hover:bg-black/10 transition-colors"
+              className="flex-1 p-6 flex gap-4 text-white hover:bg-black/10 transition-colors"
             >
               <FiPhone className="text-4xl flex-shrink-0" />
               <div>
@@ -31,7 +31,7 @@ const IntroSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex-1 p-8 flex gap-4 text-white bg-black/5 hover:bg-black/10 transition-colors"
+              className="flex-1 p-6 flex gap-4 text-white bg-black/5 hover:bg-black/10 transition-colors"
             >
               <FiMapPin className="text-4xl flex-shrink-0" />
               <div>
@@ -46,7 +46,7 @@ const IntroSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex-1 p-8 flex gap-4 text-white hover:bg-black/10 transition-colors"
+              className="flex-1 p-6 flex gap-4 text-white hover:bg-black/10 transition-colors"
             >
               <FiClock className="text-4xl flex-shrink-0" />
               <div>
@@ -57,7 +57,7 @@ const IntroSection = () => {
           </div>
 
           {/* Book a Table Form */}
-          <div className="lg:w-1/3 bg-white p-8 md:p-10">
+          <div className="lg:w-1/3 bg-white p-6 md:p-8">
             <h3 className="text-2xl font-heading text-[var(--color-primary)] mb-6 font-bold">Book a Table</h3>
             <form className="space-y-4 text-sm">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

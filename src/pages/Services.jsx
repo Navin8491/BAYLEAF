@@ -84,12 +84,12 @@ const Services = () => {
       </div>
 
       {/* HERO */}
-      <section className="pt-48 pb-24 px-6 lg:px-12 text-center border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl relative z-10">
+      <section className="pt-32 pb-16 px-6 lg:px-12 text-center border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl relative z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="overflow-hidden mb-8">
+          <div className="overflow-hidden mb-4">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block services-hero-text">Beyond the Cup</span>
           </div>
-          <h1 className="text-6xl md:text-7xl lg:text-[8rem] font-heading font-medium leading-[0.9] mb-8 tracking-tight services-hero-text text-[var(--color-rich-graphite)]">
+          <h1 className="text-6xl md:text-7xl lg:text-[8rem] font-heading font-medium leading-[0.9] mb-4 tracking-tight services-hero-text text-[var(--color-rich-graphite)]">
             Our <span className="italic font-light text-[var(--color-deep-slate)]">Services.</span>
           </h1>
           <p className="text-lg text-[var(--color-gray-blue)] font-light max-w-xl mx-auto leading-relaxed services-hero-text">
@@ -99,9 +99,9 @@ const Services = () => {
       </section>
 
       {/* PARALLAX SERVICE BLOCKS */}
-      <section className="py-32 flex flex-col gap-40 relative z-20">
+      <section className="py-16 lg:py-20 flex flex-col gap-20 relative z-20">
         {servicesList.map((service, idx) => (
-          <div key={idx} className="service-block max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div key={idx} className="service-block max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             <div className={`aspect-[4/5] rounded-[3.5rem] overflow-hidden relative shadow-[0_30px_60px_rgba(56,68,80,0.1)] border border-[var(--color-silver-fog)]/60 bg-white p-3 ${service.reverse ? 'lg:order-2' : 'lg:order-1'}`}>
               <div className="relative w-full h-full rounded-[3rem] overflow-hidden">
@@ -115,11 +115,11 @@ const Services = () => {
             </div>
             
             <div className={`service-content ${service.reverse ? 'lg:order-1 lg:pr-12' : 'lg:order-2 lg:pl-12'}`}>
-              <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] mb-6">
+              <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] mb-3">
                 <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> {service.subtitle}
               </span>
-              <h2 className="text-4xl lg:text-6xl font-heading font-medium text-[var(--color-rich-graphite)] mb-8 leading-[1.1]">{service.title}</h2>
-              <p className="text-[var(--color-gray-blue)] text-lg font-light leading-relaxed mb-10">
+              <h2 className="text-4xl lg:text-6xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 leading-[1.1]">{service.title}</h2>
+              <p className="text-[var(--color-gray-blue)] text-lg font-light leading-relaxed mb-5">
                 {service.desc}
               </p>
               <Link to="/contact" className="inline-flex flex-col gap-2 group">
@@ -133,12 +133,12 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-32 px-6 lg:px-12 text-center mx-4 lg:mx-8 mb-24 relative z-20">
+      <section className="py-16 px-6 lg:px-12 text-center mx-4 lg:mx-8 mb-12 relative z-20">
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-powder-blue)]/30 to-[var(--color-sage-mist)]/20 backdrop-blur-3xl rounded-[4rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
         <div className="max-w-3xl mx-auto">
-          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-8">Work With Us</span>
-          <h2 className="text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-10 leading-tight">Ready to <span className="italic font-light text-[var(--color-deep-slate)]">collaborate?</span></h2>
-          <p className="text-lg text-[var(--color-gray-blue)] font-light mb-14 max-w-xl mx-auto leading-relaxed">Reach out to our team to discuss your specific needs and create something exceptional.</p>
+          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-4">Work With Us</span>
+          <h2 className="text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 leading-tight">Ready to <span className="italic font-light text-[var(--color-deep-slate)]">collaborate?</span></h2>
+          <p className="text-lg text-[var(--color-gray-blue)] font-light mb-8 max-w-xl mx-auto leading-relaxed">Reach out to our team to discuss your specific needs and create something exceptional.</p>
           <Link to="/contact" className="inline-flex items-center justify-center gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-12 py-5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>
             <span className="relative z-10">CONTACT US</span>

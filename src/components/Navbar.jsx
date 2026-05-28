@@ -11,14 +11,15 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
+    let active = false;
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+      const isScrolled = window.scrollY > 20;
+      if (isScrolled !== active) {
+        active = isScrolled;
+        setScrolled(isScrolled);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -36,8 +37,8 @@ const Navbar = () => {
     <nav
       className={`fixed w-full z-50 transition-all duration-700 ease-in-out ${
         scrolled 
-          ? 'bg-[var(--color-soft-ivory)]/70 py-4 shadow-[0_10px_30px_rgba(56,68,80,0.05)] backdrop-blur-2xl border-b border-[var(--color-silver-fog)]/40' 
-          : 'bg-transparent py-8'
+          ? 'bg-[var(--color-soft-ivory)]/70 py-3 shadow-[0_10px_30px_rgba(56,68,80,0.05)] backdrop-blur-2xl border-b border-[var(--color-silver-fog)]/40' 
+          : 'bg-transparent py-5'
       }`}
     >
       <div className="container mx-auto px-6 lg:px-12 custom-mobile-container">

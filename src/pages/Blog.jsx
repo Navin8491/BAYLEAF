@@ -105,10 +105,10 @@ const Blog = () => {
       </div>
 
       {/* HERO */}
-      <section className="pt-48 pb-24 px-6 lg:px-12 relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10 relative z-10">
+      <section className="pt-32 pb-16 px-6 lg:px-12 relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6 relative z-10">
           <div>
-            <div className="overflow-hidden mb-6">
+            <div className="overflow-hidden mb-3">
               <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block journal-hero-text">Stories & Insights</span>
             </div>
             <h1 className="text-6xl md:text-8xl font-heading font-medium text-[var(--color-rich-graphite)] tracking-tight journal-hero-text leading-[1]">
@@ -122,11 +122,11 @@ const Blog = () => {
       </section>
 
       {/* GRID */}
-      <section className="py-32 px-6 lg:px-12 journal-grid relative z-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-28">
+      <section className="py-16 px-6 lg:px-12 journal-grid relative z-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
           {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
-            <article key={post.id} className={`journal-post group flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[3rem] p-4 shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 hover:bg-white ${idx % 2 !== 0 ? 'md:mt-24' : ''}`}>
-              <div className="w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-8 flex-shrink-0 relative">
+            <article key={post.id} className={`journal-post group flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[3rem] p-4 shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 hover:bg-white ${idx % 2 !== 0 ? 'md:mt-10' : ''}`}>
+              <div className="w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-4 flex-shrink-0 relative">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply z-10"></div>
                 <img
                   src={post.img}
@@ -136,16 +136,16 @@ const Blog = () => {
               </div>
 
               <div className="px-4 pb-4 flex flex-col flex-grow relative z-20">
-                <div className="flex items-center gap-4 mb-6 flex-shrink-0">
+                <div className="flex items-center gap-4 mb-3 flex-shrink-0">
                   <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{post.category}</span>
                   <span className="text-xs font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{post.date}</span>
                 </div>
 
-                <h2 className="text-3xl md:text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight flex-shrink-0">
+                <h2 className="text-3xl md:text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-3 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight flex-shrink-0">
                   {post.title}
                 </h2>
 
-                <p className="text-[var(--color-gray-blue)] text-base md:text-lg font-light leading-relaxed mb-10 flex-grow">
+                <p className="text-[var(--color-gray-blue)] text-base md:text-lg font-light leading-relaxed mb-5 flex-grow">
                   {post.excerpt}
                 </p>
 
@@ -169,7 +169,7 @@ const Blog = () => {
 
       {/* PAGINATION / LOAD MORE */}
       {visiblePosts < allBlogPosts.length && (
-        <section className="pb-40 px-6 lg:px-12 text-center relative z-20">
+        <section className="pb-16 px-6 lg:px-12 text-center relative z-20">
           <button
             onClick={loadMore}
             disabled={isLoading}

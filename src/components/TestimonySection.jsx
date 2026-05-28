@@ -15,10 +15,10 @@ const testimonies = [
 
 const TestimonySection = () => {
   return (
-    <section className="relative py-20 lg:py-32 bg-slate-50">
+    <section className="relative py-12 lg:py-16 bg-slate-50">
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         
-        <div className="text-center mb-16 max-w-2xl mx-auto">
+        <div className="text-center mb-8 max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -26,7 +26,7 @@ const TestimonySection = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="font-script text-[var(--color-primary)] text-3xl block mb-2">Testimony</span>
-            <h2 className="text-4xl lg:text-5xl font-heading text-slate-900 font-bold tracking-wide mb-4">Customers Says</h2>
+            <h2 className="text-4xl lg:text-5xl font-heading text-slate-900 font-bold tracking-wide mb-2">Customers Says</h2>
             <p className="text-slate-600">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
           </motion.div>
         </div>
@@ -47,8 +47,8 @@ const TestimonySection = () => {
           >
             {testimonies.map((item, index) => (
               <SwiperSlide key={index}>
-                <div className={`p-8 h-full rounded-2xl shadow-xl shadow-slate-200/50 transition-colors ${index % 2 !== 0 ? 'bg-[var(--color-primary)] text-white' : 'bg-white text-slate-600 border border-slate-100'}`}>
-                  <blockquote className="mb-6 relative">
+                <div className={`p-6 h-full rounded-2xl shadow-xl shadow-slate-200/50 transition-colors ${index % 2 !== 0 ? 'bg-[var(--color-primary)] text-white' : 'bg-white text-slate-600 border border-slate-100'}`}>
+                  <blockquote className="mb-3 relative">
                     <span className={`absolute -top-4 -left-2 text-4xl opacity-20 font-serif ${index % 2 !== 0 ? 'text-white' : 'text-[var(--color-primary)]'}`}>"</span>
                     <p className={`italic ${index % 2 !== 0 ? 'text-white' : 'text-slate-600'} leading-relaxed relative z-10`}>
                       "{item.text}"

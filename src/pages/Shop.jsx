@@ -59,12 +59,12 @@ const Shop = () => {
       </div>
 
       {/* SHOP HERO */}
-      <section className="pt-48 pb-20 px-6 lg:px-12 text-center relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
+      <section className="pt-32 pb-14 px-6 lg:px-12 text-center relative border-b border-[var(--color-silver-fog)]/40 bg-[var(--color-silver-fog)]/10 backdrop-blur-3xl">
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="overflow-hidden mb-8">
+          <div className="overflow-hidden mb-4">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block shop-hero-text">Retail Collection</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-heading font-medium text-[var(--color-rich-graphite)] leading-[0.9] mb-8 tracking-tight shop-hero-text">
+          <h1 className="text-6xl md:text-8xl font-heading font-medium text-[var(--color-rich-graphite)] leading-[0.9] mb-4 tracking-tight shop-hero-text">
             The <span className="italic font-light text-[var(--color-deep-slate)]">Shop.</span>
           </h1>
           <p className="text-lg text-[var(--color-gray-blue)] font-light shop-hero-text max-w-xl mx-auto leading-relaxed">
@@ -74,11 +74,11 @@ const Shop = () => {
       </section>
 
       {/* PRODUCTS GRID */}
-      <section className="py-32 px-6 lg:px-12 shop-grid relative z-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
+      <section className="py-16 px-6 lg:px-12 shop-grid relative z-20">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
           {shopItems.map((item) => (
             <div key={item.id} className="product-card group flex flex-col">
-              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl mb-8 shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
+              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl mb-4 shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
                 
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
@@ -120,12 +120,12 @@ const Shop = () => {
       </section>
 
       {/* SUBSCRIPTION CTA */}
-      <section className="py-32 px-6 lg:px-12 relative z-20 my-24 mx-4 lg:mx-8">
+      <section className="py-16 px-6 lg:px-12 relative z-20 my-12 mx-4 lg:mx-8">
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-powder-blue)]/30 to-[var(--color-sage-mist)]/20 backdrop-blur-3xl rounded-[4rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
         <div className="max-w-3xl mx-auto text-center">
-          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-8">Never Run Out</span>
-          <h2 className="text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-10 leading-tight">Coffee <span className="italic font-light text-[var(--color-deep-slate)]">Subscription.</span></h2>
-          <p className="text-lg text-[var(--color-gray-blue)] font-light mb-14 leading-relaxed max-w-xl mx-auto">
+          <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-4">Never Run Out</span>
+          <h2 className="text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 leading-tight">Coffee <span className="italic font-light text-[var(--color-deep-slate)]">Subscription.</span></h2>
+          <p className="text-lg text-[var(--color-gray-blue)] font-light mb-8 leading-relaxed max-w-xl mx-auto">
             Freshly roasted beans delivered to your door on your schedule. Cancel or pause anytime.
           </p>
           <button className="flex items-center justify-center mx-auto gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-12 py-5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group">

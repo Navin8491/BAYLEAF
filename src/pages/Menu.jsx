@@ -126,7 +126,7 @@ const Menu = () => {
       </div>
 
       {/* ================= HERO SECTION ================= */}
-      <section className="relative h-screen min-h-[750px] w-full flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-[550px] md:min-h-[650px] h-[85vh] w-full flex flex-col items-center justify-center overflow-hidden">
         
         {/* Cinematic Gradient Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -137,12 +137,12 @@ const Menu = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-30 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-24">
-          <div className="hero-badge mb-10 px-8 py-2.5 rounded-full border border-[var(--color-muted-teal)]/30 bg-[var(--color-silver-fog)]/30 backdrop-blur-xl shadow-[0_15px_30px_rgba(95,124,123,0.08)] inline-block">
+        <div className="relative z-30 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-12">
+          <div className="hero-badge mb-6 px-6 py-2 rounded-full border border-[var(--color-muted-teal)]/30 bg-[var(--color-silver-fog)]/30 backdrop-blur-xl shadow-[0_15px_30px_rgba(95,124,123,0.08)] inline-block">
             <span className="text-[10px] tracking-[0.4em] uppercase font-bold text-[var(--color-muted-teal)]">Exclusive Collection</span>
           </div>
           
-          <h1 className="text-6xl md:text-8xl lg:text-[7.5rem] font-heading font-medium tracking-tight leading-[1.05] mb-8 overflow-hidden flex flex-wrap justify-center gap-x-4 lg:gap-x-6 text-[var(--color-rich-graphite)]">
+          <h1 className="text-6xl md:text-8xl lg:text-[7.5rem] font-heading font-medium tracking-tight leading-[1.05] mb-4 overflow-hidden flex flex-wrap justify-center gap-x-4 lg:gap-x-6 text-[var(--color-rich-graphite)]">
             <span className="hero-title-word inline-block">Modern</span>
             <span className="hero-title-word inline-block text-[var(--color-muted-teal)] italic font-light">Elegance.</span>
           </h1>
@@ -153,7 +153,7 @@ const Menu = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-4 scroll-indicator">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-4 scroll-indicator">
           <span className="text-[var(--color-deep-slate)]/60 text-[9px] tracking-[0.3em] uppercase font-bold">Explore</span>
           <div className="w-px h-16 bg-gradient-to-b from-[var(--color-deep-slate)]/40 to-transparent"></div>
         </div>
@@ -161,9 +161,9 @@ const Menu = () => {
 
 
       {/* ================= SIGNATURE EXPERIENCE ================= */}
-      <section className="sig-brew-section py-32 px-6 lg:px-12 relative z-20">
+      <section className="sig-brew-section py-16 lg:py-20 px-6 lg:px-12 relative z-20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Cinematic Floating Image */}
             <div className="lg:col-span-7 relative order-2 lg:order-1">
@@ -189,14 +189,14 @@ const Menu = () => {
 
             {/* Editorial Content */}
             <div className="lg:col-span-5 order-1 lg:order-2 reveal-up">
-              <div className="mb-8">
-                <span className="inline-flex items-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+              <div className="mb-4">
+                <span className="inline-flex items-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-3">
                   <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> Signature Experience
                 </span>
-                <h2 className="text-5xl md:text-6xl font-heading mb-6 leading-[1.1] text-[var(--color-rich-graphite)]">The Kyoto <br/><span className="italic font-light text-[var(--color-muted-teal)]">Reserve.</span></h2>
+                <h2 className="text-5xl md:text-6xl font-heading mb-3 leading-[1.1] text-[var(--color-rich-graphite)]">The Kyoto <br/><span className="italic font-light text-[var(--color-muted-teal)]">Reserve.</span></h2>
               </div>
               
-              <p className="text-[var(--color-gray-blue)] text-lg leading-relaxed font-light mb-10">
+              <p className="text-[var(--color-gray-blue)] text-lg leading-relaxed font-light mb-5">
                 A transcendent cold brew experience. Slow-dripped over 24 hours using our custom Kyoto-style towers, this method extracts an incredibly smooth, liqueur-like body with profound notes of dark chocolate and black cherry.
               </p>
               
@@ -221,10 +221,10 @@ const Menu = () => {
 
 
       {/* ================= CATEGORY FILTER ================= */}
-      <section className="pt-24 pb-12 px-6 lg:px-12 relative z-30">
+      <section className="pt-12 pb-6 px-6 lg:px-12 relative z-30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 reveal-up">
-            <h2 className="text-4xl md:text-5xl font-heading mb-4 text-[var(--color-rich-graphite)]">Our Selection</h2>
+          <div className="text-center mb-8 reveal-up">
+            <h2 className="text-4xl md:text-5xl font-heading mb-2 text-[var(--color-rich-graphite)]">Our Selection</h2>
             <div className="w-12 h-[1px] bg-[var(--color-silver-fog)] mx-auto"></div>
           </div>
 
@@ -255,7 +255,7 @@ const Menu = () => {
       </section>
 
       {/* ================= ULTRA PREMIUM MENU CARDS ================= */}
-      <section className="pb-32 px-6 lg:px-12 relative z-30">
+      <section className="pb-16 px-6 lg:px-12 relative z-30">
         <div className="max-w-7xl mx-auto relative z-10">
           <AnimatePresence mode="wait">
             <motion.div
@@ -264,7 +264,7 @@ const Menu = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.5, staggerChildren: 0.1, ease: "easeOut" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8"
             >
               {menuData[activeCategory].map((item) => (
                 <motion.div 
@@ -272,7 +272,7 @@ const Menu = () => {
                   className="group relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
                 >
                   {/* RICH BACKGROUND AROUND PRODUCT IMAGE (Enhanced UI) */}
-                  <div className="w-full aspect-[4/3] relative m-3 mb-0 rounded-[2rem] overflow-hidden p-2">
+                  <div className="w-full aspect-[4/3] relative m-2 mb-0 rounded-[2rem] overflow-hidden p-2">
                     {/* Soft Blended Background Panels */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/90 via-[var(--color-soft-ivory)] to-[var(--color-sage-mist)]/80 opacity-90 group-hover:opacity-100 transition-opacity duration-700 z-0 rounded-[2rem]"></div>
                     <div className="absolute inset-0 flex items-center justify-center opacity-70 z-0 mix-blend-multiply">
@@ -295,16 +295,16 @@ const Menu = () => {
                   </div>
                   
                   {/* Glassmorphism Content */}
-                  <div className="p-8 flex-1 flex flex-col justify-between relative z-20">
+                  <div className="p-5 flex-1 flex flex-col justify-between relative z-20">
                     <div>
-                      <div className="flex justify-between items-start gap-4 mb-4">
+                      <div className="flex justify-between items-start gap-4 mb-2">
                         <h3 className="text-2xl font-heading font-medium leading-tight text-[var(--color-rich-graphite)] group-hover:text-[var(--color-muted-teal)] transition-colors duration-500">{item.name}</h3>
                         <span className="text-xl font-heading text-[var(--color-deep-slate)]/80">{item.price}</span>
                       </div>
-                      <p className="text-[var(--color-gray-blue)] text-sm leading-relaxed font-light mb-8">{item.desc}</p>
+                      <p className="text-[var(--color-gray-blue)] text-sm leading-relaxed font-light mb-4">{item.desc}</p>
                     </div>
                     
-                    <div className="pt-6 border-t border-[var(--color-silver-fog)] flex justify-center">
+                    <div className="pt-4 border-t border-[var(--color-silver-fog)] flex justify-center">
                       <button 
                         onClick={() => addToCart(item)}
                         className="w-full py-4 rounded-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] border-none flex items-center justify-center text-white hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_10px_20px_rgba(95,124,123,0.2)] hover:shadow-[0_15px_30px_rgba(95,124,123,0.3),0_0_15px_rgba(194,163,131,0.3)] hover:-translate-y-1 group/btn relative overflow-hidden text-[10px] font-bold uppercase tracking-[0.2em]"
@@ -323,11 +323,11 @@ const Menu = () => {
       </section>
 
       {/* ================= CINEMATIC FOOTER CTA ================= */}
-      <section className="py-40 px-6 lg:px-12 text-center relative overflow-hidden bg-[var(--color-silver-fog)]/30 backdrop-blur-xl border-t border-[var(--color-silver-fog)]/50">
+      <section className="py-20 lg:py-24 px-6 lg:px-12 text-center relative overflow-hidden bg-[var(--color-silver-fog)]/30 backdrop-blur-xl border-t border-[var(--color-silver-fog)]/50">
         <div className="max-w-4xl mx-auto relative z-10 reveal-up">
-          <span className="text-[10px] tracking-[0.4em] uppercase font-bold text-[var(--color-muted-teal)] mb-6 block">Your Ritual Awaits</span>
-          <h2 className="text-5xl md:text-7xl lg:text-[6rem] font-heading mb-8 leading-[1.05] tracking-tight text-[var(--color-rich-graphite)]">Indulge in <br/><span className="italic font-light text-[var(--color-muted-teal)]">Excellence.</span></h2>
-          <p className="text-lg text-[var(--color-gray-blue)] mb-14 font-light max-w-xl mx-auto">
+          <span className="text-[10px] tracking-[0.4em] uppercase font-bold text-[var(--color-muted-teal)] mb-3 block">Your Ritual Awaits</span>
+          <h2 className="text-5xl md:text-7xl lg:text-[6rem] font-heading mb-4 leading-[1.05] tracking-tight text-[var(--color-rich-graphite)]">Indulge in <br/><span className="italic font-light text-[var(--color-muted-teal)]">Excellence.</span></h2>
+          <p className="text-lg text-[var(--color-gray-blue)] mb-8 font-light max-w-xl mx-auto">
             Place your order online for a seamless pickup experience, or reserve a table to fully immerse yourself in our serene atmosphere.
           </p>
           
