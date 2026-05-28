@@ -116,11 +116,11 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="lg:hidden fixed inset-0 z-[999] bg-[#F8F5F2] backdrop-blur-sm flex flex-col justify-between p-6 text-[#2D2D2D]"
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden fixed inset-0 z-[9999] w-full h-screen bg-[#F8F5F2] overflow-hidden flex flex-col justify-between p-6 text-[#2D2D2D]"
           >
             {/* Header */}
             <div className="flex justify-between items-center w-full pb-4 border-b border-[#2D2D2D]/10">
@@ -141,15 +141,15 @@ const Navbar = () => {
                   key={link.name}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + idx * 0.03, duration: 0.3 }}
+                  transition={{ delay: 0.1 + idx * 0.03, duration: 0.3 }}
                 >
                   <NavLink
                     to={link.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) =>
-                      `block text-sm uppercase font-heading font-medium tracking-[0.15em] py-2 border-b border-transparent transition-all duration-300 ${isActive
+                      `block text-sm uppercase font-heading font-semibold tracking-wide py-2 transition-all duration-300 ${isActive
                         ? 'text-[var(--color-muted-teal)] border-l-2 border-[var(--color-muted-teal)] pl-4'
-                        : 'text-[#2D2D2D]/80 hover:text-[var(--color-muted-teal)] pl-0'
+                        : 'text-[#2D2D2D] hover:text-[var(--color-muted-teal)] pl-0'
                       }`
                     }
                   >
