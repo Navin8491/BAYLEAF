@@ -93,13 +93,18 @@ const Blog = () => {
   }, [visiblePosts]);
 
   return (
-    <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
+    <div ref={containerRef} className="bg-gradient-to-b from-[var(--color-soft-ivory)] via-white to-[var(--color-soft-ivory)] min-h-screen text-[var(--color-deep-slate)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
 
       {/* GLOBAL AMBIENT BACKGROUND LAYER */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <motion.div
-          className="absolute top-[30%] left-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[140px] mix-blend-multiply"
-          animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0] }}
+          className="absolute top-[20%] left-[5%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/40 rounded-full blur-[140px] mix-blend-multiply"
+          animate={{ x: [0, 50, -20, 0], y: [0, -40, 30, 0] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.div
+          className="absolute bottom-[20%] right-[5%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[var(--color-warm-sand)]/35 rounded-full blur-[120px] mix-blend-multiply"
+          animate={{ x: [0, -40, 30, 0], y: [0, 30, -40, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
       </div>
@@ -125,40 +130,45 @@ const Blog = () => {
       <section className="py-16 px-6 lg:px-12 journal-grid relative z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
           {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
-            <article key={post.id} className={`journal-post group flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[3rem] p-4 shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 hover:bg-white ${idx % 2 !== 0 ? 'md:mt-10' : ''}`}>
-              <div className="w-full aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-4 flex-shrink-0 relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply z-10"></div>
+            <article 
+              key={post.id} 
+              className="journal-post group flex flex-col h-full bg-white/70 backdrop-blur-md border border-[var(--color-silver-fog)]/40 rounded-[3rem] p-5 shadow-[0_15px_30px_rgba(57,70,82,0.04),0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.12),0_10px_20px_rgba(181,156,122,0.15)] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:border-[var(--color-sand-accent)]/30"
+            >
+              <div className="w-full aspect-[4/3] rounded-[2.2rem] overflow-hidden mb-5 flex-shrink-0 relative shadow-[0_10px_25px_rgba(57,70,82,0.05)]">
+                {/* Subtle vignette/overlay that darkens slightly to keep details rich and prevent washing out */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 opacity-50 group-hover:opacity-30 transition-opacity duration-700 z-10 pointer-events-none"></div>
+                {/* Hover gradient overlay: correct mist-sage name, reduce opacity to 25%, mix-blend-multiply */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/20 to-[var(--color-mist-sage)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-multiply z-10 pointer-events-none"></div>
                 <img
                   src={post.img}
                   alt={post.title}
+                  style={{ filter: 'contrast(1.08) brightness(0.92) saturate(1.05)' }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out relative z-0"
                 />
               </div>
 
               <div className="px-4 pb-4 flex flex-col flex-grow relative z-20">
-                <div className="flex items-center gap-4 mb-3 flex-shrink-0">
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/30 px-3 py-1 rounded-full border border-[var(--color-muted-teal)]/20">{post.category}</span>
-                  <span className="text-xs font-light text-[var(--color-gray-blue)] uppercase tracking-wider">{post.date}</span>
+                <div className="flex items-center gap-4 mb-4 flex-shrink-0">
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] bg-[var(--color-silver-fog)]/40 px-3 py-1.5 rounded-full border border-[var(--color-muted-teal)]/15">{post.category}</span>
+                  <span className="text-xs font-medium text-[var(--color-gray-blue)] uppercase tracking-wider">{post.date}</span>
                 </div>
 
                 <h2 className="text-3xl md:text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-3 group-hover:text-[var(--color-muted-teal)] transition-colors duration-500 leading-tight flex-shrink-0">
                   {post.title}
                 </h2>
 
-                <p className="text-[var(--color-gray-blue)] text-base md:text-lg font-light leading-relaxed mb-5 flex-grow">
+                <p className="text-[var(--color-deep-slate)]/80 text-base md:text-lg font-light leading-relaxed mb-6 flex-grow">
                   {post.excerpt}
                 </p>
 
                 <div className="mt-auto pt-4 flex-shrink-0 w-full">
-                  <button 
-                    onClick={() => setSelectedArticle(post)} 
-                    className="flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-gradient-to-br from-[#5F7C7B]/90 to-[#4F6867]/90 backdrop-blur-xl border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.5),0_0_20px_rgba(194,163,131,0.5)] hover:-translate-y-1 hover:from-[#4F6867]/90 hover:to-[#5F7C7B]/90 transition-all duration-500 relative overflow-hidden group/btn w-max"
+                  <button
+                    onClick={() => setSelectedArticle(post)}
+                    className="flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-[var(--color-muted-teal)] text-white text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_10px_20px_rgba(95,124,123,0.18)] hover:shadow-[0_15px_30px_rgba(95,124,123,0.35),0_0_15px_rgba(181,156,122,0.25)] hover:-translate-y-0.5 hover:bg-[var(--color-deep-sage-teal)] transition-all duration-300 relative overflow-hidden group/btn cursor-pointer w-max"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C2A383]/40 to-transparent opacity-0 group-hover/btn:opacity-100 transform -translate-x-full group-hover/btn:translate-x-full transition-all duration-1000 ease-out"></div>
-                    <span className="relative z-10 text-white group-hover/btn:text-[#C2A383] transition-colors duration-300">READ ARTICLE</span>
-                    <span className="relative z-10 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover/btn:bg-[#C2A383] group-hover/btn:text-[#394652] transition-all duration-500 transform group-hover/btn:translate-x-1 shadow-sm">
-                      <FiArrowRight />
-                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-[800ms] ease-out"></div>
+                    <span className="relative z-10 text-white transition-colors duration-300">READ ARTICLE</span>
+                    <FiArrowRight className="relative z-10 transform group-hover/btn:translate-x-1 transition-transform duration-300 text-white" size={13} />
                   </button>
                 </div>
               </div>
@@ -173,9 +183,9 @@ const Blog = () => {
           <button
             onClick={loadMore}
             disabled={isLoading}
-            className={`flex items-center justify-center mx-auto gap-4 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-12 py-5 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden group ${isLoading ? 'opacity-70 cursor-not-allowed transform-none hover:shadow-[0_15px_30px_rgba(95,124,123,0.3)]' : ''}`}
+            className={`flex items-center justify-center mx-auto gap-3 bg-[var(--color-muted-teal)] text-white px-10 py-4.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[var(--color-deep-sage-teal)] transition-all duration-300 shadow-[0_10px_25px_rgba(95,124,123,0.18)] hover:-translate-y-0.5 hover:shadow-[0_15px_35px_rgba(95,124,123,0.3),0_0_15px_rgba(181,156,122,0.2)] relative overflow-hidden group cursor-pointer ${isLoading ? 'opacity-70 cursor-not-allowed transform-none' : ''}`}
           >
-            {!isLoading && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>}
+            {!isLoading && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-[1000ms] ease-out"></div>}
             <span className="relative z-10">{isLoading ? 'LOADING...' : 'LOAD MORE ARTICLES'}</span>
           </button>
         </section>

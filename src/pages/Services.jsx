@@ -26,16 +26,6 @@ const Services = () => {
             start: 'top 75%',
           }
         });
-        
-        gsap.to(section.querySelector('.service-img-parallax'), {
-          y: '15%', ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
       });
     }, containerRef);
 
@@ -101,7 +91,7 @@ const Services = () => {
       {/* PARALLAX SERVICE BLOCKS */}
       <section className="py-16 lg:py-20 flex flex-col gap-20 relative z-20">
         {servicesList.map((service, idx) => (
-          <div key={idx} className="service-block max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div key={idx} className="service-block group max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             <div className={`aspect-[4/5] rounded-[3.5rem] overflow-hidden relative shadow-[0_30px_60px_rgba(56,68,80,0.1)] border border-[var(--color-silver-fog)]/60 bg-white p-3 ${service.reverse ? 'lg:order-2' : 'lg:order-1'}`}>
               <div className="relative w-full h-full rounded-[3rem] overflow-hidden">
@@ -109,7 +99,7 @@ const Services = () => {
                 <img 
                   src={service.img} 
                   alt={service.title} 
-                  className="w-full h-[130%] object-cover service-img-parallax -translate-y-[15%]"
+                  className="w-full h-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-105"
                 />
               </div>
             </div>
