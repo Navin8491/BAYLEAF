@@ -120,10 +120,10 @@ const Navbar = () => {
             animate={{ y: 0 }}
             exit={{ y: '-100%' }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden fixed inset-0 z-[9999] w-full h-screen bg-[#F8F5F2] overflow-hidden flex flex-col justify-between p-6 text-[#2D2D2D]"
+            className="lg:hidden fixed inset-0 z-[9999] w-full h-screen bg-[#F8F5F2] overflow-hidden flex flex-col justify-start items-start p-6 text-[#2D2D2D]"
           >
             {/* Header */}
-            <div className="flex justify-between items-center w-full pb-4 border-b border-[#2D2D2D]/10">
+            <div className="flex justify-between items-center w-full pb-4 border-b border-[#2D2D2D]/10 mt-0 pt-0">
               <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-[#2D2D2D]/55">Navigation</span>
               <button
                 onClick={() => setIsOpen(false)}
@@ -135,7 +135,7 @@ const Navbar = () => {
             </div>
 
             {/* Navigation Links */}
-            <ul className="flex flex-col space-y-4 my-auto w-full pl-6 py-4">
+            <ul className="flex flex-col space-y-4 w-full pl-6 pt-6 pb-4 mt-0 justify-start items-start">
               {navLinks.map((link, idx) => (
                 <motion.li
                   key={link.name}
@@ -160,7 +160,7 @@ const Navbar = () => {
             </ul>
 
             {/* Drawer Footer details */}
-            <div className="w-full pt-6 border-t border-[#2D2D2D]/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-light text-[#2D2D2D]/60">
+            <div className="w-full mt-auto pt-6 border-t border-[#2D2D2D]/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-light text-[#2D2D2D]/60">
               <div>
                 <h4 className="font-heading font-medium text-[#2D2D2D] text-sm mb-1">TasteHub Cafe</h4>
                 <p>124 Soho Square, London</p>
