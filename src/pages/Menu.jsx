@@ -229,12 +229,12 @@ const Menu = () => {
           </div>
 
           {/* Floating Category Tabs (Redesigned) */}
-          <div className="flex flex-wrap justify-center gap-3 reveal-up">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 reveal-up">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`relative px-8 py-3.5 text-[10px] font-bold tracking-[0.15em] uppercase rounded-full transition-all duration-500 overflow-hidden backdrop-blur-xl border ${
+                className={`relative px-5 md:px-8 py-2.5 md:py-3.5 text-[9px] md:text-[10px] font-bold tracking-[0.15em] uppercase rounded-full transition-all duration-500 overflow-hidden backdrop-blur-xl border ${
                   activeCategory === category.id 
                   ? 'text-white border-transparent shadow-[0_10px_20px_rgba(95,124,123,0.3)]'
                   : 'text-[var(--color-deep-slate)] bg-[var(--color-silver-fog)]/30 hover:bg-[var(--color-silver-fog)]/60 border-[var(--color-silver-fog)]/50'
@@ -264,22 +264,22 @@ const Menu = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.5, staggerChildren: 0.1, ease: "easeOut" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8"
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8"
             >
               {menuData[activeCategory].map((item) => (
                 <motion.div 
                   key={item.id} 
-                  className="group relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
+                  className="group relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
                 >
                   {/* RICH BACKGROUND AROUND PRODUCT IMAGE (Enhanced UI) */}
-                  <div className="w-full aspect-[4/3] relative m-2 mb-0 rounded-[2rem] overflow-hidden p-2">
+                  <div className="w-full aspect-[4/3] relative m-2 mb-0 rounded-[1.75rem] md:rounded-[2rem] overflow-hidden p-2">
                     {/* Soft Blended Background Panels */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/90 via-[var(--color-soft-ivory)] to-[var(--color-sage-mist)]/80 opacity-90 group-hover:opacity-100 transition-opacity duration-700 z-0 rounded-[2rem]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/90 via-[var(--color-soft-ivory)] to-[var(--color-sage-mist)]/80 opacity-90 group-hover:opacity-100 transition-opacity duration-700 z-0 rounded-[1.75rem] md:rounded-[2rem]"></div>
                     <div className="absolute inset-0 flex items-center justify-center opacity-70 z-0 mix-blend-multiply">
                       <div className="w-3/4 h-3/4 bg-white/90 rounded-full blur-[40px]"></div>
                     </div>
 
-                    <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden shadow-[0_10px_20px_rgba(57,70,82,0.12)] z-10 bg-white">
+                    <div className="relative w-full h-full rounded-[1.25rem] md:rounded-[1.5rem] overflow-hidden shadow-[0_10px_20px_rgba(57,70,82,0.12)] z-10 bg-white">
                       <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-warm-sand)]/20 to-transparent mix-blend-multiply group-hover:opacity-0 transition-opacity duration-700 z-10"></div>
                       <img 
                         src={item.img} 

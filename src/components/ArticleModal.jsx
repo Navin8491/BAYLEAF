@@ -54,24 +54,25 @@ const ArticleModal = ({ isOpen, onClose, article }) => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full lg:w-1/2 h-full bg-[var(--color-soft-ivory)] shadow-2xl flex flex-col"
+            className="relative w-full lg:w-1/2 h-[100dvh] bg-[var(--color-soft-ivory)] shadow-2xl flex flex-col"
           >
             {/* Close Button */}
             <button 
               onClick={onClose}
-              className="absolute top-6 right-6 lg:top-10 lg:right-10 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/50 backdrop-blur-xl border border-[#B89D7C]/30 text-[#394652] hover:bg-[#394652] hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg group"
+              className="absolute top-6 right-6 lg:top-10 lg:right-10 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/70 backdrop-blur-xl border border-[var(--color-silver-fog)]/40 text-[var(--color-rich-graphite)] hover:bg-[var(--color-rich-graphite)] hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg group"
+              aria-label="Close modal"
             >
               <FiX className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
             </button>
-
+ 
             {/* Mobile Image (Hidden on Desktop) */}
-            <div className="block lg:hidden w-full h-[40vh] relative shrink-0">
-               <div className="absolute inset-0 bg-gradient-to-t from-[#2F343B]/60 to-transparent z-10 mix-blend-overlay"></div>
+            <div className="block lg:hidden w-full h-[30vh] sm:h-[40vh] relative shrink-0">
+               <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-rich-graphite)]/60 to-transparent z-10 mix-blend-overlay"></div>
                <img src={article.img} alt={article.title} className="w-full h-full object-cover" />
             </div>
-
+ 
             {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto px-6 py-10 lg:px-12 lg:py-16 custom-scrollbar relative">
+            <div className="flex-1 overflow-y-auto px-6 py-8 sm:py-10 lg:px-12 lg:py-16 custom-scrollbar relative">
               {/* Ambient blur inside panel */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#B89D7C]/10 rounded-full blur-[80px] pointer-events-none"></div>
 

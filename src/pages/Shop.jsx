@@ -75,29 +75,29 @@ const Shop = () => {
 
       {/* PRODUCTS GRID */}
       <section className="py-16 px-6 lg:px-12 shop-grid relative z-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-12">
           {shopItems.map((item) => (
             <div key={item.id} className="product-card group flex flex-col">
-              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl mb-4 shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-3">
+              <Link to={`/product/${item.id}`} className="relative aspect-[4/5] overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl mb-4 shadow-[0_20px_40px_rgba(56,68,80,0.08)] group-hover:shadow-[0_40px_80px_rgba(56,68,80,0.15)] transition-all duration-700 border border-[var(--color-silver-fog)]/60 p-2 md:p-3">
                 
-                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-inner bg-white">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/60 to-[var(--color-sage-mist)]/40 rounded-[2rem] md:rounded-[3rem] transform translate-x-3 translate-y-3 -z-10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+ 
+                <div className="relative w-full h-full rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-inner bg-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/25 to-transparent opacity-40 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
                   <img 
                     src={item.img} 
                     alt={item.name} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out"
                   />
                   
-                  {/* Quick Add Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20 flex justify-center">
+                  {/* Touch-Friendly Quick Add Overlay (Always visible on mobile, animated on desktop) */}
+                  <div className="absolute bottom-4 left-0 right-0 lg:bottom-0 lg:p-6 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-500 z-20 flex justify-center">
                     <button 
                       onClick={(e) => {
                         e.preventDefault();
                         addToCart(item);
                       }}
-                      className="flex items-center justify-center gap-3 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] transition-all duration-300 w-[90%]"
+                      className="flex items-center justify-center gap-3 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white px-8 py-3.5 md:py-4 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] transition-all duration-300 w-[85%] lg:w-[90%]"
                     >
                       ADD TO CART
                     </button>

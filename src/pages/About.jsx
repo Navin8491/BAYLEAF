@@ -85,8 +85,8 @@ const About = () => {
           <p className="max-w-2xl text-lg font-light text-[var(--color-gray-blue)] hero-subtitle mb-8 leading-relaxed">
             A modern London-inspired café aesthetic blended with the minimal, warm essence of premium cinematic design. We craft moments, not just coffee.
           </p>
-          <div className="w-full max-w-5xl h-[350px] md:h-[500px] rounded-[3rem] overflow-hidden shadow-[0_40px_80px_rgba(47,52,59,0.15)] hero-image relative border border-[var(--color-silver-fog)] bg-white p-3">
-            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-inner">
+          <div className="w-full max-w-5xl h-[280px] sm:h-[350px] md:h-[500px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_40px_80px_rgba(47,52,59,0.15)] hero-image relative border border-[var(--color-silver-fog)]/60 bg-white p-2 md:p-3">
+            <div className="relative w-full h-full rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-inner">
                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-deep-slate)]/20 to-transparent z-10 mix-blend-overlay"></div>
                <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1920&auto=format&fit=crop" alt="Cafe Interior" className="w-full h-full object-cover grayscale-[10%]" />
             </div>
@@ -97,23 +97,23 @@ const About = () => {
       {/* 2. STORY / PHILOSOPHY SECTION */}
       <section className="py-16 lg:py-20 px-6 lg:px-12 reveal-section">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="order-2 lg:order-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/80 to-[var(--color-sage-mist)]/60 rounded-[3rem] transform -translate-x-6 translate-y-6 -z-10 blur-xl opacity-80"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-12 items-center">
+            <div className="order-1 lg:order-1 relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/80 to-[var(--color-sage-mist)]/60 rounded-[2rem] md:rounded-[3rem] transform -translate-x-4 md:-translate-x-6 translate-y-4 md:translate-y-6 -z-10 blur-xl opacity-80"></div>
               
-              <div className="aspect-[4/5] rounded-[3rem] overflow-hidden shadow-[0_30px_60px_rgba(47,52,59,0.15)] relative border border-[var(--color-silver-fog)] bg-white p-3">
-                 <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
+              <div className="aspect-[4/5] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_30px_60px_rgba(47,52,59,0.15)] relative border border-[var(--color-silver-fog)] bg-white p-2 md:p-3">
+                 <div className="relative w-full h-full rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden">
                    <div className="absolute inset-0 bg-[var(--color-deep-slate)]/10 z-10 mix-blend-overlay"></div>
                    <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop" alt="Pouring coffee" className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 ease-in-out" />
                  </div>
               </div>
-              <div className="absolute -bottom-16 -right-12 w-2/3 aspect-square rounded-[3rem] overflow-hidden shadow-[0_40px_80px_rgba(47,52,59,0.2)] border border-[var(--color-silver-fog)] bg-white p-2 hidden md:block z-20">
-                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
+              <div className="absolute -bottom-12 -right-6 w-[45%] aspect-square rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_40px_80px_rgba(47,52,59,0.2)] border border-[var(--color-silver-fog)] bg-white p-1.5 hidden md:block z-20">
+                <div className="relative w-full h-full rounded-[1.5rem] md:rounded-[2rem] overflow-hidden">
                   <img src="https://images.unsplash.com/photo-1610889556528-9a770e32642f?q=80&w=800&auto=format&fit=crop" alt="Coffee beans" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2 lg:pl-12">
+            <div className="order-2 lg:order-2 lg:pl-12">
               <span className="inline-flex items-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-4">
                  <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> Our Philosophy
               </span>
@@ -140,7 +140,7 @@ const About = () => {
       {/* 3. CULTURE / VALUES */}
       <section className="py-12 lg:py-16 relative z-20 mx-4 lg:mx-8 mb-10 px-6 lg:px-12 reveal-section">
         {/* Glassmorphism Background Panel */}
-        <div className="absolute inset-0 bg-[var(--color-silver-fog)]/30 backdrop-blur-2xl rounded-[3rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
+        <div className="absolute inset-0 bg-[var(--color-silver-fog)]/30 backdrop-blur-2xl rounded-[2rem] md:rounded-[3rem] border border-[var(--color-silver-fog)]/50 shadow-[0_20px_40px_rgba(56,68,80,0.05)] -z-10"></div>
         
         <div className="max-w-7xl mx-auto values-container relative z-10">
           <div className="text-center mb-6">
@@ -156,7 +156,7 @@ const About = () => {
               { title: 'Minimalist Craft', desc: 'No clutter, no distractions. Just the pure, unadulterated taste of perfectly extracted coffee.' },
               { title: 'Community First', desc: 'Our space is designed to foster connection, creativity, and moments of quiet reflection.' }
             ].map((value, idx) => (
-              <div key={idx} className="value-card bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl border border-[var(--color-silver-fog)]/60 p-6 lg:p-8 rounded-[2.5rem] shadow-[0_15px_30px_rgba(56,68,80,0.08)] hover:shadow-[0_25px_50px_rgba(56,68,80,0.15)] transition-all duration-500 hover:-translate-y-2 group">
+              <div key={idx} className="value-card bg-[var(--color-soft-ivory)]/80 backdrop-blur-xl border border-[var(--color-silver-fog)]/60 p-6 lg:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-[0_15px_30px_rgba(56,68,80,0.08)] hover:shadow-[0_25px_50px_rgba(56,68,80,0.15)] transition-all duration-500 hover:-translate-y-2 group">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] flex items-center justify-center mb-6 text-white font-heading font-medium text-xl shadow-[0_10px_20px_rgba(95,124,123,0.3)] group-hover:scale-110 transition-transform duration-500">
                   0{idx + 1}
                 </div>
@@ -191,7 +191,7 @@ const About = () => {
               'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop',
               'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1600&auto=format&fit=crop'
             ].map((img, idx) => (
-              <div key={idx} className={`rounded-[2.5rem] overflow-hidden gallery-item relative group shadow-sm border border-[var(--color-silver-fog)]/50 ${idx === 0 || idx === 5 ? 'md:col-span-2 aspect-[16/9]' : 'aspect-square md:aspect-[4/5]'}`}>
+              <div key={idx} className={`rounded-[1.75rem] md:rounded-[2.5rem] overflow-hidden gallery-item relative group shadow-sm border border-[var(--color-silver-fog)]/50 ${idx === 0 || idx === 5 ? 'md:col-span-2 aspect-[16/9]' : 'aspect-square md:aspect-[4/5]'}`}>
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-overlay"></div>
                 <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out" />
               </div>

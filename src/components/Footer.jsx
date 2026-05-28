@@ -37,7 +37,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-[#1A1F26] text-[#D8E4EE] pt-10 pb-5 border-t border-white/5 overflow-hidden font-body">
+    <footer className="relative bg-[#1A1F26] text-[#D8E4EE] pt-16 md:pt-20 pb-6 md:pb-8 border-t border-white/5 overflow-hidden font-body">
       
       {/* 1. LAYERED BACKGROUNDS, AMBIENT GLOWS & RADIAL VIGNETTE */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -66,16 +66,16 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative bg-white/5 border border-white/5 backdrop-blur-2xl rounded-3xl p-5 md:p-6 mb-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col md:flex-row justify-between items-center gap-6"
+          className="relative bg-white/5 border border-white/5 backdrop-blur-2xl rounded-[2rem] p-5 md:p-8 mb-12 lg:mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col lg:flex-row justify-between items-center gap-6"
         >
           {/* Subtle line glow on the glass card */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#E2D4C5]/20 to-transparent"></div>
           
-          <div className="max-w-md text-center md:text-left z-10">
+          <div className="max-w-md text-center lg:text-left z-10">
             <h3 className="text-lg md:text-xl font-heading font-medium text-white mb-1 tracking-wide">Join the Bayleaf Society</h3>
             <p className="text-xs font-light text-[#D8E4EE]/70">Subscribe for early access to curated roasts, recipes, and private tasting events.</p>
           </div>
-          <form className="w-full md:w-auto flex flex-col sm:flex-row gap-3 justify-center z-10">
+          <form className="w-full lg:w-auto flex flex-col sm:flex-row gap-3 justify-center z-10">
             <input 
               type="email" 
               placeholder="Enter your email address" 
@@ -98,7 +98,7 @@ const Footer = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8 lg:gap-12 mb-10 md:mb-16"
         >
           {/* Column 1: Branding */}
           <motion.div variants={itemVariants} className="flex flex-col gap-3 relative">

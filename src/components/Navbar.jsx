@@ -35,15 +35,14 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-700 ease-in-out ${
-        scrolled 
-          ? 'bg-[var(--color-soft-ivory)]/70 py-3 shadow-[0_10px_30px_rgba(56,68,80,0.05)] backdrop-blur-2xl border-b border-[var(--color-silver-fog)]/40' 
+      className={`fixed w-full z-50 transition-all duration-700 ease-in-out ${scrolled
+          ? 'bg-[var(--color-soft-ivory)]/70 py-3 shadow-[0_10px_30px_rgba(56,68,80,0.05)] backdrop-blur-2xl border-b border-[var(--color-silver-fog)]/40'
           : 'bg-transparent py-5'
-      }`}
+        }`}
     >
       <div className="container mx-auto px-6 lg:px-12 custom-mobile-container">
         <div className="flex justify-between items-center custom-mobile-inner">
-          
+
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold font-heading text-[var(--color-rich-graphite)] tracking-widest uppercase flex items-center gap-1.5 group custom-mobile-logo">
             BAYLEAF<span className="w-1.5 h-1.5 rounded-full bg-[var(--color-muted-teal)] group-hover:scale-150 transition-transform duration-500 shadow-[0_0_10px_rgba(95,124,123,0.5)]"></span>
@@ -57,8 +56,7 @@ const Navbar = () => {
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      `relative text-[11px] font-bold uppercase tracking-[0.2em] py-2 transition-colors duration-500 ${
-                        isActive ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-rich-graphite)]'
+                      `relative text-[11px] font-bold uppercase tracking-[0.2em] py-2 transition-colors duration-500 ${isActive ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-rich-graphite)]'
                       }`
                     }
                   >
@@ -66,7 +64,7 @@ const Navbar = () => {
                       <>
                         {link.name}
                         {isActive && (
-                          <motion.div 
+                          <motion.div
                             layoutId="nav-underline"
                             className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-[var(--color-muted-teal)]"
                             initial={false}
@@ -79,7 +77,7 @@ const Navbar = () => {
                 </li>
               ))}
             </ul>
-            
+
             {/* Cart Icon / Cart Button */}
             <Link to="/cart" className="relative group flex items-center gap-3 px-5 py-2.5 rounded-full border border-[var(--color-silver-fog)]/50 hover:bg-[var(--color-silver-fog)]/30 transition-all duration-300">
               <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-deep-slate)] group-hover:text-[var(--color-muted-teal)] transition-colors">Cart</span>
@@ -114,33 +112,63 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden absolute top-full left-0 w-full bg-[var(--color-soft-ivory)]/95 backdrop-blur-3xl border-b border-[var(--color-silver-fog)] shadow-[0_20px_40px_rgba(56,68,80,0.1)] overflow-hidden"
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="lg:hidden fixed inset-0 z-[999] bg-[#F8F5F2] backdrop-blur-sm flex flex-col justify-between p-6 text-[#2D2D2D]"
           >
-            <ul className="px-8 py-8 space-y-4">
-              {navLinks.map((link) => (
-                <li key={link.name}>
+            {/* Header */}
+            <div className="flex justify-between items-center w-full pb-4 border-b border-[#2D2D2D]/10">
+              <span className="text-[10px] tracking-[0.25em] uppercase font-bold text-[#2D2D2D]/55">Navigation</span>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-[#2D2D2D] focus:outline-none p-1 hover:scale-110 transition-transform"
+                aria-label="Close menu"
+              >
+                <FiX size={26} />
+              </button>
+            </div>
+
+            {/* Navigation Links */}
+            <ul className="flex flex-col space-y-4 my-auto w-full pl-6 py-4">
+              {navLinks.map((link, idx) => (
+                <motion.li
+                  key={link.name}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + idx * 0.03, duration: 0.3 }}
+                >
                   <NavLink
                     to={link.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) =>
-                      `block text-xs uppercase font-bold tracking-[0.2em] py-3 border-b border-[var(--color-silver-fog)]/30 transition-colors duration-300 ${
-                        isActive ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]'
+                      `block text-sm uppercase font-heading font-medium tracking-[0.15em] py-2 border-b border-transparent transition-all duration-300 ${isActive
+                        ? 'text-[var(--color-muted-teal)] border-l-2 border-[var(--color-muted-teal)] pl-4'
+                        : 'text-[#2D2D2D]/80 hover:text-[var(--color-muted-teal)] pl-0'
                       }`
                     }
                   >
                     {link.name}
                   </NavLink>
-                </li>
+                </motion.li>
               ))}
             </ul>
+
+            {/* Drawer Footer details */}
+            <div className="w-full pt-6 border-t border-[#2D2D2D]/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-light text-[#2D2D2D]/60">
+              <div>
+                <h4 className="font-heading font-medium text-[#2D2D2D] text-sm mb-1">TasteHub Cafe</h4>
+                <p>124 Soho Square, London</p>
+              </div>
+              <div className="flex gap-4">
+                <span className="text-[9px] tracking-widest uppercase font-bold text-[var(--color-muted-teal)]">Est. 2026</span>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

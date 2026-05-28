@@ -71,38 +71,38 @@ const ProductSingle = () => {
           
           {/* IMAGE HALF */}
           <div className="lg:w-1/2">
-            <div className="product-img aspect-[4/5] rounded-[3.5rem] overflow-hidden shadow-[0_30px_60px_rgba(56,68,80,0.1)] relative border border-[var(--color-silver-fog)]/60 bg-white p-3">
-              <div className="relative w-full h-full rounded-[3rem] overflow-hidden bg-[var(--color-soft-ivory)]">
+            <div className="product-img aspect-[4/5] rounded-[2rem] md:rounded-[3.5rem] overflow-hidden shadow-[0_30px_60px_rgba(56,68,80,0.1)] relative border border-[var(--color-silver-fog)]/60 bg-white p-2 md:p-3">
+              <div className="relative w-full h-full rounded-[1.75rem] md:rounded-[3rem] overflow-hidden bg-[var(--color-soft-ivory)]">
                  <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/30 to-[var(--color-sage-mist)]/30 mix-blend-overlay z-10"></div>
                  <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
-
+ 
           {/* DETAILS HALF */}
           <div className="lg:w-1/2 flex flex-col justify-center">
             <div className="mb-6 border-b border-[var(--color-silver-fog)]/60 pb-6">
               <span className="product-info inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--color-muted-teal)] mb-3 bg-[var(--color-silver-fog)]/30 px-4 py-2 rounded-full border border-[var(--color-muted-teal)]/20">
                 {product.type}
               </span>
-              <h1 className="product-info text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 leading-[1.1]">{product.name}</h1>
-              <p className="product-info text-3xl font-heading font-medium text-[var(--color-muted-teal)]">{product.price}</p>
+              <h1 className="product-info text-4xl md:text-5xl lg:text-7xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4 leading-[1.1]">{product.name}</h1>
+              <p className="product-info text-2xl md:text-3xl font-heading font-medium text-[var(--color-muted-teal)]">{product.price}</p>
             </div>
             
-            <p className="product-info text-xl font-light text-[var(--color-gray-blue)] leading-relaxed mb-6">
+            <p className="product-info text-base md:text-xl font-light text-[var(--color-gray-blue)] leading-relaxed mb-6">
               {product.desc}
             </p>
             
-            <div className="product-info grid grid-cols-2 gap-y-8 gap-x-12 mb-8">
+            <div className="product-info grid grid-cols-2 gap-y-6 lg:gap-y-8 gap-x-6 lg:gap-x-12 mb-8">
               {product.details.map((detail, idx) => (
                 <div key={idx}>
                   <span className="block text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/50 mb-2">{detail.label}</span>
-                  <span className="block font-medium text-lg text-[var(--color-rich-graphite)]">{detail.value}</span>
+                  <span className="block font-medium text-base md:text-lg text-[var(--color-rich-graphite)]">{detail.value}</span>
                 </div>
               ))}
             </div>
-
-            <div className="product-info flex flex-col sm:flex-row items-center gap-8 mt-auto">
+ 
+            <div className="product-info flex flex-col sm:flex-row items-center gap-4 sm:gap-8 mt-auto w-full">
               {/* Quantity Selector */}
               <div className="flex items-center justify-between bg-white/50 backdrop-blur-md border border-[var(--color-silver-fog)]/80 rounded-full h-16 w-full sm:w-48 px-6 shadow-sm">
                 <button 

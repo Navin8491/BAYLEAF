@@ -93,8 +93,8 @@ const Services = () => {
         {servicesList.map((service, idx) => (
           <div key={idx} className="service-block group max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
-            <div className={`aspect-[4/5] rounded-[3.5rem] overflow-hidden relative shadow-[0_30px_60px_rgba(56,68,80,0.1)] border border-[var(--color-silver-fog)]/60 bg-white p-3 ${service.reverse ? 'lg:order-2' : 'lg:order-1'}`}>
-              <div className="relative w-full h-full rounded-[3rem] overflow-hidden">
+            <div className={`aspect-[4/5] rounded-[2rem] md:rounded-[3.5rem] overflow-hidden relative shadow-[0_30px_60px_rgba(56,68,80,0.1)] border border-[var(--color-silver-fog)]/60 bg-white p-2 md:p-3 ${service.reverse ? 'lg:order-2' : 'lg:order-1'}`}>
+              <div className="relative w-full h-full rounded-[1.75rem] md:rounded-[3rem] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/20 to-transparent z-10 mix-blend-overlay"></div>
                 <img 
                   src={service.img} 
@@ -104,7 +104,7 @@ const Services = () => {
               </div>
             </div>
             
-            <div className={`service-content ${service.reverse ? 'lg:order-1 lg:pr-12' : 'lg:order-2 lg:pl-12'}`}>
+            <div className={`service-content text-center lg:text-left flex flex-col items-center lg:items-start ${service.reverse ? 'lg:order-1 lg:pr-12' : 'lg:order-2 lg:pl-12'}`}>
               <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-muted-teal)] mb-3">
                 <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> {service.subtitle}
               </span>
@@ -112,7 +112,7 @@ const Services = () => {
               <p className="text-[var(--color-gray-blue)] text-lg font-light leading-relaxed mb-5">
                 {service.desc}
               </p>
-              <Link to="/contact" className="inline-flex flex-col gap-2 group">
+              <Link to="/contact" className="inline-flex flex-col gap-2 group items-center lg:items-start">
                 <span className="text-[var(--color-deep-slate)] text-[11px] font-bold uppercase tracking-[0.2em] group-hover:text-[var(--color-muted-teal)] transition-colors duration-300">INQUIRE NOW</span>
                 <span className="block w-8 h-[1px] bg-[var(--color-deep-slate)] group-hover:bg-[var(--color-muted-teal)] group-hover:w-16 transition-all duration-300"></span>
               </Link>

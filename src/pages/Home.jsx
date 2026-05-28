@@ -47,18 +47,18 @@ const Home = () => {
 
       {/* GLOBAL AMBIENT BACKGROUND LAYER (GPU-accelerated, compositor-friendly) */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute top-[5%] left-[5%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[var(--color-powder-blue)]/20 rounded-full blur-[50px] transform-gpu will-change-transform"
           animate={{ x: [0, 20, -10, 0], y: [0, 10, 20, 0] }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute top-[55%] right-[5%] w-[35vw] h-[35vw] max-w-[450px] max-h-[450px] bg-[var(--color-mist-sage)]/15 rounded-full blur-[40px] transform-gpu will-change-transform"
           animate={{ x: [0, -20, 10, 0], y: [0, -10, 15, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
       </div>
-      
+
       {/* 1. CINEMATIC HERO SECTION */}
       <section className="hero-section relative min-h-[480px] md:min-h-[580px] h-[75vh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -92,7 +92,7 @@ const Home = () => {
 
       {/* 2. STORY / PHILOSOPHY (Editorial Layout with native Intersection Observer) */}
       <section className="story-section py-10 lg:py-12 px-6 lg:px-12 relative z-20">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 35 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
@@ -159,9 +159,9 @@ const Home = () => {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          
+
           {/* Editorial Header Block */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -176,8 +176,8 @@ const Home = () => {
                 Taste the <span className="italic font-light text-[#394652]">Quality.</span>
               </h2>
             </div>
-            <Link 
-              to="/menu" 
+            <Link
+              to="/menu"
               className="relative inline-flex items-center justify-center px-6 py-2.5 rounded-full overflow-hidden bg-white/40 border border-[#394652]/10 backdrop-blur-md text-[#394652] text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:text-white shadow-sm hover:shadow-[0_4px_12px_rgba(95,124,123,0.25)] hover:-translate-y-0.5 group"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#5F7C7B] to-[#4F6867] opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
@@ -186,7 +186,7 @@ const Home = () => {
           </motion.div>
 
           {/* Grid Cards Showcase */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -213,8 +213,8 @@ const Home = () => {
                 }}
                 className="h-full flex"
               >
-                <Link 
-                  to={`/menu?category=${item.category}`} 
+                <Link
+                  to={`/menu?category=${item.category}`}
                   className="group w-full bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2.25rem] p-3 shadow-[0_15px_35px_rgba(57,70,82,0.05)] hover:shadow-[0_25px_50px_rgba(95,124,123,0.15)] hover:border-[#5F7C7B]/30 hover:bg-white/60 transition-all duration-500 hover:-translate-y-1.5 flex flex-col"
                 >
                   {/* Image Showcase area */}

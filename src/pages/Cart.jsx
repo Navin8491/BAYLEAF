@@ -75,57 +75,55 @@ const Cart = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, height: 0, borderBottomWidth: 0, marginBottom: 0 }}
-                    className="flex flex-col md:flex-row md:items-center py-4 border-b border-[var(--color-silver-fog)]/40 group gap-4 md:gap-2 overflow-hidden"
+                    className="flex flex-col md:flex-row md:items-center py-4 md:py-6 border-b border-[var(--color-silver-fog)]/40 group gap-4 md:gap-2 overflow-hidden bg-white/40 md:bg-transparent p-4 md:p-0 rounded-[2rem] md:rounded-none border border-[var(--color-silver-fog)]/30 md:border-transparent md:border-b-[var(--color-silver-fog)]/40 shadow-sm md:shadow-none mb-4 md:mb-0"
                   >
                     {/* Image & Title */}
                     <div className="md:w-1/2 flex items-center gap-4">
-                      <Link to={`/product/${item.id}`} className="w-28 h-28 shrink-0 rounded-3xl overflow-hidden bg-white shadow-sm border border-[var(--color-silver-fog)]/50 relative p-1.5">
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-[var(--color-soft-ivory)]">
+                      <Link to={`/product/${item.id}`} className="w-20 h-20 md:w-28 md:h-28 shrink-0 rounded-2xl md:rounded-3xl overflow-hidden bg-white shadow-sm border border-[var(--color-silver-fog)]/50 relative p-1 md:p-1.5">
+                        <div className="relative w-full h-full rounded-xl md:rounded-2xl overflow-hidden bg-[var(--color-soft-ivory)]">
                            <div className="absolute inset-0 bg-[var(--color-deep-slate)]/5 z-10 mix-blend-overlay"></div>
                            <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                         </div>
                       </Link>
                       <div>
-                        <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-1">
+                        <h3 className="text-xl md:text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-1">
                           <Link to={`/product/${item.id}`} className="hover:text-[var(--color-muted-teal)] transition-colors duration-300">{item.name}</Link>
                         </h3>
                         <p className="text-[var(--color-muted-teal)] font-medium text-sm">{item.price}</p>
                       </div>
                     </div>
                     
-                    {/* Quantity */}
-                    <div className="md:w-1/4 flex justify-start md:justify-center items-center gap-6">
-                      <div className="flex items-center justify-between border border-[var(--color-silver-fog)]/80 rounded-full h-12 w-36 px-2 bg-white/50 backdrop-blur-sm">
-                        <button onClick={() => updateQuantity(item.id, -1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2">
-                          <FiMinus size={16} />
-                        </button>
-                        <span className="font-heading font-medium text-lg text-[var(--color-rich-graphite)]">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, 1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2">
-                          <FiPlus size={16} />
-                        </button>
+                    {/* Controls & Totals Area */}
+                    <div className="flex flex-row items-center justify-between md:contents">
+                      {/* Quantity */}
+                      <div className="md:w-1/4 flex justify-start md:justify-center items-center gap-6">
+                        <div className="flex items-center justify-between border border-[var(--color-silver-fog)]/80 rounded-full h-11 md:h-12 w-28 md:w-36 px-2 bg-white/50 backdrop-blur-sm">
+                          <button onClick={() => updateQuantity(item.id, -1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2" aria-label="Decrease quantity">
+                            <FiMinus size={15} />
+                          </button>
+                          <span className="font-heading font-medium text-sm md:text-lg text-[var(--color-rich-graphite)]">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, 1)} className="text-[var(--color-deep-slate)] hover:text-[var(--color-muted-teal)] transition-colors p-2" aria-label="Increase quantity">
+                            <FiPlus size={15} />
+                          </button>
+                        </div>
                       </div>
                       
-                      <button 
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-[var(--color-deep-slate)]/40 hover:text-[var(--color-muted-teal)] transition-colors md:hidden"
-                      >
-                        <FiTrash2 size={20} />
-                      </button>
-                    </div>
-                    
-                    {/* Total & Remove */}
-                    <div className="md:w-1/4 flex justify-between md:justify-end items-center gap-8">
-                      <span className="md:hidden text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60">Total</span>
-                      <p className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)]">
-                        ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
-                      </p>
-                      <button 
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-[var(--color-deep-slate)]/30 hover:text-[var(--color-muted-teal)] transition-colors hidden md:block"
-                        title="Remove item"
-                      >
-                        <FiTrash2 size={20} />
-                      </button>
+                      {/* Total & Remove */}
+                      <div className="md:w-1/4 flex items-center justify-end gap-6 md:gap-8">
+                        <div className="text-right md:text-left">
+                          <span className="md:hidden text-[9px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/40 block mb-0.5">Total</span>
+                          <p className="text-xl md:text-2xl font-heading font-medium text-[var(--color-rich-graphite)]">
+                            ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                        <button 
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-[var(--color-deep-slate)]/30 hover:text-[var(--color-muted-teal)] transition-colors p-2"
+                          title="Remove item"
+                        >
+                          <FiTrash2 size={20} />
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
