@@ -59,6 +59,19 @@ const allBlogPosts = [
   }
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: (idx) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+      delay: idx < 4 ? idx * 0.12 + 0.2 : 0.05
+    }
+  })
+};
+
 const Blog = () => {
   const containerRef = useRef(null);
   const [visiblePosts, setVisiblePosts] = useState(4);
@@ -79,18 +92,10 @@ const Blog = () => {
       gsap.from('.journal-hero-text', {
         y: 40, opacity: 0, duration: 1.2, stagger: 0.1, ease: 'power3.out', delay: 0.2
       });
-
-      gsap.from('.journal-post', {
-        y: 60, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.journal-grid',
-          start: 'top 85%',
-        }
-      });
     }, containerRef);
 
     return () => ctx.revert();
-  }, [visiblePosts]);
+  }, []); // Run only once on mount to prevent flashing on state changes
 
   return (
     <div ref={containerRef} className="bg-gradient-to-b from-[var(--color-soft-ivory)] via-white to-[var(--color-soft-ivory)] min-h-screen text-[var(--color-deep-slate)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
@@ -130,8 +135,12 @@ const Blog = () => {
       <section className="py-16 px-6 lg:px-12 journal-grid relative z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
           {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
-            <article 
+            <motion.article 
               key={post.id} 
+              custom={idx}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
               className="journal-post group flex flex-col h-full bg-white/70 backdrop-blur-md border border-[var(--color-silver-fog)]/40 rounded-[3rem] p-5 shadow-[0_15px_30px_rgba(57,70,82,0.04),0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.12),0_10px_20px_rgba(181,156,122,0.15)] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:border-[var(--color-sand-accent)]/30"
             >
               <div className="w-full aspect-[4/3] rounded-[2.2rem] overflow-hidden mb-5 flex-shrink-0 relative shadow-[0_10px_25px_rgba(57,70,82,0.05)]">
@@ -172,7 +181,7 @@ const Blog = () => {
                   </button>
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </section>
