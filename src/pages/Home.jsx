@@ -24,19 +24,6 @@ const Home = () => {
         y: 20, opacity: 0, duration: 1.5, ease: 'power3.out', delay: 1
       });
 
-      // Section Reveals - optimize with once: true to destroy trigger after execution
-      const revealSections = gsap.utils.toArray('.reveal-section');
-      revealSections.forEach((section) => {
-        gsap.from(section, {
-          y: 45, opacity: 0, duration: 1.0, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 88%',
-            once: true
-          }
-        });
-      });
-
       // Image Parallax Effect in Story section - Only execute on desktop viewports
       if (window.innerWidth > 768) {
         gsap.to('.story-img-parallax', {
@@ -45,7 +32,7 @@ const Home = () => {
             trigger: '.story-section',
             start: 'top bottom',
             end: 'bottom top',
-            scrub: true
+            scrub: 1 // Optimize with scrub: 1 for smooth interpolation
           }
         });
       }
@@ -58,25 +45,25 @@ const Home = () => {
   return (
     <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
 
-      {/* GLOBAL AMBIENT BACKGROUND LAYER */}
+      {/* GLOBAL AMBIENT BACKGROUND LAYER (GPU-accelerated, compositor-friendly) */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <motion.div 
-          className="absolute top-[0%] left-[0%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-[var(--color-powder-blue)]/30 rounded-full blur-[70px] fixed-blur-blob"
-          animate={{ x: [0, 30, -15, 0], y: [0, 15, 30, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[5%] left-[5%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[var(--color-powder-blue)]/20 rounded-full blur-[50px] transform-gpu will-change-transform"
+          animate={{ x: [0, 20, -10, 0], y: [0, 10, 20, 0] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
         <motion.div 
-          className="absolute top-[50%] right-[0%] w-[45vw] h-[45vw] max-w-[500px] max-h-[500px] bg-[var(--color-sage-mist)]/25 rounded-full blur-[60px] fixed-blur-blob"
-          animate={{ x: [0, -30, 15, 0], y: [0, -15, 25, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[55%] right-[5%] w-[35vw] h-[35vw] max-w-[450px] max-h-[450px] bg-[var(--color-mist-sage)]/15 rounded-full blur-[40px] transform-gpu will-change-transform"
+          animate={{ x: [0, -20, 10, 0], y: [0, -10, 15, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
       </div>
       
       {/* 1. CINEMATIC HERO SECTION */}
       <section className="hero-section relative min-h-[480px] md:min-h-[580px] h-[75vh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* High-end warm cinematic cafe image */}
-          <div className="hero-bg-zoom absolute inset-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1600&auto=format&fit=crop&fm=webp')] bg-cover bg-center opacity-40 mix-blend-luminosity grayscale-[10%]"></div>
+          {/* High-end warm cinematic cafe image - optimized resolution */}
+          <div className="hero-bg-zoom absolute inset-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=75&w=1400&auto=format&fit=crop&fm=webp')] bg-cover bg-center opacity-40 mix-blend-luminosity grayscale-[10%]"></div>
           <div className="absolute inset-0 z-10 bg-gradient-to-b from-[var(--color-soft-ivory)]/30 via-[var(--color-powder-blue)]/10 to-[var(--color-soft-ivory)]"></div>
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-[var(--color-soft-ivory)] via-transparent to-transparent"></div>
         </div>
@@ -103,19 +90,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 2. STORY / PHILOSOPHY (Editorial Layout) */}
-      <section className="story-section py-10 lg:py-12 px-6 lg:px-12 reveal-section relative z-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+      {/* 2. STORY / PHILOSOPHY (Editorial Layout with native Intersection Observer) */}
+      <section className="story-section py-10 lg:py-12 px-6 lg:px-12 relative z-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 items-center"
+        >
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/80 to-[var(--color-sage-mist)]/60 rounded-[3rem] transform -translate-x-6 translate-y-6 -z-10 blur-md opacity-80"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-powder-blue)]/80 to-[var(--color-mist-sage)]/60 rounded-[3rem] transform -translate-x-6 translate-y-6 -z-10 blur-md opacity-80"></div>
 
             <div className="aspect-[3/4] w-[85%] rounded-[3rem] overflow-hidden shadow-[0_40px_80px_rgba(47,52,59,0.15)] relative border border-[var(--color-silver-fog)] bg-white p-3">
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
                 <div className="absolute inset-0 bg-[var(--color-deep-slate)]/5 z-10 mix-blend-overlay"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=75&w=800&auto=format&fit=crop"
                   alt="Barista brewing"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -123,9 +117,10 @@ const Home = () => {
             <div className="absolute -bottom-8 right-0 w-[55%] aspect-square rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(47,52,59,0.2)] story-img-parallax border border-[var(--color-silver-fog)] bg-white p-2 z-20">
               <div className="relative w-full h-full rounded-[2rem] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=75&w=500&auto=format&fit=crop"
                   alt="Latte Art"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -151,10 +146,10 @@ const Home = () => {
               <span className="block w-8 h-[1px] bg-[var(--color-deep-slate)] group-hover:bg-[var(--color-muted-teal)] group-hover:w-16 transition-all duration-300"></span>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* 3. MENU PEEK (FLOATING CARDS) */}
+      {/* 3. MENU PEEK (FLOATING CARDS with native stagger reveal) */}
       <section className="relative py-10 px-6 lg:px-12 overflow-hidden z-20">
         {/* Layered luxury background gradients & ambient glows */}
         <div className="absolute inset-0 pointer-events-none z-0">
@@ -166,7 +161,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto relative z-10">
           
           {/* Editorial Header Block */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#394652]/10 pb-4 mb-6 gap-4 reveal-section">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#394652]/10 pb-4 mb-6 gap-4"
+          >
             <div>
               <span className="inline-flex items-center gap-1.5 text-[var(--color-muted-teal)] text-[9px] font-bold uppercase tracking-[0.25em] mb-1">
                 <span className="w-6 h-px bg-[var(--color-muted-teal)]/60"></span> Curated Selection
@@ -182,74 +183,103 @@ const Home = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-[#5F7C7B] to-[#4F6867] opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
               <span>VIEW FULL MENU</span>
             </Link>
-          </div>
+          </motion.div>
 
           {/* Grid Cards Showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.12
+                }
+              }
+            }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             {[
-              { title: 'Espresso Bar', category: 'signatureCoffee', img: 'https://images.unsplash.com/photo-1610889556528-9a770e32642f?q=80&w=600&auto=format&fit=crop&fm=webp', subtitle: 'Crafted with premium Single Origin beans.' },
-              { title: 'Artisanal Bakes', category: 'bakery', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop&fm=webp', subtitle: 'Handcrafted daily using organic flour.' },
-              { title: 'Signature Drinks', category: 'specialDrinks', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=80&w=600&auto=format&fit=crop&fm=webp', subtitle: 'Seasonal cold brews and tonic infusions.' }
+              { title: 'Espresso Bar', category: 'signatureCoffee', img: 'https://images.unsplash.com/photo-1610889556528-9a770e32642f?q=75&w=500&auto=format&fit=crop&fm=webp', subtitle: 'Crafted with premium Single Origin beans.' },
+              { title: 'Artisanal Bakes', category: 'bakery', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=75&w=500&auto=format&fit=crop&fm=webp', subtitle: 'Handcrafted daily using organic flour.' },
+              { title: 'Signature Drinks', category: 'specialDrinks', img: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?q=75&w=500&auto=format&fit=crop&fm=webp', subtitle: 'Seasonal cold brews and tonic infusions.' }
             ].map((item, idx) => (
-              <Link 
-                to={`/menu?category=${item.category}`} 
-                key={idx} 
-                className="group reveal-section bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2.25rem] p-3 shadow-[0_15px_35px_rgba(57,70,82,0.05)] hover:shadow-[0_25px_50px_rgba(95,124,123,0.15)] hover:border-[#5F7C7B]/30 hover:bg-white/60 transition-all duration-500 hover:-translate-y-1.5 flex flex-col"
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 35 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+                }}
+                className="h-full flex"
               >
-                {/* Image Showcase area */}
-                <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden shadow-[inset_0_4px_12px_rgba(0,0,0,0.08)] mb-3 bg-[#E2D4C5]/10">
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2E333A]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 z-10"></div>
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out z-0"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white text-[9px] tracking-[0.2em] font-medium uppercase">
-                    {item.category === 'signatureCoffee' ? 'Brew' : item.category === 'bakery' ? 'Baking' : 'Signature'}
+                <Link 
+                  to={`/menu?category=${item.category}`} 
+                  className="group w-full bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2.25rem] p-3 shadow-[0_15px_35px_rgba(57,70,82,0.05)] hover:shadow-[0_25px_50px_rgba(95,124,123,0.15)] hover:border-[#5F7C7B]/30 hover:bg-white/60 transition-all duration-500 hover:-translate-y-1.5 flex flex-col"
+                >
+                  {/* Image Showcase area */}
+                  <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden shadow-[inset_0_4px_12px_rgba(0,0,0,0.08)] mb-3 bg-[#E2D4C5]/10">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#2E333A]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 z-10"></div>
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out z-0"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-4 left-4 z-20 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white text-[9px] tracking-[0.2em] font-medium uppercase">
+                      {item.category === 'signatureCoffee' ? 'Brew' : item.category === 'bakery' ? 'Baking' : 'Signature'}
+                    </div>
                   </div>
-                </div>
 
-                {/* Content description */}
-                <div className="px-2 pb-2 pt-1 flex justify-between items-center z-10 mt-auto">
-                  <div>
-                    <h3 className="text-xl font-heading font-medium text-[#2E333A] group-hover:text-[#5F7C7B] transition-colors duration-300">{item.title}</h3>
-                    <p className="text-[10px] text-[#394652]/70 font-light mt-0.5 tracking-wide">{item.subtitle}</p>
+                  {/* Content description */}
+                  <div className="px-2 pb-2 pt-1 flex justify-between items-center z-10 mt-auto">
+                    <div>
+                      <h3 className="text-xl font-heading font-medium text-[#2E333A] group-hover:text-[#5F7C7B] transition-colors duration-300">{item.title}</h3>
+                      <p className="text-[10px] text-[#394652]/70 font-light mt-0.5 tracking-wide">{item.subtitle}</p>
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-white border border-[#394652]/10 flex items-center justify-center text-[#394652] group-hover:bg-[#5F7C7B] group-hover:text-white group-hover:border-[#5F7C7B]/20 transition-all duration-300 shadow-sm">
+                      <span className="font-bold text-base leading-none">+</span>
+                    </div>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white border border-[#394652]/10 flex items-center justify-center text-[#394652] group-hover:bg-[#5F7C7B] group-hover:text-white group-hover:border-[#5F7C7B]/20 transition-all duration-300 shadow-sm">
-                    <span className="font-bold text-base leading-none">+</span>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* 4. VISUAL GALLERY / ATMOSPHERE (Cinematic Grid) */}
-      <section className="py-10 lg:py-12 px-6 lg:px-12 reveal-section relative z-20">
-        <div className="max-w-7xl mx-auto text-center mb-6">
-          <span className="inline-flex items-center justify-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-3">
-            <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> The Vibe <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span>
-          </span>
-          <h2 className="text-5xl lg:text-6xl font-heading text-[var(--color-rich-graphite)] mb-3">The <span className="italic font-light text-[var(--color-deep-slate)]">Atmosphere.</span></h2>
-          <p className="text-[var(--color-gray-blue)] max-w-2xl mx-auto font-light text-lg">A space designed for connection, creativity, and quiet moments of reflection.</p>
-        </div>
+      {/* 4. VISUAL GALLERY / ATMOSPHERE (Cinematic Grid with native Intersection Observer) */}
+      <section className="py-10 lg:py-12 px-6 lg:px-12 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-7xl mx-auto"
+        >
+          <div className="text-center mb-6">
+            <span className="inline-flex items-center justify-center gap-2 text-[var(--color-muted-teal)] text-[10px] font-bold uppercase tracking-[0.2em] mb-3">
+              <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span> The Vibe <span className="w-8 h-px bg-[var(--color-muted-teal)]/60"></span>
+            </span>
+            <h2 className="text-5xl lg:text-6xl font-heading text-[var(--color-rich-graphite)] mb-3">The <span className="italic font-light text-[var(--color-deep-slate)]">Atmosphere.</span></h2>
+            <p className="text-[var(--color-gray-blue)] max-w-2xl mx-auto font-light text-lg">A space designed for connection, creativity, and quiet moments of reflection.</p>
+          </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-4">
-          <div className="col-span-2 aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=80&w=1200&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-4">
+            <div className="col-span-2 aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=75&w=800&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+            </div>
+            <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
+              <div className="absolute inset-0 bg-[var(--color-deep-slate)]/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=75&w=500&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+            </div>
+            <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
+              <div className="absolute inset-0 bg-[var(--color-warm-sand)]/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
+              <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=75&w=800&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+            </div>
           </div>
-          <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
-            <div className="absolute inset-0 bg-[var(--color-deep-slate)]/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" />
-          </div>
-          <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
-            <div className="absolute inset-0 bg-[var(--color-warm-sand)]/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-            <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1920&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" />
-          </div>
-        </div>
+        </motion.div>
       </section>
 
     </div>
