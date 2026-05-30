@@ -6,12 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
-// Import separated backend modules from unified services index
-import { createOrder, createOrderItems } from '../services';
+// Import separated backend modules from unified backend services index
+import { createOrder, createOrderItems } from '../backend/services';
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
-  const { user, isLoggedIn, showToast, fetchOrders } = useAuth();
+  const { user, isLoggedIn, showToast, fetchOrders, authLoading } = useAuth();
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
@@ -29,10 +29,18 @@ const Checkout = () => {
   const [postalCode, setPostalCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Route protection
+  useEffect(() => {
+    if (!authLoading && !isLoggedIn) {
+      showToast('Please sign in to place an order.');
+      navigate('/login');
+    }
+  }, [isLoggedIn, authLoading, navigate]);
+
   // Prefill details if user logged in
   useEffect(() => {
     if (user) {
-      const names = user.name.split(' ');
+      const names = (user.name || '').split(' ');
       setFirstName(names[0] || '');
       setLastName(names.slice(1).join(' ') || '');
       setEmail(user.email || '');
@@ -51,9 +59,14 @@ const Checkout = () => {
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
+    if (!isLoggedIn || !user?.id) {
       showToast('Please sign in to place an order.');
       navigate('/login');
+      return;
+    }
+
+    if (!cartItems || cartItems.length === 0) {
+      showToast('Your shopping cart is empty.');
       return;
     }
 
@@ -68,7 +81,8 @@ const Checkout = () => {
       // 1. Insert order using the separated backend file
       const orderResult = await createOrder({
         userId: user.id,
-        totalAmount: total
+        totalAmount: total,
+        shippingAddress: `${address}, ${city}, ${postalCode}`
       });
 
       if (!orderResult.success) {
@@ -111,6 +125,17 @@ const Checkout = () => {
       showToast('An unexpected order error occurred.');
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body flex items-center justify-center relative overflow-hidden">
+        <div className="text-center">
+          <div className="w-10 h-10 rounded-full border-4 border-[var(--color-muted-teal)]/30 border-t-[var(--color-muted-teal)] animate-spin mx-auto mb-4" />
+          <p className="text-xs font-bold uppercase tracking-wider">Loading Checkout...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -287,7 +312,15 @@ const Checkout = () => {
                     <div className="flex items-center gap-6">
                       <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white shrink-0 border border-[var(--color-silver-fog)]/50 p-1">
                         <div className="relative w-full h-full rounded-xl overflow-hidden bg-[var(--color-soft-ivory)]">
-                           <img src={item.img} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
+                           <img 
+                             src={item.img || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop'} 
+                             alt={item.name} 
+                             className="w-full h-full object-cover mix-blend-multiply" 
+                             onError={(e) => {
+                               e.target.onerror = null;
+                               e.target.src = 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop';
+                             }}
+                           />
                         </div>
                       </div>
                       <div>

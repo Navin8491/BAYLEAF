@@ -124,6 +124,10 @@ const Navbar = () => {
                       src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
                       alt={user?.name || 'User'}
                       className="w-7 h-7 rounded-full object-cover border border-white"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop';
+                      }}
                     />
                     <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-deep-slate)]">
                       {user?.name ? 'Profile' : 'Loading...'}
@@ -213,6 +217,10 @@ const Navbar = () => {
                   src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
                   alt={user?.name || 'User'}
                   className="w-6 h-6 rounded-full object-cover border border-white"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop';
+                  }}
                 />
               </Link>
             )}

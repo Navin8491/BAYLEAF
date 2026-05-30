@@ -1,28 +1,5 @@
-import { supabase } from '../lib/supabase';
-import { ServiceResponse } from './auth';
-
-// ----------------------------------------------------
-// TypeScript Interfaces & Types
-// ----------------------------------------------------
-
-export interface UserProfileUpdateParams {
-  name: string;
-  phone?: string;
-  avatar?: string;
-}
-
-export interface UserProfileResponse {
-  id: string;
-  full_name: string;
-  email: string;
-  phone?: string;
-  avatar_url?: string;
-  created_at: string;
-}
-
-// ----------------------------------------------------
-// Backend Profile Services
-// ----------------------------------------------------
+import { supabase } from '../database/supabase';
+import { ServiceResponse, UserProfileUpdateParams, UserProfileResponse } from '../types';
 
 /**
  * Fetches the user profile from public.users table.
@@ -43,7 +20,7 @@ export const getUserProfile = async (userId: string): Promise<ServiceResponse<Us
 
     return { success: true, data: data as UserProfileResponse };
   } catch (err: any) {
-    console.error('TypeScript Fetch Profile Error:', err);
+    console.error('Fetch Profile Error:', err);
     return { success: false, message: err.message || 'Could not fetch user profile details.' };
   }
 };
@@ -72,7 +49,7 @@ export const updateUserProfile = async (userId: string, { name, phone, avatar }:
     if (error) throw error;
     return { success: true };
   } catch (err: any) {
-    console.error('TypeScript Update Profile Error:', err);
+    console.error('Update Profile Error:', err);
     return { success: false, message: err.message || 'Profile changes saving failed.' };
   }
 };
@@ -108,7 +85,7 @@ export const uploadUserAvatar = async (userId: string, file: File): Promise<Serv
 
     return { success: true, data: publicUrl };
   } catch (err: any) {
-    console.error('TypeScript Storage Upload Error:', err);
+    console.error('Storage Upload Error:', err);
     return { success: false, message: err.message || 'Avatar file upload failed.' };
   }
 };

@@ -1,20 +1,5 @@
-import { supabase } from '../lib/supabase';
-import { ServiceResponse } from './auth';
-
-// ----------------------------------------------------
-// TypeScript Interfaces & Types
-// ----------------------------------------------------
-
-export interface ContactMessageParams {
-  name: string;
-  email: string;
-  phone?: string;
-  message: string;
-}
-
-// ----------------------------------------------------
-// Backend Contact Services
-// ----------------------------------------------------
+import { supabase } from '../database/supabase';
+import { ServiceResponse, ContactMessageParams } from '../types';
 
 /**
  * Inserts a contact form inquiry into public.contact_messages.
@@ -48,7 +33,7 @@ export const submitContactMessage = async ({
     if (error) throw error;
     return { success: true, data };
   } catch (err: any) {
-    console.error('TypeScript Submit Contact Message Error:', err);
+    console.error('Submit Contact Message Error:', err);
     return { success: false, message: err.message || 'Could not send your message. Please try again later.' };
   }
 };

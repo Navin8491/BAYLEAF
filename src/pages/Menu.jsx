@@ -176,6 +176,10 @@ const Menu = () => {
                     src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1600&auto=format&fit=crop" 
                     alt="Signature Cold Brew" 
                     className="sig-brew-img w-full h-[130%] object-cover object-center"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=800&auto=format&fit=crop';
+                    }}
                   />
                   
                   {/* Floating Glass Detail Box */}
@@ -285,6 +289,10 @@ const Menu = () => {
                         src={item.img} 
                         alt={item.name} 
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" 
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=800&auto=format&fit=crop';
+                        }}
                       />
                       {item.badge && (
                         <div className="absolute top-4 right-4 z-20 px-4 py-2 bg-[var(--color-rich-graphite)]/90 backdrop-blur-md rounded-full shadow-[0_5px_15px_rgba(47,52,59,0.2)] border border-[var(--color-soft-slate)]/30">

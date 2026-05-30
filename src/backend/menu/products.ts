@@ -1,25 +1,5 @@
-import { supabase } from '../lib/supabase';
-import { ServiceResponse } from './auth';
-
-// ----------------------------------------------------
-// TypeScript Interfaces & Types
-// ----------------------------------------------------
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  image_url: string;
-  badge?: string;
-  available?: boolean;
-  created_at?: string;
-}
-
-// ----------------------------------------------------
-// Backend Product Services
-// ----------------------------------------------------
+import { supabase } from '../database/supabase';
+import { ServiceResponse, Product } from '../types';
 
 /**
  * Fetches all available products/menu items from public.menu_items.
@@ -35,7 +15,7 @@ export const getProducts = async (): Promise<ServiceResponse<Product[]>> => {
     if (error) throw error;
     return { success: true, data: data as Product[] };
   } catch (err: any) {
-    console.error('TypeScript Fetch Products Error:', err);
+    console.error('Fetch Products Error:', err);
     return { success: false, message: err.message || 'Could not load menu items.' };
   }
 };
@@ -58,7 +38,7 @@ export const getProductsByCategory = async (category: string): Promise<ServiceRe
     if (error) throw error;
     return { success: true, data: data as Product[] };
   } catch (err: any) {
-    console.error(`TypeScript Fetch Products By Category (${category}) Error:`, err);
+    console.error(`Fetch Products By Category (${category}) Error:`, err);
     return { success: false, message: err.message || `Could not load menu items for category: ${category}` };
   }
 };

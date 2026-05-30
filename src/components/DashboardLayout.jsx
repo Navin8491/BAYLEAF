@@ -90,6 +90,10 @@ const DashboardLayout = () => {
                   src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
                   alt={user?.name || 'User'}
                   className="relative w-20 h-20 rounded-full object-cover border-2 border-white/80 shadow-md"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop';
+                  }}
                 />
                 <span className="absolute -bottom-1 -right-1 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white p-1 rounded-full text-xs shadow-md border border-white/90">
                   <FiAward size={12} />

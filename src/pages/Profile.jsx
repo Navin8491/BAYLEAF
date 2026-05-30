@@ -50,6 +50,10 @@ const Profile = () => {
             src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
             alt={user?.name || 'User'}
             className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop';
+            }}
           />
           <div>
             <div className="flex items-center gap-2">

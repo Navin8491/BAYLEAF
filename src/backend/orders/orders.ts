@@ -1,47 +1,10 @@
-import { supabase } from '../lib/supabase';
-import { ServiceResponse } from './auth';
-
-// ----------------------------------------------------
-// TypeScript Interfaces & Types
-// ----------------------------------------------------
-
-export interface OrderCreationParams {
-  userId: string;
-  totalAmount: number;
-}
-
-export interface OrderItemParams {
-  order_id: string;
-  product_name: string;
-  quantity: number;
-  price: number;
-}
-
-export interface OrderItemResponse {
-  id: string;
-  order_id: string;
-  product_name: string;
-  quantity: number;
-  price: number;
-}
-
-export interface OrderResponse {
-  id: string;
-  user_id: string;
-  total_amount: number;
-  status: 'Pending' | 'Preparing' | 'Delivered' | 'Cancelled';
-  created_at: string;
-  order_items: OrderItemResponse[];
-}
-
-// ----------------------------------------------------
-// Backend Order Services
-// ----------------------------------------------------
+import { supabase } from '../database/supabase';
+import { ServiceResponse, OrderCreationParams, OrderResponse, OrderItemParams, OrderItemResponse } from '../types';
 
 /**
  * Inserts a new order into public.orders.
  */
-export const createOrder = async ({ userId, totalAmount }: OrderCreationParams): Promise<ServiceResponse<OrderResponse>> => {
+export const createOrder = async ({ userId, totalAmount, shippingAddress }: OrderCreationParams): Promise<ServiceResponse<OrderResponse>> => {
   if (!userId) {
     return { success: false, message: 'User authentication ID is required.' };
   }
@@ -55,7 +18,10 @@ export const createOrder = async ({ userId, totalAmount }: OrderCreationParams):
       .insert({
         user_id: userId,
         total_amount: totalAmount,
-        status: 'Pending'
+        status: 'Pending',
+        payment_status: 'Pending',
+        delivery_status: 'Pending',
+        shipping_address: shippingAddress || ''
       })
       .select()
       .single();
@@ -64,7 +30,7 @@ export const createOrder = async ({ userId, totalAmount }: OrderCreationParams):
 
     return { success: true, data: data as OrderResponse };
   } catch (err: any) {
-    console.error('TypeScript Create Order Error:', err);
+    console.error('Create Order Error:', err);
     return { success: false, message: err.message || 'Failed to initialize checkout transaction.' };
   }
 };
@@ -87,7 +53,7 @@ export const createOrderItems = async (orderItems: OrderItemParams[]): Promise<S
 
     return { success: true, data: data as OrderItemResponse[] };
   } catch (err: any) {
-    console.error('TypeScript Create Order Items Error:', err);
+    console.error('Create Order Items Error:', err);
     return { success: false, message: err.message || 'Failed to save items in checkout record.' };
   }
 };
@@ -108,6 +74,9 @@ export const getUserOrders = async (userId: string): Promise<ServiceResponse<Ord
         user_id,
         total_amount,
         status,
+        payment_status,
+        delivery_status,
+        shipping_address,
         created_at,
         order_items (
           id,
@@ -124,7 +93,7 @@ export const getUserOrders = async (userId: string): Promise<ServiceResponse<Ord
 
     return { success: true, data: data as unknown as OrderResponse[] };
   } catch (err: any) {
-    console.error('TypeScript Fetch Orders Error:', err);
+    console.error('Fetch Orders Error:', err);
     return { success: false, message: err.message || 'Could not fetch order transaction records.' };
   }
 };

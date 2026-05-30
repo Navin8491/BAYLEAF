@@ -45,6 +45,10 @@ const ArticleModal = ({ isOpen, onClose, article }) => {
               src={article.img} 
               alt={article.title} 
               className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-[2s] ease-out"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop';
+              }}
             />
           </motion.div>
 
@@ -68,7 +72,15 @@ const ArticleModal = ({ isOpen, onClose, article }) => {
             {/* Mobile Image (Hidden on Desktop) */}
             <div className="block lg:hidden w-full h-[30vh] sm:h-[40vh] relative shrink-0">
                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-rich-graphite)]/60 to-transparent z-10 mix-blend-overlay"></div>
-               <img src={article.img} alt={article.title} className="w-full h-full object-cover" />
+               <img 
+                 src={article.img} 
+                 alt={article.title} 
+                 className="w-full h-full object-cover" 
+                 onError={(e) => {
+                   e.target.onerror = null;
+                   e.target.src = 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop';
+                 }}
+               />
             </div>
  
             {/* Scrollable Content Area */}

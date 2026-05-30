@@ -153,6 +153,10 @@ const Blog = () => {
                   alt={post.title}
                   style={{ filter: 'contrast(1.08) brightness(0.92) saturate(1.05)' }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out relative z-0"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop';
+                  }}
                 />
               </div>
 

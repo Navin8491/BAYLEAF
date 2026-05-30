@@ -86,6 +86,10 @@ const EditProfile = () => {
                 src={avatar}
                 alt="Profile Preview"
                 className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md group-hover:brightness-90 transition-all duration-300"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop';
+                }}
               />
               <label
                 htmlFor="avatar-upload"

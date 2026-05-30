@@ -1,47 +1,18 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from '../database/supabase';
 import { User } from '@supabase/supabase-js';
+import { UserSignUpParams, UserSignInParams, ServiceResponse } from '../types';
 
-// ----------------------------------------------------
-// TypeScript Interfaces & Types
-// ----------------------------------------------------
-
-export interface UserSignUpParams {
-  email: string;
-  password?: string;
-  name: string;
-  phone?: string;
-}
-
-export interface UserSignInParams {
-  email: string;
-  password?: string;
-}
-
-export interface ServiceResponse<T = any> {
-  success: boolean;
-  message?: string;
-  data?: T;
-}
-
-// ----------------------------------------------------
-// Helper Validations
-// ----------------------------------------------------
-
+// Helper Validation
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
-
-// ----------------------------------------------------
-// Backend Auth Services
-// ----------------------------------------------------
 
 /**
  * Registers a new user with Supabase Auth.
  * Triggers automatic database profile record creation.
  */
 export const signUpUser = async ({ email, password, name, phone }: UserSignUpParams): Promise<ServiceResponse<User>> => {
-  // Input Validations
   if (!name.trim()) {
     return { success: false, message: 'Full name is required.' };
   }
@@ -67,9 +38,15 @@ export const signUpUser = async ({ email, password, name, phone }: UserSignUpPar
     if (error) throw error;
     if (!data.user) throw new Error('No user account data returned.');
 
+    // Save initial login timestamp in user profile
+    await supabase
+      .from('users')
+      .update({ last_login: new Date().toISOString() })
+      .eq('id', data.user.id);
+
     return { success: true, data: data.user };
   } catch (err: any) {
-    console.error('TypeScript Auth SignUp Error:', err);
+    console.error('Auth SignUp Error:', err);
     return { success: false, message: err.message || 'An error occurred during account creation.' };
   }
 };
@@ -78,7 +55,6 @@ export const signUpUser = async ({ email, password, name, phone }: UserSignUpPar
  * Logs in a user using email and password.
  */
 export const signInUser = async ({ email, password }: UserSignInParams): Promise<ServiceResponse<{ user: User | null }>> => {
-  // Input Validations
   if (!email.trim() || !isValidEmail(email)) {
     return { success: false, message: 'A valid email address is required.' };
   }
@@ -94,9 +70,17 @@ export const signInUser = async ({ email, password }: UserSignInParams): Promise
 
     if (error) throw error;
 
+    if (data.user) {
+      // Update last login timestamp
+      await supabase
+        .from('users')
+        .update({ last_login: new Date().toISOString() })
+        .eq('id', data.user.id);
+    }
+
     return { success: true, data: { user: data.user } };
   } catch (err: any) {
-    console.error('TypeScript Auth SignIn Error:', err);
+    console.error('Auth SignIn Error:', err);
     return { success: false, message: err.message || 'Authentication credentials rejected.' };
   }
 };
@@ -110,7 +94,7 @@ export const signOutUser = async (): Promise<ServiceResponse> => {
     if (error) throw error;
     return { success: true };
   } catch (err: any) {
-    console.error('TypeScript Auth SignOut Error:', err);
+    console.error('Auth SignOut Error:', err);
     return { success: false, message: err.message || 'Could not sign out session.' };
   }
 };
