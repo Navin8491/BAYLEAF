@@ -31,7 +31,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-[var(--color-soft-ivory)] relative overflow-hidden">
-      
+
       {/* Premium Floating Ambient Background Glows */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <motion.div
@@ -68,12 +68,12 @@ const DashboardLayout = () => {
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          
+
           {/* Dashboard Sidebar Section */}
           <aside className="lg:col-span-1">
             <div className="bg-white/40 backdrop-blur-xl border border-white/50 rounded-[2.25rem] p-6 shadow-luxury flex flex-col items-center relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-powder-blue)]/10 rounded-full blur-xl pointer-events-none"></div>
-              
+
               {/* Profile Card Header with User Avatar */}
               <div className="relative mb-4 group-hover:scale-105 transition-transform duration-500">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] rounded-full blur-md opacity-25 group-hover:opacity-40 transition-opacity"></div>
@@ -96,7 +96,7 @@ const DashboardLayout = () => {
                   <span>Loyalty Tier</span>
                   <span className="text-[var(--color-muted-teal)]">{currentPoints} / {nextTierPoints} Pts</span>
                 </div>
-                
+
                 {/* Progress bar */}
                 <div className="w-full h-1.5 bg-[var(--color-silver-fog)]/40 rounded-full overflow-hidden mb-2">
                   <motion.div
@@ -106,7 +106,7 @@ const DashboardLayout = () => {
                     transition={{ duration: 1.2, ease: "easeOut" }}
                   />
                 </div>
-                
+
                 <p className="text-[9px] text-[var(--color-gray-blue)]/70 font-light text-center leading-relaxed">
                   Earn {nextTierPoints - currentPoints} more points to reach the <strong className="text-[var(--color-sand-accent)]">Platinum</strong> status.
                 </p>
@@ -117,8 +117,8 @@ const DashboardLayout = () => {
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   // Custom active matching logic since nested subpages of orders should also highlight order history
-                  const isActive = item.end 
-                    ? location.pathname === item.path 
+                  const isActive = item.end
+                    ? location.pathname === item.path
                     : location.pathname.startsWith(item.path);
 
                   return (
@@ -126,10 +126,9 @@ const DashboardLayout = () => {
                       key={item.name}
                       to={item.path}
                       className={() =>
-                        `flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 relative overflow-hidden group/item ${
-                          isActive
-                            ? 'text-white'
-                            : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20'
+                        `flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 relative overflow-hidden group/item ${isActive
+                          ? 'text-white'
+                          : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20'
                         }`
                       }
                     >

@@ -1,17 +1,44 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { gsap } from 'gsap';
 import { FiLock, FiArrowRight } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
+
+// Import separated backend files
+import { createOrder, createOrderItems } from '../services/orders';
 
 const Checkout = () => {
-  const { cartItems, getCartTotal } = useCart();
+  const { cartItems, getCartTotal, clearCart } = useCart();
+  const { user, isLoggedIn, showToast, fetchOrders } = useAuth();
+  const navigate = useNavigate();
   const containerRef = useRef(null);
 
   const subtotal = getCartTotal();
   const delivery = subtotal > 0 ? 5.00 : 0;
   const total = subtotal + delivery;
+
+  // Form states
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Prefill details if user logged in
+  useEffect(() => {
+    if (user) {
+      const names = user.name.split(' ');
+      setFirstName(names[0] || '');
+      setLastName(names.slice(1).join(' ') || '');
+      setEmail(user.email || '');
+      setPhone(user.phone || '');
+    }
+  }, [user]);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -21,6 +48,69 @@ const Checkout = () => {
     }, containerRef);
     return () => ctx.revert();
   }, []);
+
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      showToast('Please sign in to place an order.');
+      navigate('/login');
+      return;
+    }
+
+    if (!firstName || !lastName || !email || !phone || !address || !city || !postalCode) {
+      showToast('Please fill in all billing details.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // 1. Insert order using the separated backend file
+      const orderResult = await createOrder({
+        userId: user.id,
+        totalAmount: total
+      });
+
+      if (!orderResult.success) {
+        showToast('Checkout failed: ' + orderResult.message);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Prepare items and insert using the separated backend file
+      const orderItemsToInsert = cartItems.map(item => {
+        const itemPrice = typeof item.price === 'string' ? parseFloat(item.price.replace('$', '')) : item.price;
+        return {
+          order_id: orderResult.data.id,
+          product_name: item.name,
+          quantity: item.quantity,
+          price: itemPrice
+        };
+      });
+
+      const itemsResult = await createOrderItems(orderItemsToInsert);
+
+      if (!itemsResult.success) {
+        showToast('Order items saving failed: ' + itemsResult.message);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 3. Clear shopping cart
+      clearCart();
+
+      // 4. Refresh auth context list
+      await fetchOrders(user.id);
+
+      showToast('Secure order placed successfully!');
+      setIsSubmitting(false);
+      navigate('/profile/orders');
+    } catch (err) {
+      setIsSubmitting(false);
+      console.error('Order submission error:', err);
+      showToast('An unexpected order error occurred.');
+    }
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -76,42 +166,84 @@ const Checkout = () => {
           <div className="lg:w-3/5">
             <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 checkout-element">Billing Details</h2>
             
-            <form className="flex flex-col gap-6">
+            <form onSubmit={handlePlaceOrder} className="flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">First Name</label>
-                  <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Last Name</label>
-                  <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Email Address</label>
-                  <input type="email" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Phone</label>
-                  <input type="tel" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2 checkout-element group">
                 <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Address</label>
-                <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                  className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">City</label>
-                  <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
                 <div className="flex flex-col gap-2 checkout-element group">
                   <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Postal Code</label>
-                  <input type="text" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none" />
+                  <input
+                    type="text"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-colors rounded-none text-sm font-light"
+                  />
                 </div>
               </div>
 
@@ -128,15 +260,15 @@ const Checkout = () => {
                   <div className="mt-4 pt-4 border-t border-[var(--color-silver-fog)]/50 grid grid-cols-2 gap-4">
                     <div className="col-span-2 flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Card Number</label>
-                      <input type="text" placeholder="0000 0000 0000 0000" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
+                      <input type="text" placeholder="0000 0000 0000 0000" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] text-sm font-light" />
                     </div>
                     <div className="flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">Expiry</label>
-                      <input type="text" placeholder="MM/YY" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
+                      <input type="text" placeholder="MM/YY" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] text-sm font-light" />
                     </div>
                     <div className="flex flex-col gap-2 group">
                       <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-deep-slate)]/60 group-focus-within:text-[var(--color-muted-teal)] transition-colors">CVC</label>
-                      <input type="text" placeholder="123" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)]" />
+                      <input type="text" placeholder="123" className="w-full bg-transparent border-b border-[var(--color-silver-fog)] py-3 text-[var(--color-rich-graphite)] focus:outline-none focus:border-[var(--color-muted-teal)] text-sm font-light" />
                     </div>
                   </div>
                 </div>
@@ -184,10 +316,20 @@ const Checkout = () => {
                 <span className="text-[var(--color-muted-teal)] font-heading text-4xl">${total.toFixed(2)}</span>
               </div>
               
-              <button className="flex justify-between items-center w-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white py-6 px-10 rounded-full uppercase tracking-[0.2em] font-bold text-[11px] hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 group shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden">
+              <button
+                onClick={handlePlaceOrder}
+                disabled={isSubmitting}
+                className="flex justify-between items-center w-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white py-6 px-10 rounded-full uppercase tracking-[0.2em] font-bold text-[11px] hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 group shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.4)] relative overflow-hidden disabled:opacity-50 disabled:pointer-events-none"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>
-                <span className="relative z-10">PLACE SECURE ORDER</span>
-                <FiArrowRight className="relative z-10 group-hover:translate-x-2 transition-transform text-lg" />
+                {isSubmitting ? (
+                  <span className="relative z-10 mx-auto w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                ) : (
+                  <>
+                    <span className="relative z-10">PLACE SECURE ORDER</span>
+                    <FiArrowRight className="relative z-10 group-hover:translate-x-2 transition-transform text-lg" />
+                  </>
+                )}
               </button>
               
               <p className="text-center text-[9px] text-[var(--color-deep-slate)]/50 mt-4 uppercase tracking-[0.3em] font-bold">

@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const SignIn = () => {
   const { login, isLoggedIn } = useAuth();
   const navigate = useNavigate();
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -28,14 +28,14 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+
     if (!email || !password) {
       setError('Please fill in all fields.');
       return;
     }
 
     setIsLoading(true);
-    
+
     // Simulate loading for premium dashboard feel
     setTimeout(() => {
       const result = login(email, password);
@@ -69,7 +69,7 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center py-20 px-4 overflow-hidden bg-[var(--color-soft-ivory)]">
-      
+
       {/* Background Graphic Zoom & Gradients */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498804103079-a6351b050096?q=70&w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-[0.07] grayscale"></div>
@@ -263,7 +263,7 @@ const SignIn = () => {
               className="w-full max-w-sm bg-[#F4F1EC] border border-[var(--color-silver-fog)]/50 rounded-[2rem] shadow-luxury p-8 relative"
             >
               <h3 className="text-xl font-heading text-[var(--color-rich-graphite)] font-bold mb-2">Reset Password</h3>
-              
+
               {!forgotSent ? (
                 <>
                   <p className="text-xs text-[var(--color-gray-blue)] font-light leading-relaxed mb-6">

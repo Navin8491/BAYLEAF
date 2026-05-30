@@ -75,7 +75,7 @@ const EditProfile = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
-        
+
         {/* 1. Profile Picture upload and preset selection */}
         <div className="space-y-3">
           <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-deep-slate)]/70 pl-2">Profile Picture</label>
@@ -107,18 +107,17 @@ const EditProfile = () => {
               <p className="text-[10px] text-[var(--color-gray-blue)] font-light leading-relaxed">
                 Click inside the bubble to upload a custom picture, or pick one of our premium preset choices:
               </p>
-              
+
               <div className="flex justify-center sm:justify-start items-center gap-3">
                 {AVATAR_PRESETS.map((preset, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => handleAvatarChange(preset)}
-                    className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${
-                      avatar === preset
+                    className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${avatar === preset
                         ? 'border-[var(--color-muted-teal)] scale-110 shadow-md'
                         : 'border-white/90 hover:scale-105'
-                    }`}
+                      }`}
                   >
                     <img src={preset} alt={`Preset ${idx + 1}`} className="w-full h-full object-cover" />
                     {avatar === preset && (
@@ -136,7 +135,7 @@ const EditProfile = () => {
         {/* 2. Text input details */}
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
+
             {/* Full Name field */}
             <div className="space-y-1.5">
               <label className="text-[10px] font-bold uppercase tracking-[0.15em] pl-2 text-[var(--color-deep-slate)]/70">Full Name</label>

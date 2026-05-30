@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import { submitContactMessage } from '../services/contact';
 
 const formContainerVariants = {
   hidden: { opacity: 0 },
@@ -34,7 +35,7 @@ const ContactForm = () => {
     subject: '',
     message: ''
   });
-  
+
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,11 +45,28 @@ const ContactForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      const consolidatedMessage = `Subject: ${formData.subject}\n\n${formData.message}`;
+
+      const result = await submitContactMessage({
+        name: fullName,
+        email: formData.email,
+        phone: formData.phone || '',
+        message: consolidatedMessage
+      });
+
       setIsSubmitting(false);
+
+      if (!result.success) {
+        alert('Could not submit inquiry: ' + result.message);
+        return;
+      }
+
       setSubmitted(true);
       setFormData({
         firstName: '',
@@ -58,14 +76,17 @@ const ContactForm = () => {
         subject: '',
         message: ''
       });
-    }, 1500);
+    } catch (err) {
+      setIsSubmitting(false);
+      alert('An unexpected error occurred. Please try again.');
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-2">
       <AnimatePresence mode="wait">
         {submitted ? (
-          <motion.div 
+          <motion.div
             key="success"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,8 +102,8 @@ const ContactForm = () => {
             <p className="text-sm text-[var(--color-gray-blue)] font-light max-w-sm leading-relaxed">
               Thank you for connecting. Our team will review your message and reach out shortly.
             </p>
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={() => setSubmitted(false)}
               className="mt-2 text-xs font-bold uppercase tracking-widest text-[var(--color-muted-teal)] hover:text-[var(--color-deep-slate)] transition-colors border-b border-[var(--color-muted-teal)]/40 pb-0.5"
             >
@@ -90,7 +111,7 @@ const ContactForm = () => {
             </button>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             key="form"
             variants={formContainerVariants}
             initial="hidden"
@@ -100,18 +121,16 @@ const ContactForm = () => {
             {/* First Name & Last Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-                <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                  focusedField === 'firstName' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-                }`}>
+                <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'firstName' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                  }`}>
                   First Name
                 </label>
-                <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                  focusedField === 'firstName' 
-                    ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+                <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'firstName'
+                    ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                     : 'border-[var(--color-silver-fog)]/80'
-                }`}>
-                  <input 
-                    type="text" 
+                  }`}>
+                  <input
+                    type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
@@ -125,18 +144,16 @@ const ContactForm = () => {
               </motion.div>
 
               <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-                <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                  focusedField === 'lastName' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-                }`}>
+                <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'lastName' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                  }`}>
                   Last Name
                 </label>
-                <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                  focusedField === 'lastName' 
-                    ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+                <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'lastName'
+                    ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                     : 'border-[var(--color-silver-fog)]/80'
-                }`}>
-                  <input 
-                    type="text" 
+                  }`}>
+                  <input
+                    type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
@@ -152,18 +169,16 @@ const ContactForm = () => {
 
             {/* Email Address */}
             <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                focusedField === 'email' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-              }`}>
+              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'email' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                }`}>
                 Email Address
               </label>
-              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                focusedField === 'email' 
-                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'email'
+                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                   : 'border-[var(--color-silver-fog)]/80'
-              }`}>
-                <input 
-                  type="email" 
+                }`}>
+                <input
+                  type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
@@ -178,18 +193,16 @@ const ContactForm = () => {
 
             {/* Phone Number */}
             <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                focusedField === 'phone' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-              }`}>
+              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'phone' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                }`}>
                 Phone Number
               </label>
-              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                focusedField === 'phone' 
-                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'phone'
+                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                   : 'border-[var(--color-silver-fog)]/80'
-              }`}>
-                <input 
-                  type="tel" 
+                }`}>
+                <input
+                  type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
@@ -203,18 +216,16 @@ const ContactForm = () => {
 
             {/* Subject */}
             <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                focusedField === 'subject' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-              }`}>
+              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'subject' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                }`}>
                 Subject
               </label>
-              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                focusedField === 'subject' 
-                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'subject'
+                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                   : 'border-[var(--color-silver-fog)]/80'
-              }`}>
-                <input 
-                  type="text" 
+                }`}>
+                <input
+                  type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
@@ -229,17 +240,15 @@ const ContactForm = () => {
 
             {/* Message */}
             <motion.div variants={formItemVariants} className="flex flex-col gap-2">
-              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
-                focusedField === 'message' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
-              }`}>
+              <label className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${focusedField === 'message' ? 'text-[var(--color-muted-teal)]' : 'text-[var(--color-deep-slate)]/60'
+                }`}>
                 Message
               </label>
-              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${
-                focusedField === 'message' 
-                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]' 
+              <div className={`relative w-full rounded-2xl bg-white/50 backdrop-blur-md border transition-all duration-300 ${focusedField === 'message'
+                  ? 'border-[var(--color-muted-teal)] bg-white shadow-[0_8px_20px_rgba(95,124,123,0.06)]'
                   : 'border-[var(--color-silver-fog)]/80'
-              }`}>
-                <textarea 
+                }`}>
+                <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -254,7 +263,7 @@ const ContactForm = () => {
             </motion.div>
 
             {/* Submit Button - guaranteed rendering and visible state */}
-            <motion.button 
+            <motion.button
               variants={formItemVariants}
               type="submit"
               disabled={isSubmitting}
@@ -273,15 +282,15 @@ const ContactForm = () => {
 const Contact = () => {
   return (
     <div className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] overflow-x-hidden font-body selection:bg-[var(--color-muted-teal)] selection:text-white relative">
-      
+
       {/* GLOBAL AMBIENT BACKGROUND LAYER */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[var(--color-soft-ivory)]">
-        <motion.div 
+        <motion.div
           className="absolute top-[20%] right-[10%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[var(--color-powder-blue)]/30 rounded-full blur-[130px]"
           animate={{ x: [0, -30, 20, 0], y: [0, 20, -30, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-[20%] left-[5%] w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-[var(--color-mist-sage)]/25 rounded-full blur-[110px]"
           animate={{ x: [0, 20, -20, 0], y: [0, -20, 20, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -290,20 +299,20 @@ const Contact = () => {
 
       {/* LUXURY EDITORIAL HERO */}
       <section className="relative pt-32 pb-12 px-6 lg:px-12 flex flex-col items-center">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           className="max-w-4xl mx-auto text-center z-10 relative"
         >
           <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--color-muted-teal)] block mb-4">Get In Touch</span>
-          
+
           <h1 className="text-6xl md:text-8xl lg:text-[8rem] font-heading font-medium text-[var(--color-rich-graphite)] leading-[0.9] mb-4 tracking-tight">
             Say <span className="italic font-light text-[var(--color-deep-slate)]">Hello.</span>
           </h1>
-          
+
           <div className="w-24 h-[1px] bg-[var(--color-silver-fog)] mx-auto mb-4"></div>
-          
+
           <p className="text-lg text-[var(--color-gray-blue)] max-w-lg mx-auto leading-relaxed font-light">
             Whether you have a question about our roasts, want to host an event, or just want to say hi, our team is always here for you.
           </p>
@@ -313,9 +322,9 @@ const Contact = () => {
       {/* MAIN CONTACT SECTION */}
       <section className="contact-section py-8 px-6 lg:px-12 relative z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
+
           {/* Left Column: Contact Info & Image */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -344,9 +353,9 @@ const Contact = () => {
             <div className="aspect-[4/5] rounded-[3rem] overflow-hidden relative shadow-[0_20px_45px_rgba(47,52,59,0.08)] mt-4 hidden lg:block border border-[var(--color-silver-fog)]/40 bg-white p-3 group">
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop" 
-                  alt="Cafe Details" 
+                <img
+                  src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop"
+                  alt="Cafe Details"
                   className="w-full h-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-105"
                 />
               </div>
@@ -354,17 +363,17 @@ const Contact = () => {
           </motion.div>
 
           {/* Right Column: Luxury Form */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             className="lg:col-span-7 contact-form-container relative"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-powder-blue)]/40 to-[var(--color-mist-sage)]/20 rounded-[3.5rem] transform translate-x-3 translate-y-3 -z-10 blur-2xl opacity-50"></div>
-            
+
             <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-[3.5rem] shadow-[0_25px_50px_rgba(56,68,80,0.05)] border border-[var(--color-silver-fog)]/50 relative overflow-hidden">
               <h2 className="text-4xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6">Drop us a line</h2>
-              
+
               <ContactForm />
             </div>
           </motion.div>

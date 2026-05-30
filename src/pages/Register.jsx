@@ -13,11 +13,11 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
-  
+
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -76,7 +76,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen relative flex items-center justify-center py-20 px-4 overflow-hidden bg-[var(--color-soft-ivory)]">
-      
+
       {/* Background Graphic Zoom & Gradients */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1498804103079-a6351b050096?q=70&w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-[0.07] grayscale"></div>
