@@ -1,16 +1,17 @@
 import { supabase } from '../database/supabase';
 import { ServiceResponse, OrderCreationParams, OrderResponse, OrderItemParams, OrderItemResponse } from '../types';
+import { validateOrderCreation, validateOrderItemsList } from '../validations/schemas';
 
 /**
  * Inserts a new order into public.orders.
  */
-export const createOrder = async ({ userId, totalAmount, shippingAddress }: OrderCreationParams): Promise<ServiceResponse<OrderResponse>> => {
-  if (!userId) {
-    return { success: false, message: 'User authentication ID is required.' };
+export const createOrder = async (params: OrderCreationParams): Promise<ServiceResponse<OrderResponse>> => {
+  const validation = validateOrderCreation(params);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
-  if (totalAmount <= 0) {
-    return { success: false, message: 'Total order amount must be greater than zero.' };
-  }
+
+  const { userId, totalAmount, shippingAddress } = params;
 
   try {
     const { data, error } = await supabase
@@ -39,8 +40,9 @@ export const createOrder = async ({ userId, totalAmount, shippingAddress }: Orde
  * Batch inserts order items into public.order_items.
  */
 export const createOrderItems = async (orderItems: OrderItemParams[]): Promise<ServiceResponse<OrderItemResponse[]>> => {
-  if (!orderItems || orderItems.length === 0) {
-    return { success: false, message: 'No items in order payload.' };
+  const validation = validateOrderItemsList(orderItems);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
 
   try {

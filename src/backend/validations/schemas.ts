@@ -1,4 +1,4 @@
-import { UserSignUpParams, UserSignInParams, UserProfileUpdateParams, ContactMessageParams } from '../types';
+import { UserSignUpParams, UserSignInParams, UserProfileUpdateParams, ContactMessageParams, OrderCreationParams, OrderItemParams } from '../types';
 
 /**
  * Validates an email address string.
@@ -62,3 +62,39 @@ export const validateContactMessage = (params: ContactMessageParams): { valid: b
   }
   return { valid: true };
 };
+
+/**
+ * Validates parameters for creating a new order.
+ */
+export const validateOrderCreation = (params: OrderCreationParams): { valid: boolean; message?: string } => {
+  if (!params.userId) {
+    return { valid: false, message: 'User authentication ID is required.' };
+  }
+  if (params.totalAmount <= 0) {
+    return { valid: false, message: 'Total order amount must be greater than zero.' };
+  }
+  return { valid: true };
+};
+
+/**
+ * Validates list of items within an order submission.
+ */
+export const validateOrderItemsList = (items: OrderItemParams[]): { valid: boolean; message?: string } => {
+  if (!items || items.length === 0) {
+    return { valid: false, message: 'No items in order payload.' };
+  }
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (!item.product_name || !item.product_name.trim()) {
+      return { valid: false, message: `Product name at index ${i} is invalid.` };
+    }
+    if (item.quantity <= 0) {
+      return { valid: false, message: `Quantity for product "${item.product_name}" must be greater than zero.` };
+    }
+    if (item.price < 0) {
+      return { valid: false, message: `Price for product "${item.product_name}" cannot be negative.` };
+    }
+  }
+  return { valid: true };
+};
+
