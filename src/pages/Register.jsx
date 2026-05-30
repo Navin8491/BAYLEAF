@@ -28,12 +28,19 @@ const Register = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
+    // 1. Prevent registration if fields are missing or empty
     if (!name || !email || !phone || !password || !confirmPassword) {
       setError('Please fill in all fields.');
+      return;
+    }
+
+    // 2. Add validation for minimum 6 characters
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
       return;
     }
 
@@ -49,16 +56,31 @@ const Register = () => {
 
     setIsLoading(true);
 
-    // Simulate loading for premium dashboard feel
-    setTimeout(() => {
-      const result = register({ name, email, phone });
+    // 3. Log signup payload during development (safely print password length instead of raw string)
+    console.log('Supabase SignUp Payload:', {
+      name,
+      email,
+      phone,
+      passwordProvided: !!password,
+      passwordLength: password.length
+    });
+
+    try {
+      // 4. Ensure email, password, name, and phone are all sent to Supabase Auth
+      const result = await register({ name, email, phone, password });
       setIsLoading(false);
+
       if (result.success) {
         navigate('/profile');
       } else {
-        setError('Registration failed. Try again.');
+        // 5. Show clear backend error messages directly to the user
+        setError(result.message || 'Registration failed. Please check your credentials.');
       }
-    }, 1500);
+    } catch (err) {
+      setIsLoading(false);
+      console.error('Registration submit error:', err);
+      setError('An unexpected error occurred during account creation.');
+    }
   };
 
   const handleGoogleSignup = () => {
