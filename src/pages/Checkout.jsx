@@ -49,13 +49,23 @@ const Checkout = () => {
   }, [user]);
 
   useEffect(() => {
+    if (authLoading || cartItems.length === 0 || !containerRef.current) return;
+
     let ctx = gsap.context(() => {
-      gsap.from('.checkout-element', {
-        y: 40, opacity: 0, duration: 1, stagger: 0.1, ease: 'power3.out', delay: 0.1
-      });
+      const elements = containerRef.current.querySelectorAll('.checkout-element');
+      if (elements.length > 0) {
+        gsap.from(elements, {
+          y: 40,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.1
+        });
+      }
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [authLoading, cartItems.length]);
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();

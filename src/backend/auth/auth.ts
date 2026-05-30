@@ -1,27 +1,19 @@
 import { supabase } from '../database/supabase';
 import { User } from '@supabase/supabase-js';
 import { UserSignUpParams, UserSignInParams, ServiceResponse } from '../types';
-
-// Helper Validation
-const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+import { validateSignUp, validateSignIn } from '../validations/schemas';
 
 /**
  * Registers a new user with Supabase Auth.
  * Triggers automatic database profile record creation.
  */
-export const signUpUser = async ({ email, password, name, phone }: UserSignUpParams): Promise<ServiceResponse<User>> => {
-  if (!name.trim()) {
-    return { success: false, message: 'Full name is required.' };
+export const signUpUser = async (params: UserSignUpParams): Promise<ServiceResponse<User>> => {
+  const validation = validateSignUp(params);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
-  if (!email.trim() || !isValidEmail(email)) {
-    return { success: false, message: 'A valid email address is required.' };
-  }
-  if (!password || password.length < 6) {
-    return { success: false, message: 'Password must be at least 6 characters long.' };
-  }
+
+  const { email, password, name, phone } = params;
 
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -54,13 +46,13 @@ export const signUpUser = async ({ email, password, name, phone }: UserSignUpPar
 /**
  * Logs in a user using email and password.
  */
-export const signInUser = async ({ email, password }: UserSignInParams): Promise<ServiceResponse<{ user: User | null }>> => {
-  if (!email.trim() || !isValidEmail(email)) {
-    return { success: false, message: 'A valid email address is required.' };
+export const signInUser = async (params: UserSignInParams): Promise<ServiceResponse<{ user: User | null }>> => {
+  const validation = validateSignIn(params);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
-  if (!password) {
-    return { success: false, message: 'Password is required.' };
-  }
+
+  const { email, password } = params;
 
   try {
     const { data, error } = await supabase.auth.signInWithPassword({

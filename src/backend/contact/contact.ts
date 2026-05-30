@@ -1,24 +1,17 @@
 import { supabase } from '../database/supabase';
 import { ServiceResponse, ContactMessageParams } from '../types';
+import { validateContactMessage } from '../validations/schemas';
 
 /**
  * Inserts a contact form inquiry into public.contact_messages.
  */
-export const submitContactMessage = async ({
-  name,
-  email,
-  phone,
-  message
-}: ContactMessageParams): Promise<ServiceResponse> => {
-  if (!name.trim()) {
-    return { success: false, message: 'Name is required.' };
+export const submitContactMessage = async (params: ContactMessageParams): Promise<ServiceResponse> => {
+  const validation = validateContactMessage(params);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
-  if (!email.trim()) {
-    return { success: false, message: 'Email address is required.' };
-  }
-  if (!message.trim()) {
-    return { success: false, message: 'Message content cannot be empty.' };
-  }
+
+  const { name, email, phone, message } = params;
 
   try {
     const { data, error } = await supabase

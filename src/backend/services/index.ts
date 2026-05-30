@@ -1,8 +1,13 @@
 export * from '../auth/auth';
-export * from '../users/profile';
+export * from '../users/users';
+export * from '../profiles/profile';
 export * from '../orders/orders';
+export * from '../checkout/checkout';
 export * from '../menu/products';
 export * from '../blog/blog';
 export * from '../contact/contact';
+export * from '../middleware/auth';
+export * from '../utils/helpers';
+export * from '../validations/schemas';
 export * from '../types';
 export { supabase } from '../database/supabase';

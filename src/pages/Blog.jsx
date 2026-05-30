@@ -5,6 +5,7 @@ import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ArticleModal from '../components/ArticleModal';
+import { getBlogPosts, formatDate } from '../backend/services';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,18 +75,45 @@ const cardVariants = {
 
 const Blog = () => {
   const containerRef = useRef(null);
+  const [posts, setPosts] = useState(allBlogPosts);
   const [visiblePosts, setVisiblePosts] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
   const loadMore = () => {
     setIsLoading(true);
     // Simulate network request
     setTimeout(() => {
-      setVisiblePosts(prev => Math.min(prev + 2, allBlogPosts.length));
+      setVisiblePosts(prev => Math.min(prev + 2, posts.length));
       setIsLoading(false);
     }, 600);
   };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await getBlogPosts();
+        if (response.success && response.data && response.data.length > 0) {
+          const mapped = response.data.map(post => ({
+            id: post.id,
+            category: post.category,
+            title: post.title,
+            date: formatDate(post.created_at),
+            excerpt: post.excerpt,
+            content: post.content,
+            img: post.image_url
+          }));
+          setPosts(mapped);
+        }
+      } catch (err) {
+        console.error('Error fetching blog posts from Supabase, using mock fallback:', err);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -134,7 +162,7 @@ const Blog = () => {
       {/* GRID */}
       <section className="py-16 px-6 lg:px-12 journal-grid relative z-20">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-          {allBlogPosts.slice(0, visiblePosts).map((post, idx) => (
+          {posts.slice(0, visiblePosts).map((post, idx) => (
             <motion.article 
               key={post.id} 
               custom={idx}
@@ -191,7 +219,7 @@ const Blog = () => {
       </section>
 
       {/* PAGINATION / LOAD MORE */}
-      {visiblePosts < allBlogPosts.length && (
+      {visiblePosts < posts.length && (
         <section className="pb-16 px-6 lg:px-12 text-center relative z-20">
           <button
             onClick={loadMore}

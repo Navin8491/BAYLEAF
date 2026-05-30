@@ -119,28 +119,48 @@ export const AuthProvider = ({ children }) => {
 
   // Auth State Listener
   useEffect(() => {
+    let active = true;
+
     // Check active session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session) {
-        setIsLoggedIn(true);
-        await fetchProfile(session.user.id);
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && active) {
+          setIsLoggedIn(true);
+          await fetchProfile(session.user.id);
+        }
+      } catch (err) {
+        console.error('Error initializing auth session:', err);
+      } finally {
+        if (active) {
+          setAuthLoading(false);
+        }
       }
-      setAuthLoading(false);
-    });
+    };
+
+    initAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session) {
-        setIsLoggedIn(true);
-        await fetchProfile(session.user.id);
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-        setOrders([]);
+      try {
+        if (session && active) {
+          setIsLoggedIn(true);
+          await fetchProfile(session.user.id);
+        } else if (active) {
+          setIsLoggedIn(false);
+          setUser(null);
+          setOrders([]);
+        }
+      } catch (err) {
+        console.error('Auth state change error:', err);
+      } finally {
+        if (active) {
+          setAuthLoading(false);
+        }
       }
-      setAuthLoading(false);
     });
 
     return () => {
+      active = false;
       subscription.unsubscribe();
     };
   }, []);

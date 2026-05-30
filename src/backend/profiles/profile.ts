@@ -1,5 +1,6 @@
 import { supabase } from '../database/supabase';
 import { ServiceResponse, UserProfileUpdateParams, UserProfileResponse } from '../types';
+import { validateProfileUpdate } from '../validations/schemas';
 
 /**
  * Fetches the user profile from public.users table.
@@ -28,13 +29,17 @@ export const getUserProfile = async (userId: string): Promise<ServiceResponse<Us
 /**
  * Updates user profile details in public.users.
  */
-export const updateUserProfile = async (userId: string, { name, phone, avatar }: UserProfileUpdateParams): Promise<ServiceResponse> => {
+export const updateUserProfile = async (userId: string, params: UserProfileUpdateParams): Promise<ServiceResponse> => {
   if (!userId) {
     return { success: false, message: 'User ID is required.' };
   }
-  if (!name.trim()) {
-    return { success: false, message: 'Profile full name cannot be blank.' };
+  
+  const validation = validateProfileUpdate(params);
+  if (!validation.valid) {
+    return { success: false, message: validation.message };
   }
+
+  const { name, phone, avatar } = params;
 
   try {
     const { error } = await supabase

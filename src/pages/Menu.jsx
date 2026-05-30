@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCart } from '../context/CartContext';
 import { Link, useLocation } from 'react-router-dom';
+import { getProducts, formatPrice } from '../backend/services';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,6 +40,22 @@ const categories = [
   { id: 'specialDrinks', label: 'Special Drinks' }
 ];
 
+const categoryLabels = {
+  signatureCoffee: 'Signature Coffee',
+  coldBrew: 'Cold Brew',
+  desserts: 'Desserts',
+  bakery: 'Bakery',
+  specialDrinks: 'Special Drinks'
+};
+
+const formatCategoryLabel = (catId) => {
+  if (categoryLabels[catId]) return categoryLabels[catId];
+  return catId
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, str => str.toUpperCase())
+    .trim();
+};
+
 const Menu = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -50,13 +67,76 @@ const Menu = () => {
   
   const { addToCart } = useCart();
   const containerRef = useRef(null);
+  
+  const [displayMenuData, setDisplayMenuData] = useState(menuData);
+  const [categoriesList, setCategoriesList] = useState(categories);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadMenu = async () => {
+      try {
+        const response = await getProducts();
+        if (response.success && response.data && response.data.length > 0) {
+          const grouped = {
+            signatureCoffee: [],
+            coldBrew: [],
+            desserts: [],
+            bakery: [],
+            specialDrinks: []
+          };
+          
+          response.data.forEach(item => {
+            const mapped = {
+              id: item.id,
+              name: item.name,
+              desc: item.description,
+              price: formatPrice(item.price),
+              img: item.image_url,
+              badge: item.badge || undefined,
+              category: item.category,
+              available: item.available
+            };
+            
+            if (grouped[item.category]) {
+              grouped[item.category].push(mapped);
+            } else {
+              grouped[item.category] = [mapped];
+            }
+          });
+          
+          setDisplayMenuData(grouped);
+          
+          const activeCategories = Object.keys(grouped).filter(key => grouped[key].length > 0);
+          if (activeCategories.length > 0) {
+            const dynamicCategories = activeCategories.map(key => ({
+              id: key,
+              label: formatCategoryLabel(key)
+            }));
+            setCategoriesList(dynamicCategories);
+            
+            // Check if current active category exists in the new list, if not, set to the first one
+            const currentCatIsValid = dynamicCategories.some(c => c.id === activeCategory);
+            if (!currentCatIsValid) {
+              setActiveCategory(dynamicCategories[0].id);
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching menu items from Supabase, using mock fallback:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadMenu();
+  }, []);
 
   useEffect(() => {
     const cat = new URLSearchParams(location.search).get('category');
-    if (cat && categories.map(c => c.id).includes(cat)) {
+    if (cat && categoriesList.map(c => c.id).includes(cat)) {
       setActiveCategory(cat);
     }
-  }, [location.search]);
+  }, [location.search, categoriesList]);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -234,7 +314,7 @@ const Menu = () => {
 
           {/* Floating Category Tabs (Redesigned) */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-3 reveal-up">
-            {categories.map((category) => (
+            {categoriesList.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
@@ -270,7 +350,7 @@ const Menu = () => {
               transition={{ duration: 0.5, staggerChildren: 0.1, ease: "easeOut" }}
               className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8"
             >
-              {menuData[activeCategory].map((item) => (
+              {(displayMenuData[activeCategory] || []).map((item) => (
                 <motion.div 
                   key={item.id} 
                   className="group relative flex flex-col bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl border border-[var(--color-silver-fog)]/60 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_rgba(57,70,82,0.08)] hover:shadow-[0_30px_60px_rgba(57,70,82,0.15)] transition-all duration-500 hover:-translate-y-2 hover:bg-white"
