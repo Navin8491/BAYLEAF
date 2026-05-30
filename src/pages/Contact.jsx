@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { submitContactMessage } from '../services/contact';
+// Import separated backend modules from unified services index
+import { submitContactMessage } from '../services';
 
 const formContainerVariants = {
   hidden: { opacity: 0 },

@@ -2,16 +2,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useCart } from './CartContext';
 
-// Import separated backend files
+// Import separated backend modules from unified services index
 import { 
   signUpUser, 
   signInUser, 
   signOutUser, 
   getUserProfile, 
   updateUserProfile, 
-  uploadUserAvatar 
-} from '../services/auth';
-import { getUserOrders } from '../services/orders';
+  uploadUserAvatar,
+  getUserOrders
+} from '../services';
 
 const AuthContext = createContext();
 

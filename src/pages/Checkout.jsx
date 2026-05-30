@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
-// Import separated backend files
-import { createOrder, createOrderItems } from '../services/orders';
+// Import separated backend modules from unified services index
+import { createOrder, createOrderItems } from '../services';
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
