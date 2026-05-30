@@ -61,6 +61,7 @@ const Menu = () => {
   const queryParams = new URLSearchParams(location.search);
   const initialCategory = queryParams.get('category');
   
+  const [prevUrlCat, setPrevUrlCat] = useState(initialCategory);
   const [activeCategory, setActiveCategory] = useState(
     initialCategory && categories.map(c => c.id).includes(initialCategory) ? initialCategory : 'signatureCoffee'
   );
@@ -70,7 +71,14 @@ const Menu = () => {
   
   const [displayMenuData, setDisplayMenuData] = useState(menuData);
   const [categoriesList, setCategoriesList] = useState(categories);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Sync category from URL in rendering phase if it changes
+  if (initialCategory !== prevUrlCat) {
+    setPrevUrlCat(initialCategory);
+    if (initialCategory && categoriesList.map(c => c.id).includes(initialCategory)) {
+      setActiveCategory(initialCategory);
+    }
+  }
 
   useEffect(() => {
     const loadMenu = async () => {
@@ -123,20 +131,11 @@ const Menu = () => {
         }
       } catch (err) {
         console.error('Error fetching menu items from Supabase, using mock fallback:', err);
-      } finally {
-        setIsLoading(false);
       }
     };
     
     loadMenu();
   }, []);
-
-  useEffect(() => {
-    const cat = new URLSearchParams(location.search).get('category');
-    if (cat && categoriesList.map(c => c.id).includes(cat)) {
-      setActiveCategory(cat);
-    }
-  }, [location.search, categoriesList]);
 
   useEffect(() => {
     let ctx = gsap.context(() => {

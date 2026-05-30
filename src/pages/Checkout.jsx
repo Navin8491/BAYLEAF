@@ -20,14 +20,17 @@ const Checkout = () => {
   const total = subtotal + delivery;
 
   // Form states
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [firstName, setFirstName] = useState(() => (user?.name || '').split(' ')[0] || '');
+  const [lastName, setLastName] = useState(() => (user?.name || '').split(' ').slice(1).join(' ') || '');
+  const [email, setEmail] = useState(() => user?.email || '');
+  const [phone, setPhone] = useState(() => user?.phone || '');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Keep track of the user we prefilled from
+  const [prevUser, setPrevUser] = useState(user);
 
   // Route protection
   useEffect(() => {
@@ -37,16 +40,17 @@ const Checkout = () => {
     }
   }, [isLoggedIn, authLoading, navigate]);
 
-  // Prefill details if user logged in
-  useEffect(() => {
+  // Prefill details when user object changes (direct in render)
+  if (user !== prevUser) {
+    setPrevUser(user);
     if (user) {
       const names = (user.name || '').split(' ');
-      setFirstName(names[0] || '');
-      setLastName(names.slice(1).join(' ') || '');
-      setEmail(user.email || '');
-      setPhone(user.phone || '');
+      if (!firstName) setFirstName(names[0] || '');
+      if (!lastName) setLastName(names.slice(1).join(' ') || '');
+      if (!email) setEmail(user.email || '');
+      if (!phone) setPhone(user.phone || '');
     }
-  }, [user]);
+  }
 
   useEffect(() => {
     if (authLoading || cartItems.length === 0 || !containerRef.current) return;
