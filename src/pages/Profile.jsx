@@ -47,22 +47,22 @@ const Profile = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-[var(--color-soft-ivory)]/75 border border-[var(--color-silver-fog)]/30 p-6 rounded-[2rem] shadow-sm">
         <div className="flex items-center gap-4">
           <img
-            src={user.avatar}
-            alt={user.name}
+            src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
+            alt={user?.name || 'User'}
             className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
           />
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xl font-heading font-bold text-[var(--color-rich-graphite)]">{user.name}</h3>
+              <h3 className="text-xl font-heading font-bold text-[var(--color-rich-graphite)]">{user?.name || 'User'}</h3>
               <span className="px-2.5 py-0.5 rounded-full bg-[var(--color-muted-teal)]/15 border border-[var(--color-muted-teal)]/20 text-[8px] font-bold tracking-wider uppercase text-[var(--color-muted-teal)] flex items-center gap-1">
-                <FiAward size={10} /> {user.status}
+                <FiAward size={10} /> {user?.status || 'Member'}
               </span>
             </div>
             
             <div className="flex flex-col gap-1 mt-1 text-[11px] text-[var(--color-gray-blue)] font-light">
-              <span className="flex items-center gap-1.5"><FiMail size={12} /> {user.email}</span>
-              <span className="flex items-center gap-1.5"><FiSmartphone size={12} /> {user.phone}</span>
-              <span className="flex items-center gap-1.5"><FiCalendar size={12} /> Member Since: {user.memberSince}</span>
+              <span className="flex items-center gap-1.5"><FiMail size={12} /> {user?.email || ''}</span>
+              <span className="flex items-center gap-1.5"><FiSmartphone size={12} /> {user?.phone || ''}</span>
+              <span className="flex items-center gap-1.5"><FiCalendar size={12} /> Member Since: {user?.memberSince || ''}</span>
             </div>
           </div>
         </div>
@@ -119,8 +119,8 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <h4 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)]">{user.loyaltyPoints}</h4>
-            <p className="text-[9px] text-[var(--color-gray-blue)] font-light mt-0.5">Equivalent to £{(user.loyaltyPoints * 0.05).toFixed(2)} rewards</p>
+            <h4 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)]">{user?.loyaltyPoints || 0}</h4>
+            <p className="text-[9px] text-[var(--color-gray-blue)] font-light mt-0.5">Equivalent to £{((user?.loyaltyPoints || 0) * 0.05).toFixed(2)} rewards</p>
           </div>
         </div>
 

@@ -5,18 +5,27 @@ import { FiUser, FiShoppingBag, FiSettings, FiLogOut, FiAward, FiCompass } from 
 import { useAuth } from '../context/AuthContext';
 
 const DashboardLayout = () => {
-  const { user, logout, isLoggedIn } = useAuth();
+  const { user, logout, isLoggedIn, authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   // Route protection for design prototype
   React.useEffect(() => {
-    if (!isLoggedIn) {
+    if (!authLoading && !isLoggedIn) {
       navigate('/login');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, authLoading, navigate]);
 
-  if (!isLoggedIn) return null;
+  if (authLoading || !isLoggedIn || !user) {
+    return (
+      <div className="pt-32 pb-16 min-h-screen bg-[var(--color-soft-ivory)] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 rounded-full border-4 border-[var(--color-muted-teal)]/30 border-t-[var(--color-muted-teal)] animate-spin" />
+          <span className="text-xs font-bold uppercase tracking-[0.15em] text-[var(--color-gray-blue)]">Syncing Session...</span>
+        </div>
+      </div>
+    );
+  }
 
   const menuItems = [
     { name: 'Profile Overview', path: '/profile', icon: FiUser, end: true },
@@ -26,7 +35,7 @@ const DashboardLayout = () => {
 
   // Loyalty calculation
   const nextTierPoints = 500;
-  const currentPoints = user.loyaltyPoints || 0;
+  const currentPoints = user?.loyaltyPoints || 0;
   const progressPercent = Math.min(100, (currentPoints / nextTierPoints) * 100);
 
   return (
@@ -56,12 +65,12 @@ const DashboardLayout = () => {
               <span className="text-[var(--color-muted-teal)]">Dashboard</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-heading font-medium text-[var(--color-rich-graphite)] tracking-tight">
-              Welcome back, <span className="text-[var(--color-muted-teal)] font-medium">{user.name.split(' ')[0]}</span>
+              Welcome back, <span className="text-[var(--color-muted-teal)] font-medium">{user?.name?.split(' ')[0] || 'User'}</span>
             </h1>
           </div>
           <div className="flex items-center gap-3">
             <span className="px-4 py-1.5 rounded-full bg-[var(--color-warm-sand)]/20 border border-[var(--color-warm-sand)]/40 text-[10px] tracking-widest font-bold uppercase text-[var(--color-sand-accent)] flex items-center gap-1.5 shadow-sm">
-              <FiAward className="animate-pulse" /> {user.status}
+              <FiAward className="animate-pulse" /> {user?.status || 'Member'}
             </span>
           </div>
         </div>
@@ -78,8 +87,8 @@ const DashboardLayout = () => {
               <div className="relative mb-4 group-hover:scale-105 transition-transform duration-500">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] rounded-full blur-md opacity-25 group-hover:opacity-40 transition-opacity"></div>
                 <img
-                  src={user.avatar}
-                  alt={user.name}
+                  src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
+                  alt={user?.name || 'User'}
                   className="relative w-20 h-20 rounded-full object-cover border-2 border-white/80 shadow-md"
                 />
                 <span className="absolute -bottom-1 -right-1 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white p-1 rounded-full text-xs shadow-md border border-white/90">
@@ -87,8 +96,8 @@ const DashboardLayout = () => {
                 </span>
               </div>
 
-              <h2 className="text-lg font-heading text-[var(--color-rich-graphite)] font-bold">{user.name}</h2>
-              <p className="text-xs text-[var(--color-gray-blue)]/80 font-light mb-5">{user.email}</p>
+              <h2 className="text-lg font-heading text-[var(--color-rich-graphite)] font-bold">{user?.name || 'User'}</h2>
+              <p className="text-xs text-[var(--color-gray-blue)]/80 font-light mb-5">{user?.email || ''}</p>
 
               {/* Loyalty Gauge Meter Card */}
               <div className="w-full bg-[var(--color-soft-ivory)]/70 border border-[var(--color-silver-fog)]/30 rounded-2xl p-4 mb-6 shadow-inner">

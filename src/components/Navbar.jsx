@@ -10,7 +10,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { getCartCount } = useCart();
-  const { user, isLoggedIn, logout } = useAuth();
+  const { user, isLoggedIn, logout, authLoading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -109,19 +109,24 @@ const Navbar = () => {
 
             {/* User Account / Profile Menu */}
             <div className="relative" ref={dropdownRef}>
-              {isLoggedIn ? (
+              {authLoading ? (
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--color-silver-fog)]/30 bg-[var(--color-silver-fog)]/10">
+                  <div className="w-4 h-4 rounded-full border-2 border-[var(--color-muted-teal)]/30 border-t-[var(--color-muted-teal)] animate-spin" />
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--color-gray-blue)]">Loading...</span>
+                </div>
+              ) : isLoggedIn ? (
                 <>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full border border-[var(--color-silver-fog)]/50 hover:bg-[var(--color-silver-fog)]/30 transition-all duration-300 focus:outline-none"
                   >
                     <img
-                      src={user.avatar}
-                      alt={user.name}
+                      src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
+                      alt={user?.name || 'User'}
                       className="w-7 h-7 rounded-full object-cover border border-white"
                     />
                     <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-deep-slate)]">
-                      Profile
+                      {user?.name ? 'Profile' : 'Loading...'}
                     </span>
                   </button>
                   
@@ -135,8 +140,8 @@ const Navbar = () => {
                         className="absolute right-0 mt-3 w-56 bg-white/90 backdrop-blur-2xl border border-[var(--color-silver-fog)]/40 rounded-2xl shadow-luxury p-3 z-50 flex flex-col gap-1"
                       >
                         <div className="px-3 py-2 border-b border-[var(--color-silver-fog)]/20 mb-1">
-                          <p className="text-[11px] font-bold text-[var(--color-rich-graphite)] truncate">{user.name}</p>
-                          <p className="text-[9px] text-[var(--color-gray-blue)]/80 truncate font-light">{user.email}</p>
+                          <p className="text-[11px] font-bold text-[var(--color-rich-graphite)] truncate">{user?.name || 'User Profile'}</p>
+                          <p className="text-[9px] text-[var(--color-gray-blue)]/80 truncate font-light">{user?.email || 'Loading...'}</p>
                         </div>
                         
                         <Link
@@ -202,11 +207,11 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-            {isLoggedIn && (
+            {!authLoading && isLoggedIn && (
               <Link to="/profile" className="flex items-center justify-center">
                 <img
-                  src={user.avatar}
-                  alt={user.name}
+                  src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop'}
+                  alt={user?.name || 'User'}
                   className="w-6 h-6 rounded-full object-cover border border-white"
                 />
               </Link>

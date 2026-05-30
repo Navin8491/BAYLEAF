@@ -15,10 +15,10 @@ const EditProfile = () => {
   const { user, updateProfile } = useAuth();
   const navigate = useNavigate();
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState(user.phone);
-  const [avatar, setAvatar] = useState(user.avatar);
+  const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [avatar, setAvatar] = useState(user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop');
   const [isSaving, setIsSaving] = useState(false);
 
   const handleAvatarChange = (presetUrl) => {
