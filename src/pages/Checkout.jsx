@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 
 // Import separated backend modules from unified backend services index
-import { createOrder, createOrderItems } from '../backend/services';
+import { createOrder, createOrderItems } from '../../backend/services';
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();

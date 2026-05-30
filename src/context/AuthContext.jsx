@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../backend/database/supabase';
+import { supabase } from '../../backend/database/supabase';
 import { useCart } from './CartContext';
 
 // Import separated backend modules from unified backend services index
@@ -11,7 +11,7 @@ import {
   updateUserProfile, 
   uploadUserAvatar,
   getUserOrders
-} from '../backend/services';
+} from '../../backend/services';
 
 const AuthContext = createContext();
 

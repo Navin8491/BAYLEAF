@@ -5,7 +5,7 @@ import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ArticleModal from '../components/ArticleModal';
-import { getBlogPosts, formatDate } from '../backend/services';
+import { getBlogPosts, formatDate } from '../../backend/services';
 
 gsap.registerPlugin(ScrollTrigger);
 

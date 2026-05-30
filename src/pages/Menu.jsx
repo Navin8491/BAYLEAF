@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCart } from '../context/CartContext';
 import { Link, useLocation } from 'react-router-dom';
-import { getProducts, formatPrice } from '../backend/services';
+import { getProducts, formatPrice } from '../../backend/services';
 
 gsap.registerPlugin(ScrollTrigger);
 
