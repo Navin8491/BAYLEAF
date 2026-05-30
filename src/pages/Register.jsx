@@ -85,11 +85,12 @@ const Register = () => {
 
   const handleGoogleSignup = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      register({
+    setTimeout(async () => {
+      await register({
         name: 'Alex Rivera',
         email: 'alex.rivera@gmail.com',
-        phone: '+44 7911 888999'
+        phone: '+44 7911 888999',
+        password: 'googleOAuthPasswordPlaceholder'
       });
       setIsLoading(false);
       navigate('/profile');

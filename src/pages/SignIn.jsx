@@ -37,13 +37,13 @@ const SignIn = () => {
     setIsLoading(true);
 
     // Simulate loading for premium dashboard feel
-    setTimeout(() => {
-      const result = login(email, password);
+    setTimeout(async () => {
+      const result = await login(email, password);
       setIsLoading(false);
       if (result.success) {
         navigate('/profile');
       } else {
-        setError(result.message);
+        setError(result.message || 'Login failed. Please check your credentials.');
       }
     }, 1500);
   };
@@ -60,8 +60,8 @@ const SignIn = () => {
 
   const handleGoogleLogin = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      login('google.user@gmail.com', 'googlepwd');
+    setTimeout(async () => {
+      await login('google.user@gmail.com', 'googlepwd');
       setIsLoading(false);
       navigate('/profile');
     }, 1200);

@@ -10,7 +10,8 @@ import {
   getUserProfile, 
   updateUserProfile, 
   uploadUserAvatar,
-  getUserOrders
+  getUserOrders,
+  syncUserSessionProfile
 } from '../../backend/services';
 
 const AuthContext = createContext();
@@ -48,25 +49,55 @@ export const AuthProvider = ({ children }) => {
 
   // Helper: Fetch Profile using auth backend file
   const fetchProfile = async (userId) => {
-    const result = await getUserProfile(userId);
-    if (result.success && result.data) {
-      const data = result.data;
-      const memberDate = new Date(data.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const email = session?.user?.email || '';
+      const name = session?.user?.user_metadata?.full_name || session?.user?.user_metadata?.name || '';
       
-      const tempUser = {
-        id: data.id,
-        name: data.full_name,
-        email: data.email,
-        phone: data.phone || '',
-        avatar: data.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
-        memberSince: memberDate,
-        loyaltyPoints: 50,
-        status: 'Bronze Member'
-      };
+      let result;
+      if (email) {
+        result = await syncUserSessionProfile(userId, email, name);
+      } else {
+        result = await getUserProfile(userId);
+      }
+      
+      if (result.success && result.data) {
+        const data = result.data;
+        const memberDate = new Date(data.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        
+        const tempUser = {
+          id: data.id,
+          name: data.full_name,
+          email: data.email,
+          phone: data.phone || '',
+          avatar: data.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
+          memberSince: memberDate,
+          loyaltyPoints: 50,
+          status: 'Bronze Member'
+        };
 
-      setUser(tempUser);
-      await fetchOrders(userId, tempUser);
-      return tempUser;
+        setUser(tempUser);
+        await fetchOrders(userId, tempUser);
+        return tempUser;
+      } else {
+        // Safe local fallback if database profile record sync fails
+        if (session) {
+          const tempUser = {
+            id: session.user.id,
+            name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email.split('@')[0],
+            email: session.user.email,
+            phone: session.user.phone || '',
+            avatar: session.user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
+            memberSince: 'Joined Today',
+            loyaltyPoints: 0,
+            status: 'Bronze Member'
+          };
+          setUser(tempUser);
+          return tempUser;
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching/syncing user profile:', err);
     }
     return null;
   };
@@ -206,7 +237,7 @@ export const AuthProvider = ({ children }) => {
     const result = await updateUserProfile(user.id, {
       name: updatedFields.name,
       phone: updatedFields.phone,
-      avatarUrl: updatedFields.avatar
+      avatar: updatedFields.avatar
     });
 
     if (!result.success) {
@@ -233,7 +264,7 @@ export const AuthProvider = ({ children }) => {
       showToast('Avatar upload failed: ' + result.message);
       return null;
     }
-    return result.publicUrl;
+    return result.data;
   };
 
   const updateSettings = (updatedSettings) => {
