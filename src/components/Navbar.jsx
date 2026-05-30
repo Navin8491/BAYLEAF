@@ -1,14 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX, FiShoppingCart } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { FiMenu, FiX, FiShoppingCart, FiUser, FiLogOut, FiShoppingBag, FiSettings } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { getCartCount } = useCart();
+  const { user, isLoggedIn, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     let active = false;
@@ -90,6 +106,90 @@ const Navbar = () => {
                 )}
               </div>
             </Link>
+
+            {/* User Account / Profile Menu */}
+            <div className="relative" ref={dropdownRef}>
+              {isLoggedIn ? (
+                <>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center gap-2.5 pl-2 pr-4 py-1.5 rounded-full border border-[var(--color-silver-fog)]/50 hover:bg-[var(--color-silver-fog)]/30 transition-all duration-300 focus:outline-none"
+                  >
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="w-7 h-7 rounded-full object-cover border border-white"
+                    />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-deep-slate)]">
+                      Profile
+                    </span>
+                  </button>
+                  
+                  <AnimatePresence>
+                    {dropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                        className="absolute right-0 mt-3 w-56 bg-white/90 backdrop-blur-2xl border border-[var(--color-silver-fog)]/40 rounded-2xl shadow-luxury p-3 z-50 flex flex-col gap-1"
+                      >
+                        <div className="px-3 py-2 border-b border-[var(--color-silver-fog)]/20 mb-1">
+                          <p className="text-[11px] font-bold text-[var(--color-rich-graphite)] truncate">{user.name}</p>
+                          <p className="text-[9px] text-[var(--color-gray-blue)]/80 truncate font-light">{user.email}</p>
+                        </div>
+                        
+                        <Link
+                          to="/profile"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20 transition-all"
+                        >
+                          <FiUser size={14} />
+                          <span>My Dashboard</span>
+                        </Link>
+                        <Link
+                          to="/profile/orders"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20 transition-all"
+                        >
+                          <FiShoppingBag size={14} />
+                          <span>Order History</span>
+                        </Link>
+                        <Link
+                          to="/profile/settings"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20 transition-all"
+                        >
+                          <FiSettings size={14} />
+                          <span>Settings</span>
+                        </Link>
+                        
+                        <hr className="border-[var(--color-silver-fog)]/20 my-1" />
+                        
+                        <button
+                          onClick={() => {
+                            setDropdownOpen(false);
+                            logout();
+                            navigate('/');
+                          }}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider text-red-600/80 hover:text-red-700 hover:bg-red-50/55 transition-all text-left w-full"
+                        >
+                          <FiLogOut size={14} />
+                          <span>Logout</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-6 py-2.5 rounded-full bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] text-white text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_6px_15px_rgba(95,124,123,0.2)] hover:shadow-[0_8px_20px_rgba(95,124,123,0.35)] hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  Sign In
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -102,6 +202,15 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+            {isLoggedIn && (
+              <Link to="/profile" className="flex items-center justify-center">
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-6 h-6 rounded-full object-cover border border-white"
+                />
+              </Link>
+            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-[var(--color-rich-graphite)] focus:outline-none"
@@ -157,6 +266,69 @@ const Navbar = () => {
                   </NavLink>
                 </motion.li>
               ))}
+              
+              {/* Account related links inside Mobile Drawer */}
+              <motion.li
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + navLinks.length * 0.03, duration: 0.3 }}
+                className="w-full pt-2 border-t border-[#2D2D2D]/10"
+              >
+                {isLoggedIn ? (
+                  <div className="flex flex-col space-y-3 w-full pl-0">
+                    <span className="text-[9px] tracking-wider uppercase font-bold text-[var(--color-muted-teal)]">My Account</span>
+                    <NavLink
+                      to="/profile"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-sm uppercase font-heading font-semibold tracking-wide text-[#2D2D2D] hover:text-[var(--color-muted-teal)]"
+                    >
+                      Profile Dashboard
+                    </NavLink>
+                    <NavLink
+                      to="/profile/orders"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-sm uppercase font-heading font-semibold tracking-wide text-[#2D2D2D] hover:text-[var(--color-muted-teal)]"
+                    >
+                      My Orders
+                    </NavLink>
+                    <NavLink
+                      to="/profile/settings"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-sm uppercase font-heading font-semibold tracking-wide text-[#2D2D2D] hover:text-[var(--color-muted-teal)]"
+                    >
+                      Account Settings
+                    </NavLink>
+                    <button
+                      onClick={() => {
+                        setIsOpen(false);
+                        logout();
+                        navigate('/');
+                      }}
+                      className="text-left text-sm uppercase font-heading font-semibold tracking-wide text-red-600 hover:text-red-700 mt-2"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-3 w-full pl-0">
+                    <span className="text-[9px] tracking-wider uppercase font-bold text-[var(--color-muted-teal)]">Authentication</span>
+                    <NavLink
+                      to="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-sm uppercase font-heading font-semibold tracking-wide text-[#2D2D2D] hover:text-[var(--color-muted-teal)]"
+                    >
+                      Sign In
+                    </NavLink>
+                    <NavLink
+                      to="/register"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-sm uppercase font-heading font-semibold tracking-wide text-[#2D2D2D] hover:text-[var(--color-muted-teal)]"
+                    >
+                      Create Account
+                    </NavLink>
+                  </div>
+                )}
+              </motion.li>
             </ul>
 
             {/* Drawer Footer details */}
