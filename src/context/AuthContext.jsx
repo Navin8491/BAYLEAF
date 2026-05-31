@@ -205,18 +205,36 @@ export const AuthProvider = ({ children }) => {
         setAuthLoading(true);
         if (session && active) {
           setIsLoggedIn(true);
-          await fetchProfile(session.user.id, session);
+          // Set initial fallback user immediately so the UI has user data and can render without spinner
+          const tempUser = {
+            id: session.user.id,
+            name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email.split('@')[0],
+            email: session.user.email,
+            phone: session.user.phone || '',
+            avatar: session.user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
+            memberSince: 'Joined Today',
+            loyaltyPoints: 0,
+            status: 'Bronze Member'
+          };
+          setUser(tempUser);
+          
+          // Terminate auth loading immediately so page loads without spinning delay
+          setAuthLoading(false);
+          console.log('Auth loading complete (Optimistic)');
+
+          // Sync database profile and fetch orders in the background
+          fetchProfile(session.user.id, session);
         } else if (active) {
           setIsLoggedIn(false);
           setUser(null);
           setOrders([]);
+          setAuthLoading(false);
+          console.log('Auth loading complete (Anonymous)');
         }
       } catch (err) {
         console.error('Auth state change handling error:', err);
-      } finally {
         if (active) {
           setAuthLoading(false);
-          console.log('Auth loading complete');
         }
       }
     });
