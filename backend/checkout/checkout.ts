@@ -14,6 +14,7 @@ export const createOrder = async (params: OrderCreationParams): Promise<ServiceR
   const { userId, totalAmount, shippingAddress } = params;
 
   try {
+    console.log('Query INSERT orders: [Before fetch]');
     const { data, error } = await supabase
       .from('orders')
       .insert({
@@ -26,8 +27,13 @@ export const createOrder = async (params: OrderCreationParams): Promise<ServiceR
       })
       .select()
       .single();
+    console.log('Query INSERT orders: [After fetch]');
+    console.log('Query INSERT orders: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query INSERT orders: [Error]', error);
+      throw error;
+    }
 
     return { success: true, data: data as OrderResponse };
   } catch (err: any) {
@@ -46,12 +52,18 @@ export const createOrderItems = async (orderItems: OrderItemParams[]): Promise<S
   }
 
   try {
+    console.log('Query INSERT order_items: [Before fetch]');
     const { data, error } = await supabase
       .from('order_items')
       .insert(orderItems)
       .select();
+    console.log('Query INSERT order_items: [After fetch]');
+    console.log('Query INSERT order_items: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query INSERT order_items: [Error]', error);
+      throw error;
+    }
 
     return { success: true, data: data as OrderItemResponse[] };
   } catch (err: any) {

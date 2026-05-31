@@ -10,6 +10,7 @@ export const getUserOrders = async (userId: string): Promise<ServiceResponse<Ord
   }
 
   try {
+    console.log('Query SELECT orders list: [Before fetch]');
     const { data, error } = await supabase
       .from('orders')
       .select(`
@@ -31,8 +32,13 @@ export const getUserOrders = async (userId: string): Promise<ServiceResponse<Ord
       `)
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
+    console.log('Query SELECT orders list: [After fetch]');
+    console.log('Query SELECT orders list: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query SELECT orders list: [Error]', error);
+      throw error;
+    }
 
     return { success: true, data: data as unknown as OrderResponse[] };
   } catch (err: any) {

@@ -16,6 +16,7 @@ export const signUpUser = async (params: UserSignUpParams): Promise<ServiceRespo
   const { email, password, name, phone } = params;
 
   try {
+    console.log('Query auth.signUp: [Before fetch]');
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -26,15 +27,25 @@ export const signUpUser = async (params: UserSignUpParams): Promise<ServiceRespo
         }
       }
     });
-
-    if (error) throw error;
+    console.log('Query auth.signUp: [After fetch]');
+    console.log('Query auth.signUp: [Data]', data);
+    if (error) {
+      console.log('Query auth.signUp: [Error]', error);
+      throw error;
+    }
     if (!data.user) throw new Error('No user account data returned.');
 
     // Save initial login timestamp in user profile
-    await supabase
+    console.log('Query UPDATE users last_login: [Before fetch]');
+    const { data: updateData, error: updateError } = await supabase
       .from('users')
       .update({ last_login: new Date().toISOString() })
       .eq('id', data.user.id);
+    console.log('Query UPDATE users last_login: [After fetch]');
+    console.log('Query UPDATE users last_login: [Data]', updateData);
+    if (updateError) {
+      console.log('Query UPDATE users last_login: [Error]', updateError);
+    }
 
     return { success: true, data: data.user };
   } catch (err: any) {
@@ -55,19 +66,30 @@ export const signInUser = async (params: UserSignInParams): Promise<ServiceRespo
   const { email, password } = params;
 
   try {
+    console.log('Query auth.signInWithPassword: [Before fetch]');
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
-
-    if (error) throw error;
+    console.log('Query auth.signInWithPassword: [After fetch]');
+    console.log('Query auth.signInWithPassword: [Data]', data);
+    if (error) {
+      console.log('Query auth.signInWithPassword: [Error]', error);
+      throw error;
+    }
 
     if (data.user) {
       // Update last login timestamp
-      await supabase
+      console.log('Query UPDATE users last_login: [Before fetch]');
+      const { data: updateData, error: updateError } = await supabase
         .from('users')
         .update({ last_login: new Date().toISOString() })
         .eq('id', data.user.id);
+      console.log('Query UPDATE users last_login: [After fetch]');
+      console.log('Query UPDATE users last_login: [Data]', updateData);
+      if (updateError) {
+        console.log('Query UPDATE users last_login: [Error]', updateError);
+      }
     }
 
     return { success: true, data: { user: data.user } };
@@ -82,8 +104,14 @@ export const signInUser = async (params: UserSignInParams): Promise<ServiceRespo
  */
 export const signOutUser = async (): Promise<ServiceResponse> => {
   try {
+    console.log('Query auth.signOut: [Before fetch]');
     const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    console.log('Query auth.signOut: [After fetch]');
+    if (error) {
+      console.log('Query auth.signOut: [Error]', error);
+      throw error;
+    }
+    console.log('Query auth.signOut: [Data] Sign out successful');
     return { success: true };
   } catch (err: any) {
     console.error('Auth SignOut Error:', err);

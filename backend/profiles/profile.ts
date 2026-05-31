@@ -11,13 +11,19 @@ export const getUserProfile = async (userId: string): Promise<ServiceResponse<Us
   }
 
   try {
+    console.log('Query SELECT users profile: [Before fetch]');
     const { data, error } = await supabase
       .from('users')
       .select('*')
       .eq('id', userId)
       .single();
+    console.log('Query SELECT users profile: [After fetch]');
+    console.log('Query SELECT users profile: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query SELECT users profile: [Error]', error);
+      throw error;
+    }
 
     return { success: true, data: data as UserProfileResponse };
   } catch (err: any) {
@@ -42,16 +48,23 @@ export const updateUserProfile = async (userId: string, params: UserProfileUpdat
   const { name, phone, avatar } = params;
 
   try {
-    const { error } = await supabase
+    console.log('Query UPDATE users profile: [Before fetch]');
+    const { data, error } = await supabase
       .from('users')
       .update({
         full_name: name.trim(),
         phone: phone?.trim() || '',
         avatar_url: avatar || ''
       })
-      .eq('id', userId);
+      .eq('id', userId)
+      .select();
+    console.log('Query UPDATE users profile: [After fetch]');
+    console.log('Query UPDATE users profile: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query UPDATE users profile: [Error]', error);
+      throw error;
+    }
     return { success: true };
   } catch (err: any) {
     console.error('Update Profile Error:', err);
@@ -74,19 +87,28 @@ export const uploadUserAvatar = async (userId: string, file: File): Promise<Serv
     const fileExt = file.name.split('.').pop() || 'png';
     const fileName = `${userId}/${Date.now()}.${fileExt}`;
 
+    console.log('Query STORAGE upload avatar: [Before fetch]');
     const { data, error } = await supabase.storage
       .from('avatars')
       .upload(fileName, file, {
         cacheControl: '3600',
         upsert: true
       });
+    console.log('Query STORAGE upload avatar: [After fetch]');
+    console.log('Query STORAGE upload avatar: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query STORAGE upload avatar: [Error]', error);
+      throw error;
+    }
 
     // Get public URL
+    console.log('Query STORAGE getPublicUrl avatar: [Before fetch]');
     const { data: { publicUrl } } = supabase.storage
       .from('avatars')
       .getPublicUrl(fileName);
+    console.log('Query STORAGE getPublicUrl avatar: [After fetch]');
+    console.log('Query STORAGE getPublicUrl avatar: [Data]', publicUrl);
 
     return { success: true, data: publicUrl };
   } catch (err: any) {

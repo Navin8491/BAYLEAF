@@ -11,10 +11,10 @@ const DashboardLayout = () => {
 
   // Route protection for design prototype
   React.useEffect(() => {
-    if (!authLoading && !isLoggedIn) {
+    if (!authLoading && (!isLoggedIn || !user)) {
       navigate('/login');
     }
-  }, [isLoggedIn, authLoading, navigate]);
+  }, [isLoggedIn, authLoading, user, navigate]);
 
   if (authLoading || !isLoggedIn || !user) {
     return (

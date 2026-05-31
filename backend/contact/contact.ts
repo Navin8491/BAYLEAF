@@ -14,7 +14,8 @@ export const submitContactMessage = async (params: ContactMessageParams): Promis
   const { name, email, phone, message } = params;
 
   try {
-    const { data, error } = await supabase
+    console.log('Query INSERT contact_messages: [Before fetch]');
+    const { error } = await supabase
       .from('contact_messages')
       .insert({
         name: name.trim(),
@@ -22,9 +23,13 @@ export const submitContactMessage = async (params: ContactMessageParams): Promis
         phone: phone?.trim() || '',
         message: message.trim()
       });
+    console.log('Query INSERT contact_messages: [After fetch]');
 
-    if (error) throw error;
-    return { success: true, data };
+    if (error) {
+      console.log('Query INSERT contact_messages: [Error]', error);
+      throw error;
+    }
+    return { success: true };
   } catch (err: any) {
     console.error('Submit Contact Message Error:', err);
     return { success: false, message: err.message || 'Could not send your message. Please try again later.' };

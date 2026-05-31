@@ -11,19 +11,26 @@ export const syncUserSessionProfile = async (userId: string, email: string, name
   }
 
   try {
+    console.log('Query SELECT users: [Before fetch]');
     const { data: profile, error: selectError } = await supabase
       .from('users')
       .select('*')
       .eq('id', userId)
       .maybeSingle();
+    console.log('Query SELECT users: [After fetch]');
+    console.log('Query SELECT users: [Data]', profile);
 
-    if (selectError) throw selectError;
+    if (selectError) {
+      console.log('Query SELECT users: [Error]', selectError);
+      throw selectError;
+    }
 
     if (profile) {
       return { success: true, data: profile as UserProfileResponse };
     }
 
     // Insert missing profile
+    console.log('Query INSERT users: [Before fetch]');
     const { data: newProfile, error: insertError } = await supabase
       .from('users')
       .insert({
@@ -34,8 +41,13 @@ export const syncUserSessionProfile = async (userId: string, email: string, name
       })
       .select()
       .single();
+    console.log('Query INSERT users: [After fetch]');
+    console.log('Query INSERT users: [Data]', newProfile);
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.log('Query INSERT users: [Error]', insertError);
+      throw insertError;
+    }
 
     return { success: true, data: newProfile as UserProfileResponse };
   } catch (err: any) {

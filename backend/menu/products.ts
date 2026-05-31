@@ -6,13 +6,19 @@ import { ServiceResponse, Product } from '../types';
  */
 export const getProducts = async (): Promise<ServiceResponse<Product[]>> => {
   try {
+    console.log('Query SELECT menu_items: [Before fetch]');
     const { data, error } = await supabase
       .from('menu_items')
       .select('*')
       .eq('available', true)
       .order('name', { ascending: true });
+    console.log('Query SELECT menu_items: [After fetch]');
+    console.log('Query SELECT menu_items: [Data]', data);
 
-    if (error) throw error;
+    if (error) {
+      console.log('Query SELECT menu_items: [Error]', error);
+      throw error;
+    }
     return { success: true, data: data as Product[] };
   } catch (err: any) {
     console.error('Fetch Products Error:', err);
@@ -29,13 +35,19 @@ export const getProductsByCategory = async (category: string): Promise<ServiceRe
   }
 
   try {
+    console.log(`Query SELECT menu_items category ${category}: [Before fetch]`);
     const { data, error } = await supabase
       .from('menu_items')
       .select('*')
       .eq('category', category)
       .eq('available', true);
+    console.log(`Query SELECT menu_items category ${category}: [After fetch]`);
+    console.log(`Query SELECT menu_items category ${category}: [Data]`, data);
 
-    if (error) throw error;
+    if (error) {
+      console.log(`Query SELECT menu_items category ${category}: [Error]`, error);
+      throw error;
+    }
     return { success: true, data: data as Product[] };
   } catch (err: any) {
     console.error(`Fetch Products By Category (${category}) Error:`, err);
