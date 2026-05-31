@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
       if (!currentSession) {
         console.log('fetchProfile: No session provided, calling getSession...');
         const sessionPromise = supabase.auth.getSession();
-        const getSessionTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('getSession timeout')), 4000));
+        const getSessionTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('getSession timeout')), 15000));
         const { data: { session: fetchedSession } } = await Promise.race([sessionPromise, getSessionTimeout]);
         currentSession = fetchedSession;
       }
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
       const name = currentSession?.user?.user_metadata?.full_name || currentSession?.user?.user_metadata?.name || '';
       
       let result;
-      const apiTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), 5000));
+      const apiTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), 15000));
       if (email) {
         result = await Promise.race([syncUserSessionProfile(userId, email, name), apiTimeout]);
       } else {
@@ -104,6 +104,7 @@ export const AuthProvider = ({ children }) => {
             status: 'Bronze Member'
           };
           setUser(tempUser);
+          await fetchOrders(currentSession.user.id, tempUser);
           return tempUser;
         }
       }
@@ -123,6 +124,7 @@ export const AuthProvider = ({ children }) => {
           status: 'Bronze Member'
         };
         setUser(tempUser);
+        await fetchOrders(fallbackSession.user.id, tempUser);
         return tempUser;
       }
     }
@@ -133,7 +135,7 @@ export const AuthProvider = ({ children }) => {
   const fetchOrders = async (userId, currentProfile = null) => {
     try {
       console.log(`fetchOrders [Before fetch]: User ID = ${userId}`);
-      const apiTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), 5000));
+      const apiTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), 15000));
       const result = await Promise.race([getUserOrders(userId), apiTimeout]);
       console.log(`fetchOrders [After fetch]: Result success = ${result.success}`);
       if (result.success && result.data) {

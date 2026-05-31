@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiSliders, FiCalendar, FiChevronRight, FiCoffee, FiShoppingBag, FiInfo } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 
 const OrderHistory = () => {
-  const { orders } = useAuth();
+  const { orders, fetchOrders, user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchOrders(user.id);
+    }
+  }, [user?.id, fetchOrders]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
