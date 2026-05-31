@@ -209,7 +209,7 @@ const Menu = () => {
         
         {/* Cinematic Gradient Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <div className="hero-bg-zoom absolute inset-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=2500&auto=format&fit=crop')] bg-cover bg-center opacity-30 mix-blend-luminosity grayscale-[10%]"></div>
+          <div className="hero-bg-zoom absolute inset-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1400&auto=format&fit=crop&fm=webp')] bg-cover bg-center opacity-30 mix-blend-luminosity grayscale-[10%]"></div>
           
           <div className="absolute inset-0 z-10 bg-gradient-to-b from-[var(--color-soft-ivory)]/30 via-[var(--color-powder-blue)]/10 to-[var(--color-soft-ivory)]"></div>
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-[var(--color-soft-ivory)] via-transparent to-transparent"></div>
@@ -252,7 +252,7 @@ const Menu = () => {
                 <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-inner">
                   <div className="absolute inset-0 bg-[var(--color-deep-slate)]/10 z-10 mix-blend-overlay"></div>
                   <img 
-                    src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1600&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=800&auto=format&fit=crop&fm=webp" 
                     alt="Signature Cold Brew" 
                     className="sig-brew-img w-full h-[130%] object-cover object-center"
                     onError={(e) => {
@@ -285,7 +285,7 @@ const Menu = () => {
               
               <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                 <button 
-                  onClick={() => addToCart({ id: 'sig-exp-1', name: 'Kyoto Reserve', price: '$9.50', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=1600&auto=format&fit=crop' })}
+                  onClick={() => addToCart({ id: 'sig-exp-1', name: 'Kyoto Reserve', price: '$9.50', img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=800&auto=format&fit=crop&fm=webp' })}
                   className="w-full sm:w-auto px-10 py-5 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white font-bold uppercase tracking-[0.15em] text-[11px] rounded-full hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-500 shadow-[0_15px_30px_rgba(95,124,123,0.3)] hover:shadow-[0_20px_40px_rgba(95,124,123,0.4),0_0_20px_rgba(194,163,131,0.3)] group relative overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-warm-sand)]/20 to-transparent opacity-0 group-hover:opacity-100 transform -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-out"></div>

@@ -106,7 +106,7 @@ const Home = () => {
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
                 <div className="absolute inset-0 bg-[var(--color-deep-slate)]/5 z-10 mix-blend-overlay"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=75&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=75&w=600&auto=format&fit=crop&fm=webp"
                   alt="Barista brewing"
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -117,7 +117,7 @@ const Home = () => {
             <div className="absolute -bottom-8 right-0 w-[55%] aspect-square rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_rgba(47,52,59,0.2)] story-img-parallax border border-[var(--color-silver-fog)] bg-white p-2 z-20">
               <div className="relative w-full h-full rounded-[2rem] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=75&w=500&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=75&w=400&auto=format&fit=crop&fm=webp"
                   alt="Latte Art"
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -268,15 +268,15 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-4">
             <div className="col-span-2 aspect-[4/3] rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-deep-slate)]/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=75&w=800&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=75&w=600&auto=format&fit=crop&fm=webp" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
             </div>
             <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
               <div className="absolute inset-0 bg-[var(--color-deep-slate)]/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=75&w=500&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=75&w=400&auto=format&fit=crop&fm=webp" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
             </div>
             <div className="col-span-1 aspect-[3/4] md:aspect-auto rounded-[2.5rem] overflow-hidden border border-[var(--color-silver-fog)]/50 shadow-sm relative group">
               <div className="absolute inset-0 bg-[var(--color-warm-sand)]/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-overlay"></div>
-              <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=75&w=800&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
+              <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=75&w=600&auto=format&fit=crop&fm=webp" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" alt="Atmosphere" loading="lazy" />
             </div>
           </div>
         </motion.div>

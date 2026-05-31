@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Menu from './pages/Menu';
-import Services from './pages/Services';
-import Blog from './pages/Blog';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Shop from './pages/Shop';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import ProductSingle from './pages/ProductSingle';
+
+// Lazy load page components
+const Home = lazy(() => import('./pages/Home'));
+const Menu = lazy(() => import('./pages/Menu'));
+const Services = lazy(() => import('./pages/Services'));
+const Blog = lazy(() => import('./pages/Blog'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Shop = lazy(() => import('./pages/Shop'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const ProductSingle = lazy(() => import('./pages/ProductSingle'));
 
 // Auth Pages & Dashboard components
-import SignIn from './pages/SignIn';
-import Register from './pages/Register';
-import DashboardLayout from './components/DashboardLayout';
-import Profile from './pages/Profile';
-import EditProfile from './pages/EditProfile';
-import OrderHistory from './pages/OrderHistory';
-import OrderDetails from './pages/OrderDetails';
-import Settings from './pages/Settings';
+const SignIn = lazy(() => import('./pages/SignIn'));
+const Register = lazy(() => import('./pages/Register'));
+const DashboardLayout = lazy(() => import('./components/DashboardLayout'));
+const Profile = lazy(() => import('./pages/Profile'));
+const EditProfile = lazy(() => import('./pages/EditProfile'));
+const OrderHistory = lazy(() => import('./pages/OrderHistory'));
+const OrderDetails = lazy(() => import('./pages/OrderDetails'));
+const Settings = lazy(() => import('./pages/Settings'));
 
 // Context Providers
 import { CartProvider } from './context/CartContext';
@@ -34,6 +36,16 @@ const ScrollToTop = () => {
   }, [pathname]);
   return null;
 };
+
+// Premium loading placeholder for split routes
+const PageLoader = () => (
+  <div className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body flex items-center justify-center relative overflow-hidden">
+    <div className="text-center">
+      <div className="w-10 h-10 rounded-full border-4 border-[var(--color-muted-teal)]/30 border-t-[var(--color-muted-teal)] animate-spin mx-auto mb-4" />
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-muted-teal)] animate-pulse">Loading Bayleaf...</p>
+    </div>
+  </div>
+);
 
 // Global Toast notification for interactive feedback
 const ToastNotification = () => {
@@ -65,34 +77,36 @@ function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="menu" element={<Menu />} />
-              <Route path="services" element={<Services />} />
-              <Route path="blog" element={<Blog />} />
-              <Route path="about" element={<About />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="product/:id" element={<ProductSingle />} />
-              <Route path="blog/:id" element={<Blog />} />
-              
-              {/* Authentication Routes */}
-              <Route path="login" element={<SignIn />} />
-              <Route path="register" element={<Register />} />
-              
-              {/* Cohesive User Dashboard Panel Nested Routes */}
-              <Route path="profile" element={<DashboardLayout />}>
-                <Route index element={<Profile />} />
-                <Route path="edit" element={<EditProfile />} />
-                <Route path="orders" element={<OrderHistory />} />
-                <Route path="orders/:id" element={<OrderDetails />} />
-                <Route path="settings" element={<Settings />} />
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="menu" element={<Menu />} />
+                <Route path="services" element={<Services />} />
+                <Route path="blog" element={<Blog />} />
+                <Route path="about" element={<About />} />
+                <Route path="shop" element={<Shop />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="checkout" element={<Checkout />} />
+                <Route path="product/:id" element={<ProductSingle />} />
+                <Route path="blog/:id" element={<Blog />} />
+                
+                {/* Authentication Routes */}
+                <Route path="login" element={<SignIn />} />
+                <Route path="register" element={<Register />} />
+                
+                {/* Cohesive User Dashboard Panel Nested Routes */}
+                <Route path="profile" element={<DashboardLayout />}>
+                  <Route index element={<Profile />} />
+                  <Route path="edit" element={<EditProfile />} />
+                  <Route path="orders" element={<OrderHistory />} />
+                  <Route path="orders/:id" element={<OrderDetails />} />
+                  <Route path="settings" element={<Settings />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
+            </Routes>
+          </Suspense>
           <ToastNotification />
         </Router>
       </AuthProvider>

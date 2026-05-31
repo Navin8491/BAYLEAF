@@ -355,7 +355,7 @@ const Contact = () => {
               <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 pointer-events-none"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop&fm=webp"
                   alt="Cafe Details"
                   className="w-full h-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-105"
                 />

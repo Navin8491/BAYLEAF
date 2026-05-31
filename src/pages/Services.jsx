@@ -37,21 +37,21 @@ const Services = () => {
       title: 'Wholesale Partnerships',
       subtitle: 'For Cafes & Restaurants',
       desc: 'We partner with a select group of establishments that share our dedication to cinematic quality. Beyond providing freshly roasted, meticulously sourced beans, we offer comprehensive barista training and equipment consultation.',
-      img: 'https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?q=80&w=1200&auto=format&fit=crop',
+      img: 'https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?q=80&w=800&auto=format&fit=crop&fm=webp',
       reverse: false
     },
     {
       title: 'Private Events',
       subtitle: 'Host in our space',
       desc: 'Our serene, cinematic interior provides the perfect backdrop for intimate gatherings, creative workshops, and corporate offsites. Available for exclusive evening hire.',
-      img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop',
+      img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop&fm=webp',
       reverse: true
     },
     {
       title: 'Catering & Mobile Bar',
       subtitle: 'Bayleaf at your venue',
       desc: 'Bring the premium Bayleaf experience to your next event. Our mobile espresso bar features the same high-end equipment and skilled baristas you find in our shop, ensuring a flawless cup every time.',
-      img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop',
+      img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop&fm=webp',
       reverse: false
     }
   ];
