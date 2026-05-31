@@ -40,6 +40,71 @@ export const AuthProvider = ({ children }) => {
   const [authLoading, setAuthLoading] = useState(true);
   const lastProcessedUserIdRef = useRef(undefined);
 
+  const [showLogoutWarning, setShowLogoutWarning] = useState(false);
+  const [logoutCountdown, setLogoutCountdown] = useState(30);
+
+  const inactivityTimerRef = useRef(null);
+  const countdownIntervalRef = useRef(null);
+
+  const INACTIVITY_TIMEOUT = 15 * 60 * 1000; // 15 mins
+  const WARNING_DURATION = 30; // 30 seconds
+
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    
+    setShowLogoutWarning(false);
+    setLogoutCountdown(WARNING_DURATION);
+
+    if (isLoggedIn) {
+      inactivityTimerRef.current = setTimeout(() => {
+        setShowLogoutWarning(true);
+        let count = WARNING_DURATION;
+        setLogoutCountdown(count);
+
+        countdownIntervalRef.current = setInterval(() => {
+          count -= 1;
+          setLogoutCountdown(count);
+          if (count <= 0) {
+            clearInterval(countdownIntervalRef.current);
+            logout();
+            showToast('Logged out due to inactivity.');
+          }
+        }, 1000);
+      }, INACTIVITY_TIMEOUT - (WARNING_DURATION * 1000));
+    }
+  };
+
+  const stayLoggedIn = () => {
+    resetInactivityTimer();
+    showToast('Session extended successfully.');
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      resetInactivityTimer();
+
+      const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
+      const handleActivity = () => {
+        if (!showLogoutWarning) {
+          resetInactivityTimer();
+        }
+      };
+
+      events.forEach(event => window.addEventListener(event, handleActivity));
+
+      return () => {
+        if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+        if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+        events.forEach(event => window.removeEventListener(event, handleActivity));
+      };
+    } else {
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+      setShowLogoutWarning(false);
+    }
+  }, [isLoggedIn, showLogoutWarning]);
+
   // Helper to show custom toast
   const showToast = (message) => {
     setToastMessage(message);
@@ -354,7 +419,11 @@ export const AuthProvider = ({ children }) => {
     updateSettings,
     reorder,
     showToast,
-    fetchOrders
+    fetchOrders,
+    showLogoutWarning,
+    logoutCountdown,
+    stayLoggedIn,
+    warningDuration: WARNING_DURATION
   };
 
   return (

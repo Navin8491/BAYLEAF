@@ -47,6 +47,60 @@ const PageLoader = () => (
   </div>
 );
 
+// Global Auto-Logout Inactivity Warning Modal
+const AutoLogoutWarningModal = () => {
+  const { showLogoutWarning, logoutCountdown, stayLoggedIn, logout, warningDuration } = useAuth();
+  
+  return (
+    <AnimatePresence>
+      {showLogoutWarning && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-md">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="bg-white/90 backdrop-blur-2xl border border-[var(--color-silver-fog)]/50 rounded-[3rem] p-8 max-w-md w-full mx-4 shadow-luxury text-center relative overflow-hidden"
+          >
+            {/* Progress bar countdown */}
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-[var(--color-silver-fog)]/30">
+              <motion.div 
+                className="h-full bg-[var(--color-muted-teal)]"
+                initial={{ width: '100%' }}
+                animate={{ width: '0%' }}
+                transition={{ duration: warningDuration || 30, ease: 'linear' }}
+              />
+            </div>
+            <div className="w-16 h-16 rounded-full bg-[var(--color-warm-sand)]/20 border border-[var(--color-warm-sand)]/40 flex items-center justify-center text-[var(--color-sand-accent)] mx-auto mb-6">
+              <svg className="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <h3 className="text-2xl font-heading font-medium text-[var(--color-rich-graphite)] mb-3">Session Expiring</h3>
+            <p className="text-sm text-[var(--color-gray-blue)] font-light leading-relaxed mb-6">
+              You have been inactive for a while. For your security, you will be automatically logged out in <strong className="text-[var(--color-muted-teal)] font-bold">{logoutCountdown} seconds</strong>.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={stayLoggedIn}
+                className="px-8 py-3.5 bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:from-[var(--color-deep-sage-teal)] hover:to-[var(--color-muted-teal)] transition-all duration-300 shadow-md cursor-pointer"
+              >
+                Stay Logged In
+              </button>
+              <button
+                onClick={logout}
+                className="px-8 py-3.5 bg-white border border-[var(--color-silver-fog)] text-[var(--color-deep-slate)] hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all duration-300 cursor-pointer"
+              >
+                Logout Now
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 // Global Toast notification for interactive feedback
 const ToastNotification = () => {
   const { toastMessage } = useAuth();
@@ -108,6 +162,7 @@ function App() {
             </Routes>
           </Suspense>
           <ToastNotification />
+          <AutoLogoutWarningModal />
         </Router>
       </AuthProvider>
     </CartProvider>
