@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       if (existingItem) {
-        return prevItems.map(item => 
+        return prevItems.map(item =>
           item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
@@ -33,7 +33,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, amount) => {
-    setCartItems(prevItems => 
+    setCartItems(prevItems =>
       prevItems.map(item => {
         if (item.id === productId) {
           const newQuantity = Math.max(1, item.quantity + amount);

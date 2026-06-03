@@ -119,8 +119,8 @@ const EditProfile = () => {
                     type="button"
                     onClick={() => handleAvatarChange(preset)}
                     className={`relative w-10 h-10 rounded-full overflow-hidden border-2 transition-all ${avatar === preset
-                        ? 'border-[var(--color-muted-teal)] scale-110 shadow-md'
-                        : 'border-white/90 hover:scale-105'
+                      ? 'border-[var(--color-muted-teal)] scale-110 shadow-md'
+                      : 'border-white/90 hover:scale-105'
                       }`}
                   >
                     <img src={preset} alt={`Preset ${idx + 1}`} className="w-full h-full object-cover" />

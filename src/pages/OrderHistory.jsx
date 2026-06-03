@@ -71,8 +71,8 @@ const OrderHistory = () => {
     >
       {/* Header section */}
       <div>
-        <h3 className="text-lg font-heading font-bold text-[var(--color-rich-graphite)] uppercase tracking-wider">Order History</h3>
-        <p className="text-[10px] text-[var(--color-gray-blue)]/80 font-light">Track active café runs or inspect past invoices</p>
+        <h3 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--color-rich-graphite)] uppercase tracking-[0.15em]">Order History</h3>
+        <p className="text-[11px] text-[var(--color-gray-blue)] font-normal tracking-wide mt-1">Track active café runs or inspect past invoices</p>
       </div>
 
       {/* Search, Filter, Sort Panel */}
@@ -88,7 +88,7 @@ const OrderHistory = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by Order ID or item name..."
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/40 rounded-xl text-xs font-light focus:outline-none focus:border-[var(--color-muted-teal)] transition-all shadow-inner placeholder-[var(--color-gray-blue)]/40"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/40 rounded-xl text-xs font-normal focus:outline-none focus:border-[var(--color-muted-teal)] transition-all shadow-inner placeholder-[var(--color-gray-blue)]/50 tracking-wide"
             />
           </div>
 
@@ -100,7 +100,7 @@ const OrderHistory = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full pl-9 pr-8 py-2.5 bg-white border border-[var(--color-silver-fog)]/40 rounded-xl text-xs font-bold uppercase tracking-wider text-[var(--color-deep-slate)] focus:outline-none focus:border-[var(--color-muted-teal)] transition-all appearance-none cursor-pointer"
+              className="w-full pl-9 pr-8 py-2.5 bg-white border border-[var(--color-silver-fog)]/40 rounded-xl text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--color-deep-slate)]/90 focus:outline-none focus:border-[var(--color-muted-teal)] transition-all appearance-none cursor-pointer"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -115,16 +115,15 @@ const OrderHistory = () => {
 
         {/* Filter Pills scroll area */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-gray-blue)]/70 mr-1 hidden sm:inline">Status:</span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--color-gray-blue)]/80 mr-1.5 hidden sm:inline">Status:</span>
           {filterTabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setStatusFilter(tab)}
-              className={`px-3.5 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-wider transition-all focus:outline-none flex-shrink-0 ${
-                statusFilter === tab
+              className={`px-3.5 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] transition-all focus:outline-none flex-shrink-0 ${statusFilter === tab
                   ? 'bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white shadow-sm'
-                  : 'bg-white hover:bg-[var(--color-silver-fog)]/20 text-[var(--color-deep-slate)]/70 border border-[var(--color-silver-fog)]/20'
-              }`}
+                  : 'bg-white hover:bg-[var(--color-silver-fog)]/20 text-[var(--color-deep-slate)]/80 border border-[var(--color-silver-fog)]/20'
+                }`}
             >
               {tab}
             </button>
@@ -142,7 +141,7 @@ const OrderHistory = () => {
             >
               {sortedOrders.map((order, idx) => {
                 const totalItems = order.items.reduce((acc, it) => acc + it.quantity, 0);
-                
+
                 return (
                   <motion.div
                     layout
@@ -156,11 +155,11 @@ const OrderHistory = () => {
                     {/* Left Column: ID, Status, Items Preview */}
                     <div className="flex flex-col gap-2.5 flex-grow w-full md:w-auto">
                       <div className="flex items-center flex-wrap gap-2.5">
-                        <span className="text-sm font-heading font-bold text-[var(--color-rich-graphite)] tracking-wide">{order.id}</span>
-                        <span className={`px-3 py-0.5 rounded-full border text-[8px] font-bold uppercase tracking-widest ${statusStyles[order.status] || 'bg-gray-50 border-gray-200'}`}>
+                        <span className="text-base font-heading font-semibold tracking-wide text-[var(--color-rich-graphite)]">{order.id}</span>
+                        <span className={`px-3 py-0.5 rounded-full border text-[8px] font-extrabold uppercase tracking-[0.15em] ${statusStyles[order.status] || 'bg-gray-50 border-gray-200'}`}>
                           {order.status}
                         </span>
-                        <span className="flex items-center gap-1 text-[9px] text-[var(--color-gray-blue)]/80 font-bold uppercase tracking-widest ml-auto md:ml-0"><FiCalendar size={12} /> {order.date}</span>
+                        <span className="flex items-center gap-1.5 text-[10px] text-[var(--color-gray-blue)]/90 font-semibold uppercase tracking-[0.12em] ml-auto md:ml-0"><FiCalendar size={12} /> {order.date}</span>
                       </div>
 
                       {/* Small visual items thumbnail row */}
@@ -168,7 +167,7 @@ const OrderHistory = () => {
                         {order.items.map((item, key) => (
                           <div key={key} className="flex items-center gap-1.5 bg-[var(--color-soft-ivory)] border border-[var(--color-silver-fog)]/20 pl-1 pr-2.5 py-0.5 rounded-full flex-shrink-0">
                             <img src={item.img} alt={item.name} className="w-5 h-5 rounded-full object-cover" />
-                            <span className="text-[9px] text-[var(--color-deep-slate)]/95 font-medium truncate max-w-[120px]">{item.name} <strong className="text-[var(--color-muted-teal)]">x{item.quantity}</strong></span>
+                            <span className="text-[10px] text-[var(--color-deep-slate)]/95 font-normal tracking-wide truncate max-w-[120px]">{item.name} <strong className="text-[var(--color-muted-teal)] font-semibold">x{item.quantity}</strong></span>
                           </div>
                         ))}
                       </div>
@@ -177,10 +176,10 @@ const OrderHistory = () => {
                     {/* Right Column: Pricing & Link */}
                     <div className="flex justify-between md:justify-end items-center gap-6 w-full md:w-auto pt-3 md:pt-0 border-t md:border-t-0 border-[var(--color-silver-fog)]/20">
                       <div className="text-left md:text-right">
-                        <span className="block text-[8px] font-bold uppercase tracking-widest text-[var(--color-gray-blue)]/70">Grand Total</span>
-                        <span className="text-sm font-bold text-[var(--color-rich-graphite)]">£{order.total.toFixed(2)}</span>
+                        <span className="block text-[9px] font-semibold uppercase tracking-[0.15em] text-[var(--color-gray-blue)]/80">Grand Total</span>
+                        <span className="text-base font-semibold tracking-wide text-[var(--color-rich-graphite)]">£{order.total.toFixed(2)}</span>
                       </div>
-                      
+
                       <button
                         onClick={() => navigate(`/profile/orders/${order.id}`)}
                         className="px-4 py-2 bg-white border border-[var(--color-silver-fog)]/40 group-hover:bg-[var(--color-muted-teal)] group-hover:text-white group-hover:border-[var(--color-muted-teal)] rounded-xl text-[9px] font-bold uppercase tracking-widest text-[var(--color-deep-slate)] transition-all duration-300 shadow-sm flex items-center gap-1"

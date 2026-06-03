@@ -50,7 +50,7 @@ const PageLoader = () => (
 // Global Auto-Logout Inactivity Warning Modal
 const AutoLogoutWarningModal = () => {
   const { showLogoutWarning, logoutCountdown, stayLoggedIn, logout, warningDuration } = useAuth();
-  
+
   return (
     <AnimatePresence>
       {showLogoutWarning && (
@@ -64,7 +64,7 @@ const AutoLogoutWarningModal = () => {
           >
             {/* Progress bar countdown */}
             <div className="absolute top-0 left-0 w-full h-1.5 bg-[var(--color-silver-fog)]/30">
-              <motion.div 
+              <motion.div
                 className="h-full bg-[var(--color-muted-teal)]"
                 initial={{ width: '100%' }}
                 animate={{ width: '0%' }}
@@ -104,7 +104,7 @@ const AutoLogoutWarningModal = () => {
 // Global Toast notification for interactive feedback
 const ToastNotification = () => {
   const { toastMessage } = useAuth();
-  
+
   return (
     <AnimatePresence>
       {toastMessage && (
@@ -145,11 +145,11 @@ function App() {
                 <Route path="checkout" element={<Checkout />} />
                 <Route path="product/:id" element={<ProductSingle />} />
                 <Route path="blog/:id" element={<Blog />} />
-                
+
                 {/* Authentication Routes */}
                 <Route path="login" element={<SignIn />} />
                 <Route path="register" element={<Register />} />
-                
+
                 {/* Cohesive User Dashboard Panel Nested Routes */}
                 <Route path="profile" element={<DashboardLayout />}>
                   <Route index element={<Profile />} />

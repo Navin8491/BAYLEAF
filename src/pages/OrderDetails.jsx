@@ -8,7 +8,7 @@ const OrderDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { orders, reorder, showToast } = useAuth();
-  
+
   const [supportOpen, setSupportOpen] = useState(false);
   const [supportMsg, setSupportMsg] = useState('');
   const [supportHistory, setSupportHistory] = useState([
@@ -49,11 +49,11 @@ const OrderDetails = () => {
   const handleSupportSend = (e) => {
     e.preventDefault();
     if (!supportMsg.trim()) return;
-    
+
     const userMsg = { sender: 'user', text: supportMsg };
     setSupportHistory(prev => [...prev, userMsg]);
     setSupportMsg('');
-    
+
     // Simulate support bot response
     setTimeout(() => {
       setSupportHistory(prev => [...prev, {
@@ -80,7 +80,7 @@ const OrderDetails = () => {
       transition={{ duration: 0.5 }}
       className="space-y-8 print:bg-white print:p-0 print:m-0"
     >
-      
+
       {/* Header back button */}
       <div className="flex justify-between items-center print:hidden">
         <div className="flex items-center gap-3">
@@ -93,11 +93,10 @@ const OrderDetails = () => {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-heading font-bold text-[var(--color-rich-graphite)] uppercase tracking-wider">{order.id}</h3>
-              <span className={`px-2 py-0.5 rounded-full border text-[7px] font-bold uppercase tracking-wider ${
-                order.status === 'Delivered' ? 'bg-green-50 border-green-200 text-green-600' :
-                order.status === 'Preparing' ? 'bg-amber-50 border-amber-200 text-amber-600' :
-                order.status === 'On The Way' ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-red-50 border-red-200 text-red-600'
-              }`}>
+              <span className={`px-2 py-0.5 rounded-full border text-[7px] font-bold uppercase tracking-wider ${order.status === 'Delivered' ? 'bg-green-50 border-green-200 text-green-600' :
+                  order.status === 'Preparing' ? 'bg-amber-50 border-amber-200 text-amber-600' :
+                    order.status === 'On The Way' ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-red-50 border-red-200 text-red-600'
+                }`}>
                 {order.status}
               </span>
             </div>
@@ -137,7 +136,7 @@ const OrderDetails = () => {
           <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--color-rich-graphite)] mb-6 flex items-center gap-1.5">
             <FiClock /> <span>Delivery Timeline</span>
           </h4>
-          
+
           <div className="relative flex justify-between items-center w-full max-w-2xl mx-auto px-4">
             {/* Timeline Line Bar */}
             <div className="absolute inset-x-8 top-4.5 h-1 bg-[var(--color-silver-fog)]/40 -z-10 rounded-full">
@@ -156,13 +155,12 @@ const OrderDetails = () => {
               return (
                 <div key={step} className="flex flex-col items-center gap-2">
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all ${
-                      current
+                    className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all ${current
                         ? 'bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white border-[var(--color-muted-teal)] scale-110 shadow-md ring-4 ring-[var(--color-muted-teal)]/15'
                         : active
-                        ? 'bg-[var(--color-muted-teal)] text-white border-[var(--color-muted-teal)]'
-                        : 'bg-white text-[var(--color-gray-blue)]/50 border-[var(--color-silver-fog)]/50'
-                    }`}
+                          ? 'bg-[var(--color-muted-teal)] text-white border-[var(--color-muted-teal)]'
+                          : 'bg-white text-[var(--color-gray-blue)]/50 border-[var(--color-silver-fog)]/50'
+                      }`}
                   >
                     {active ? <FiCheck size={14} className="stroke-[3px]" /> : <span className="text-[10px] font-bold">{idx + 1}</span>}
                   </div>
@@ -190,14 +188,14 @@ const OrderDetails = () => {
 
       {/* 2. Core Invoice Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Invoice Summary Items List Card */}
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-white/60 backdrop-blur border border-[var(--color-silver-fog)]/20 p-6 rounded-[2rem] shadow-sm">
             <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--color-rich-graphite)] mb-4 border-b border-[var(--color-silver-fog)]/20 pb-2">
               Invoice Items
             </h4>
-            
+
             <div className="divide-y divide-[var(--color-silver-fog)]/20">
               {order.items.map((item, idx) => (
                 <div key={idx} className="flex justify-between items-center py-4 first:pt-0 last:pb-0">
@@ -220,13 +218,13 @@ const OrderDetails = () => {
 
         {/* Invoice Details Column Card */}
         <div className="lg:col-span-1 space-y-6">
-          
+
           {/* Order Totals Summary Card */}
           <div className="bg-white/60 backdrop-blur border border-[var(--color-silver-fog)]/20 p-6 rounded-[2rem] shadow-sm">
             <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--color-rich-graphite)] mb-4 border-b border-[var(--color-silver-fog)]/20 pb-2">
               Payment Summary
             </h4>
-            
+
             <div className="space-y-3 text-xs font-light text-[var(--color-gray-blue)]">
               {/* Calculating details dynamically based on mock parameters */}
               <div className="flex justify-between">
@@ -241,16 +239,16 @@ const OrderDetails = () => {
                 <span>Estimated VAT (Tax)</span>
                 <span className="font-medium text-[var(--color-rich-graphite)]">£{order.tax.toFixed(2)}</span>
               </div>
-              
+
               {order.discount > 0 && (
                 <div className="flex justify-between text-green-600 font-bold">
                   <span>Loyalty Discount Applied</span>
                   <span>-£{order.discount.toFixed(2)}</span>
                 </div>
               )}
-              
+
               <hr className="border-[var(--color-silver-fog)]/20 my-2" />
-              
+
               <div className="flex justify-between text-sm font-bold text-[var(--color-rich-graphite)] pt-1">
                 <span>Grand Total</span>
                 <span className="text-[var(--color-muted-teal)]">£{order.total.toFixed(2)}</span>
@@ -263,7 +261,7 @@ const OrderDetails = () => {
             <h4 className="text-xs font-bold uppercase tracking-widest text-[var(--color-rich-graphite)] mb-4 border-b border-[var(--color-silver-fog)]/20 pb-2">
               Fulfillment Info
             </h4>
-            
+
             <div className="space-y-4 text-xs font-light text-[var(--color-gray-blue)]">
               {/* Address details */}
               <div className="flex gap-2.5 items-start">
@@ -332,11 +330,10 @@ const OrderDetails = () => {
                     className={`flex ${chat.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[80%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${
-                        chat.sender === 'user'
+                      className={`max-w-[80%] px-4 py-3 rounded-2xl text-xs leading-relaxed ${chat.sender === 'user'
                           ? 'bg-gradient-to-br from-[var(--color-muted-teal)] to-[var(--color-deep-sage-teal)] text-white shadow-sm rounded-br-none'
                           : 'bg-white border border-[var(--color-silver-fog)]/20 text-[var(--color-rich-graphite)] rounded-bl-none shadow-sm font-light'
-                      }`}
+                        }`}
                     >
                       {chat.text}
                     </div>

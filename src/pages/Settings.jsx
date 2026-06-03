@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Settings = () => {
   const { settings, updateSettings } = useAuth();
-  
+
   const [activeTab, setActiveTab] = useState('personal'); // personal, security, notifications, privacy
   const [isSaving, setIsSaving] = useState(false);
 
@@ -52,13 +52,13 @@ const Settings = () => {
     >
       {/* Header section */}
       <div>
-        <h3 className="text-lg font-heading font-bold text-[var(--color-rich-graphite)] uppercase tracking-wider">Account Settings</h3>
-        <p className="text-[10px] text-[var(--color-gray-blue)]/80 font-light">Customize security thresholds, notices, and shipping vectors</p>
+        <h3 className="text-2xl md:text-3xl font-heading font-semibold text-[var(--color-rich-graphite)] uppercase tracking-[0.15em]">Account Settings</h3>
+        <p className="text-[11px] text-[var(--color-gray-blue)] font-normal tracking-wide mt-1">Customize security thresholds, notices, and shipping vectors</p>
       </div>
 
       {/* Grid Settings System */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
-        
+
         {/* Navigation Sidebar Sub-menu */}
         <div className="md:col-span-1 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 scrollbar-none border-b md:border-b-0 border-[var(--color-silver-fog)]/30">
           {tabs.map((tab) => {
@@ -69,11 +69,10 @@ const Settings = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-300 flex-shrink-0 text-left relative focus:outline-none w-full ${
-                  active
-                    ? 'text-white'
-                    : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20'
-                }`}
+                className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-widest transition-all duration-300 flex-shrink-0 text-left relative focus:outline-none w-full ${active
+                  ? 'text-white'
+                  : 'text-[var(--color-deep-slate)]/80 hover:text-[var(--color-muted-teal)] hover:bg-[var(--color-silver-fog)]/20'
+                  }`}
               >
                 {active && (
                   <motion.div
@@ -93,7 +92,7 @@ const Settings = () => {
         <div className="md:col-span-3 bg-[var(--color-soft-ivory)]/60 border border-[var(--color-silver-fog)]/30 rounded-3xl p-6 shadow-sm min-h-[300px] flex flex-col justify-between">
           <form onSubmit={handleSave} className="space-y-6 flex-grow">
             <AnimatePresence mode="wait">
-              
+
               {/* Tab 1: Personal Info */}
               {activeTab === 'personal' && (
                 <motion.div
@@ -104,29 +103,29 @@ const Settings = () => {
                   transition={{ duration: 0.25 }}
                   className="space-y-4"
                 >
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-1.5">Personal Details</h4>
-                  
+                  <h4 className="text-base font-heading font-semibold uppercase tracking-[0.15em] text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-2">Personal Details</h4>
+
                   <div className="grid grid-cols-1 gap-4 max-w-lg">
                     {/* Birthday field */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold uppercase tracking-[0.15em] pl-2 text-[var(--color-deep-slate)]/70">Birthday Date</label>
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.15em] pl-2 text-[var(--color-deep-slate)]/80">Birthday Date</label>
                       <input
                         type="date"
                         value={birthday}
                         onChange={(e) => setBirthday(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/50 focus:border-[var(--color-muted-teal)] rounded-xl text-xs font-light focus:outline-none transition-all shadow-sm"
+                        className="w-full px-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/50 focus:border-[var(--color-muted-teal)] rounded-xl text-xs font-normal focus:outline-none transition-all shadow-sm tracking-wide"
                       />
                     </div>
 
                     {/* Default shipping address field */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] font-bold uppercase tracking-[0.15em] pl-2 text-[var(--color-deep-slate)]/70">Default Delivery Address</label>
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.15em] pl-2 text-[var(--color-deep-slate)]/80">Default Delivery Address</label>
                       <textarea
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         rows={3}
                         placeholder="Enter your street address..."
-                        className="w-full px-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/50 focus:border-[var(--color-muted-teal)] rounded-xl text-xs font-light focus:outline-none transition-all shadow-sm resize-none"
+                        className="w-full px-4 py-2.5 bg-white border border-[var(--color-silver-fog)]/50 focus:border-[var(--color-muted-teal)] rounded-xl text-xs font-normal focus:outline-none transition-all shadow-sm resize-none tracking-wide"
                       />
                     </div>
                   </div>
@@ -143,16 +142,16 @@ const Settings = () => {
                   transition={{ duration: 0.25 }}
                   className="space-y-5"
                 >
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-1.5">Security Thresholds</h4>
+                  <h4 className="text-base font-heading font-semibold uppercase tracking-[0.15em] text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-2">Security Thresholds</h4>
 
                   <div className="space-y-4">
                     {/* Two factor toggle */}
                     <div className="flex justify-between items-center bg-white border border-[var(--color-silver-fog)]/20 p-4 rounded-2xl">
                       <div>
-                        <h5 className="text-xs font-bold text-[var(--color-rich-graphite)] flex items-center gap-1.5"><FiShield size={14} className="text-[var(--color-muted-teal)]" /> 2-Factor Authentication</h5>
-                        <p className="text-[9px] text-[var(--color-gray-blue)]/80 font-light mt-0.5 leading-relaxed">Secure your loyalty assets with an extra SMS security code verification layer.</p>
+                        <h5 className="text-xs font-semibold text-[var(--color-rich-graphite)] tracking-wide flex items-center gap-1.5"><FiShield size={14} className="text-[var(--color-muted-teal)]" /> 2-Factor Authentication</h5>
+                        <p className="text-[11px] text-[var(--color-gray-blue)]/90 font-normal mt-1 leading-relaxed">Secure your loyalty assets with an extra SMS security code verification layer.</p>
                       </div>
-                      
+
                       {/* Toggle button */}
                       <button
                         type="button"
@@ -165,21 +164,21 @@ const Settings = () => {
 
                     {/* Active login devices logs */}
                     <div>
-                      <h5 className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-deep-slate)]/70 mb-2.5 pl-2">Active Logins</h5>
+                      <h5 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--color-deep-slate)]/80 mb-2.5 pl-2">Active Logins</h5>
                       <div className="bg-white border border-[var(--color-silver-fog)]/20 rounded-2xl p-4 divide-y divide-[var(--color-silver-fog)]/25">
                         <div className="flex justify-between items-center py-2 first:pt-0 last:pb-0 text-xs">
                           <div>
-                            <span className="font-bold text-[var(--color-rich-graphite)]">Chrome &bull; Windows 11</span>
-                            <span className="block text-[9px] text-[var(--color-muted-teal)] font-medium mt-0.5">Current Session &bull; London, UK</span>
+                            <span className="font-semibold text-[var(--color-rich-graphite)] tracking-wide">Chrome &bull; Windows 11</span>
+                            <span className="block text-[10px] text-[var(--color-muted-teal)] font-semibold mt-0.5">Current Session &bull; London, UK</span>
                           </div>
-                          <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-[8px] font-bold uppercase text-green-600 rounded-full">Active</span>
+                          <span className="px-2 py-0.5 bg-green-50 border border-green-200 text-[8px] font-bold uppercase tracking-wider text-green-600 rounded-full">Active</span>
                         </div>
                         <div className="flex justify-between items-center py-2.5 last:pb-0 text-xs">
                           <div>
-                            <span className="font-bold text-[var(--color-rich-graphite)]">Safari &bull; iPhone 15 Pro</span>
-                            <span className="block text-[9px] text-[var(--color-gray-blue)]/70 font-light mt-0.5">2 hours ago &bull; Kensington, UK</span>
+                            <span className="font-semibold text-[var(--color-rich-graphite)] tracking-wide">Safari &bull; iPhone 15 Pro</span>
+                            <span className="block text-[10px] text-[var(--color-gray-blue)]/80 font-normal mt-0.5">2 hours ago &bull; Kensington, UK</span>
                           </div>
-                          <button type="button" className="text-[9px] font-bold uppercase text-red-500 hover:underline">Revoke</button>
+                          <button type="button" className="text-[10px] font-semibold uppercase tracking-wider text-red-500 hover:underline">Revoke</button>
                         </div>
                       </div>
                     </div>
@@ -197,16 +196,16 @@ const Settings = () => {
                   transition={{ duration: 0.25 }}
                   className="space-y-4"
                 >
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-1.5">Notification Toggles</h4>
+                  <h4 className="text-base font-heading font-semibold uppercase tracking-[0.15em] text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-2">Notification Toggles</h4>
 
                   <div className="space-y-3">
                     {/* Switch 1: Marketing */}
                     <div className="flex justify-between items-center bg-white border border-[var(--color-silver-fog)]/20 p-4 rounded-2xl">
                       <div>
-                        <h5 className="text-xs font-bold text-[var(--color-rich-graphite)]">Seasonal Specialty Offers</h5>
-                        <p className="text-[9px] text-[var(--color-gray-blue)]/80 font-light mt-0.5 leading-relaxed">Receive notifications of limited roasts, barista recipes, and member gift claims.</p>
+                        <h5 className="text-xs font-semibold text-[var(--color-rich-graphite)] tracking-wide">Seasonal Specialty Offers</h5>
+                        <p className="text-[11px] text-[var(--color-gray-blue)]/90 font-normal mt-1 leading-relaxed">Receive notifications of limited roasts, barista recipes, and member gift claims.</p>
                       </div>
-                      
+
                       <button
                         type="button"
                         onClick={() => setMarketingEmails(!marketingEmails)}
@@ -219,10 +218,10 @@ const Settings = () => {
                     {/* Switch 2: Order updates */}
                     <div className="flex justify-between items-center bg-white border border-[var(--color-silver-fog)]/20 p-4 rounded-2xl">
                       <div>
-                        <h5 className="text-xs font-bold text-[var(--color-rich-graphite)] flex items-center gap-1.5"><FiSmartphone size={14} className="text-[var(--color-muted-teal)]" /> Order SMS Bulletins</h5>
-                        <p className="text-[9px] text-[var(--color-gray-blue)]/80 font-light mt-0.5 leading-relaxed">Get direct phone notifications on your delivery runner's current transit coordinates.</p>
+                        <h5 className="text-xs font-semibold text-[var(--color-rich-graphite)] tracking-wide flex items-center gap-1.5"><FiSmartphone size={14} className="text-[var(--color-muted-teal)]" /> Order SMS Bulletins</h5>
+                        <p className="text-[11px] text-[var(--color-gray-blue)]/90 font-normal mt-1 leading-relaxed">Get direct phone notifications on your delivery runner's current transit coordinates.</p>
                       </div>
-                      
+
                       <button
                         type="button"
                         onClick={() => setSmsUpdates(!smsUpdates)}
@@ -245,16 +244,16 @@ const Settings = () => {
                   transition={{ duration: 0.25 }}
                   className="space-y-4"
                 >
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-1.5">Privacy Preferences</h4>
+                  <h4 className="text-base font-heading font-semibold uppercase tracking-[0.15em] text-[var(--color-rich-graphite)] border-b border-[var(--color-silver-fog)]/20 pb-2">Privacy Preferences</h4>
 
                   <div className="space-y-3">
                     {/* Switch 1: Public profile */}
                     <div className="flex justify-between items-center bg-white border border-[var(--color-silver-fog)]/20 p-4 rounded-2xl">
                       <div>
-                        <h5 className="text-xs font-bold text-[var(--color-rich-graphite)]">Public Profile Dashboard</h5>
-                        <p className="text-[9px] text-[var(--color-gray-blue)]/80 font-light mt-0.5 leading-relaxed">Allow other café club members to discover your top favorite drinks or badges.</p>
+                        <h5 className="text-xs font-semibold text-[var(--color-rich-graphite)] tracking-wide">Public Profile Dashboard</h5>
+                        <p className="text-[11px] text-[var(--color-gray-blue)]/90 font-normal mt-1 leading-relaxed">Allow other café club members to discover your top favorite drinks or badges.</p>
                       </div>
-                      
+
                       <button
                         type="button"
                         onClick={() => setPublicProfile(!publicProfile)}
@@ -267,10 +266,10 @@ const Settings = () => {
                     {/* Switch 2: Data sharing */}
                     <div className="flex justify-between items-center bg-white border border-[var(--color-silver-fog)]/20 p-4 rounded-2xl">
                       <div>
-                        <h5 className="text-xs font-bold text-[var(--color-rich-graphite)]">Anonymous Metrics Logging</h5>
-                        <p className="text-[9px] text-[var(--color-gray-blue)]/80 font-light mt-0.5 leading-relaxed">Help us improve extraction speeds by sharing anonymous fulfillment data.</p>
+                        <h5 className="text-xs font-semibold text-[var(--color-rich-graphite)] tracking-wide">Anonymous Metrics Logging</h5>
+                        <p className="text-[11px] text-[var(--color-gray-blue)]/90 font-normal mt-1 leading-relaxed">Help us improve extraction speeds by sharing anonymous fulfillment data.</p>
                       </div>
-                      
+
                       <button
                         type="button"
                         onClick={() => setDataSharing(!dataSharing)}
@@ -284,7 +283,7 @@ const Settings = () => {
               )}
 
             </AnimatePresence>
-            
+
             {/* Primary Save Button */}
             <div className="flex justify-end pt-6 mt-6 border-t border-[var(--color-silver-fog)]/20">
               <button

@@ -154,10 +154,10 @@ const Checkout = () => {
   if (cartItems.length === 0) {
     return (
       <div className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body flex items-center justify-center relative overflow-hidden">
-        
+
         {/* GLOBAL AMBIENT BACKGROUND LAYER */}
         <div className="fixed inset-0 pointer-events-none -z-10">
-          <motion.div 
+          <motion.div
             className="absolute top-[30%] left-[20%] w-[50vw] h-[50vw] max-w-[800px] max-h-[800px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[140px] mix-blend-multiply"
             animate={{ x: [0, 40, -30, 0], y: [0, -30, 40, 0] }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
@@ -177,15 +177,15 @@ const Checkout = () => {
 
   return (
     <div ref={containerRef} className="bg-[var(--color-soft-ivory)] min-h-screen text-[var(--color-gray-blue)] font-body relative overflow-x-hidden selection:bg-[var(--color-muted-teal)] selection:text-white">
-      
+
       {/* GLOBAL AMBIENT BACKGROUND LAYER */}
       <div className="fixed inset-0 pointer-events-none -z-10">
-        <motion.div 
+        <motion.div
           className="absolute top-[10%] right-[10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[var(--color-sage-mist)]/40 rounded-full blur-[140px] mix-blend-multiply"
           animate={{ x: [0, -40, 20, 0], y: [0, 20, -30, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-[20%] left-[5%] w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] bg-[var(--color-powder-blue)]/50 rounded-full blur-[130px] mix-blend-multiply"
           animate={{ x: [0, 40, -20, 0], y: [0, -20, 30, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -200,11 +200,11 @@ const Checkout = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-          
+
           {/* FORM SECTION */}
           <div className="lg:w-3/5">
             <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-6 checkout-element">Billing Details</h2>
-            
+
             <form onSubmit={handlePlaceOrder} className="flex flex-col gap-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2 checkout-element group">
@@ -287,7 +287,7 @@ const Checkout = () => {
               </div>
 
               <h2 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mt-6 mb-3 checkout-element">Payment Method</h2>
-              
+
               <div className="checkout-element p-5 md:p-6 mb-6 border border-[var(--color-silver-fog)]/60 rounded-[2rem] md:rounded-[3rem] bg-[var(--color-soft-ivory)]/80 backdrop-blur-2xl shadow-[0_20px_40px_rgba(56,68,80,0.05)] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-warm-sand)]/20 to-[var(--color-powder-blue)]/10 z-0"></div>
                 <div className="relative z-10">
@@ -319,22 +319,22 @@ const Checkout = () => {
           <div className="lg:w-2/5">
             <div className="bg-[var(--color-soft-ivory)]/80 backdrop-blur-3xl p-6 rounded-[2rem] md:rounded-[3.5rem] sticky top-24 checkout-element shadow-[0_30px_60px_rgba(56,68,80,0.08)] border border-[var(--color-silver-fog)]/60 text-[var(--color-gray-blue)]">
               <h3 className="text-3xl font-heading font-medium text-[var(--color-rich-graphite)] mb-4">Your Order</h3>
-              
+
               <div className="space-y-4 mb-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex justify-between items-center gap-6">
                     <div className="flex items-center gap-6">
                       <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white shrink-0 border border-[var(--color-silver-fog)]/50 p-1">
                         <div className="relative w-full h-full rounded-xl overflow-hidden bg-[var(--color-soft-ivory)]">
-                           <img 
-                             src={item.img || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop'} 
-                             alt={item.name} 
-                             className="w-full h-full object-cover mix-blend-multiply" 
-                             onError={(e) => {
-                               e.target.onerror = null;
-                               e.target.src = 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop';
-                             }}
-                           />
+                          <img
+                            src={item.img || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop'}
+                            alt={item.name}
+                            className="w-full h-full object-cover mix-blend-multiply"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=75&w=200&auto=format&fit=crop';
+                            }}
+                          />
                         </div>
                       </div>
                       <div>
@@ -357,12 +357,12 @@ const Checkout = () => {
                   <span className="font-medium text-[var(--color-rich-graphite)]">${delivery.toFixed(2)}</span>
                 </div>
               </div>
-              
+
               <div className="flex justify-between items-end text-[var(--color-rich-graphite)] font-medium mb-6 border-t border-[var(--color-silver-fog)]/50 pt-4">
                 <span className="font-heading text-xl">Total</span>
                 <span className="text-[var(--color-muted-teal)] font-heading text-4xl">${total.toFixed(2)}</span>
               </div>
-              
+
               <button
                 onClick={handlePlaceOrder}
                 disabled={isSubmitting}
@@ -378,15 +378,15 @@ const Checkout = () => {
                   </>
                 )}
               </button>
-              
+
               <p className="text-center text-[9px] text-[var(--color-deep-slate)]/50 mt-4 uppercase tracking-[0.3em] font-bold">
                 Secure Encrypted Checkout
               </p>
             </div>
           </div>
-          
+
         </div>
-        
+
       </div>
     </div>
   );

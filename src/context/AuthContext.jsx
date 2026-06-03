@@ -3,12 +3,12 @@ import { supabase } from '../../backend/database/supabase';
 import { useCart } from './CartContext';
 
 // Import separated backend modules from unified backend services index
-import { 
-  signUpUser, 
-  signInUser, 
-  signOutUser, 
-  getUserProfile, 
-  updateUserProfile, 
+import {
+  signUpUser,
+  signInUser,
+  signOutUser,
+  getUserProfile,
+  updateUserProfile,
   uploadUserAvatar,
   getUserOrders,
   syncUserSessionProfile
@@ -43,36 +43,15 @@ export const AuthProvider = ({ children }) => {
   const [showLogoutWarning, setShowLogoutWarning] = useState(false);
   const [logoutCountdown, setLogoutCountdown] = useState(30);
 
-  const inactivityTimerRef = useRef(null);
-  const countdownIntervalRef = useRef(null);
+  const lastActivityRef = useRef(Date.now());
 
   const INACTIVITY_TIMEOUT = 15 * 60 * 1000; // 15 mins
   const WARNING_DURATION = 30; // 30 seconds
 
   const resetInactivityTimer = () => {
-    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
-    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-    
+    lastActivityRef.current = Date.now();
     setShowLogoutWarning(false);
     setLogoutCountdown(WARNING_DURATION);
-
-    if (isLoggedIn) {
-      inactivityTimerRef.current = setTimeout(() => {
-        setShowLogoutWarning(true);
-        let count = WARNING_DURATION;
-        setLogoutCountdown(count);
-
-        countdownIntervalRef.current = setInterval(() => {
-          count -= 1;
-          setLogoutCountdown(count);
-          if (count <= 0) {
-            clearInterval(countdownIntervalRef.current);
-            logout();
-            showToast('Logged out due to inactivity.');
-          }
-        }, 1000);
-      }, INACTIVITY_TIMEOUT - (WARNING_DURATION * 1000));
-    }
   };
 
   const stayLoggedIn = () => {
@@ -81,28 +60,42 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      resetInactivityTimer();
-
-      const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
-      const handleActivity = () => {
-        if (!showLogoutWarning) {
-          resetInactivityTimer();
-        }
-      };
-
-      events.forEach(event => window.addEventListener(event, handleActivity));
-
-      return () => {
-        if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
-        if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-        events.forEach(event => window.removeEventListener(event, handleActivity));
-      };
-    } else {
-      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    if (!isLoggedIn) {
       setShowLogoutWarning(false);
+      return;
     }
+
+    resetInactivityTimer();
+
+    const events = ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'];
+    const handleActivity = () => {
+      if (!showLogoutWarning) {
+        lastActivityRef.current = Date.now();
+      }
+    };
+
+    events.forEach(event => window.addEventListener(event, handleActivity));
+
+    const checkInterval = setInterval(() => {
+      const elapsed = Date.now() - lastActivityRef.current;
+
+      if (elapsed >= INACTIVITY_TIMEOUT) {
+        clearInterval(checkInterval);
+        logout();
+        showToast('Logged out due to inactivity.');
+      } else if (elapsed >= INACTIVITY_TIMEOUT - (WARNING_DURATION * 1000)) {
+        setShowLogoutWarning(true);
+        const remaining = Math.max(0, Math.ceil((INACTIVITY_TIMEOUT - elapsed) / 1000));
+        setLogoutCountdown(remaining);
+      } else {
+        setShowLogoutWarning(false);
+      }
+    }, 1000);
+
+    return () => {
+      events.forEach(event => window.removeEventListener(event, handleActivity));
+      clearInterval(checkInterval);
+    };
   }, [isLoggedIn, showLogoutWarning]);
 
   // Helper to show custom toast
@@ -127,7 +120,7 @@ export const AuthProvider = ({ children }) => {
       }
       const email = currentSession?.user?.email || '';
       const name = currentSession?.user?.user_metadata?.full_name || currentSession?.user?.user_metadata?.name || '';
-      
+
       let result;
       const apiTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('API request timeout')), 15000));
       if (email) {
@@ -135,12 +128,12 @@ export const AuthProvider = ({ children }) => {
       } else {
         result = await Promise.race([getUserProfile(userId), apiTimeout]);
       }
-      
+
       console.log(`fetchProfile [After fetch]: Result success = ${result.success}`);
       if (result.success && result.data) {
         const data = result.data;
         const memberDate = new Date(data.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-        
+
         const tempUser = {
           id: data.id,
           name: data.full_name,
@@ -256,13 +249,13 @@ export const AuthProvider = ({ children }) => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       const userId = session?.user?.id || null;
-      
+
       // Prevent duplicate parallel processing
       if (userId === lastProcessedUserIdRef.current) {
         console.log(`Auth event ${event}: User ID ${userId} already processed, skipping.`);
         return;
       }
-      
+
       lastProcessedUserIdRef.current = userId;
       console.log(`Auth event ${event}: Session loaded, user ID: ${userId}`);
 
@@ -282,7 +275,7 @@ export const AuthProvider = ({ children }) => {
             status: 'Bronze Member'
           };
           setUser(tempUser);
-          
+
           // Terminate auth loading immediately so page loads without spinning delay
           setAuthLoading(false);
           console.log('Auth loading complete (Optimistic)');
